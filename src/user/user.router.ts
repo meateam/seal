@@ -2,7 +2,7 @@ import * as express from 'express';
 import { userModel } from './user.model';
 import { UserManager } from './user.manager';
 
-export const userRouter: express.Router = express.Router;
+export const userRouter: express.Router = express.Router();
 
 userRouter.get('/:id', async (req, res) => {
   const ret = await UserManager.getUserById(req.params.id);

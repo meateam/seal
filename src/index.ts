@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 import * as morgan from 'morgan';
 import * as path from 'path';
+import { initRouting } from './helper/routing';
 
 export let config = {
   database: 'mongodb://localhost:27017/devDB',
@@ -39,7 +40,7 @@ app.use(morgan('tiny'));  // 'combined for more info'
 We are telling express server public folder is the place to look for the static files */
 app.use(express.static(path.join(__dirname, 'public')));
 
-// initRouting(app);
+initRouting(app);
 
 // Listen to port 3000
 app.listen(port, () => {
