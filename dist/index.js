@@ -35,5 +35,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
     console.log(`Starting the server at port ${port}`);
 });
-console.log("hello world");
+console.log('hello world');
 //# sourceMappingURL=index.js.map

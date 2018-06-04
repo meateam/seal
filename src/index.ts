@@ -5,7 +5,6 @@ import * as cors from 'cors';
 import * as morgan from 'morgan';
 import * as path from 'path';
 
-
 export let config = {
   database: 'mongodb://localhost:27017/devDB',
 };
@@ -34,7 +33,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(morgan('tiny'));// 'combined for more info'
+app.use(morgan('tiny'));  // 'combined for more info'
 
 /*express.static is a built i"n middleware function to serve static files.
 We are telling express server public folder is the place to look for the static files */
@@ -47,8 +46,4 @@ app.listen(port, () => {
   console.log(`Starting the server at port ${port}`);
 });
 
-
-
-
-
-console.log("hello world");
+console.log('hello world');
