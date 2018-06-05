@@ -6,23 +6,32 @@ export class UserManager {
 
   public static getUserById(myId: String) {
     try {
+      console.log('getUserById called');
       return userModel.findOne({ ID: myId });
-    } catch (error) {
-      handleErrors(error);
+    } catch (exception) {
+      return handleExceptions(exception);
     }
   }
 
   public static getAllUsers() {
     try {
       return userModel.find({});
-    } catch (error) {
-      handleErrors(error);
+    } catch (exception) {
+      return handleExceptions(exception);
+    }
+  }
+
+  public static addUser = (newUser) => {
+    try {
+      return newUser.save();
+    } catch (exception) {
+      return handleExceptions(exception);
     }
   }
 
 }
 
-function handleErrors(error: Error) {
-  console.log('Exception caught! ' + error);
-  return Promise.reject(error);
+function handleExceptions(exception) {
+  console.log('Exception caught! ' + exception);
+  return Promise.reject(exception);
 }

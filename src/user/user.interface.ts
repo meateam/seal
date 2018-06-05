@@ -6,5 +6,5 @@ export interface IUser extends Document{
   name: String;
   creationDate: Date;
   heirarchy: String;
-  Root_Folder: String;  // TODO: is it?
+  rootFolder: String;  // TODO: is it?
 }
