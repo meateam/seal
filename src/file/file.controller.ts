@@ -6,4 +6,16 @@ export class fileController {
   constructor() {
 
   }
+
+  public static create() {
+
+  }
+
+  public static list() {
+
+  }
+
+  public static delete() {
+
+  }
 }
