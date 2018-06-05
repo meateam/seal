@@ -4,7 +4,11 @@ type Config = {
     host: string,
     port: string,
     name: string,
+<<<<<<< HEAD
   };
+=======
+  },
+>>>>>>> d5b1779cca0cc004628e35c72b3827426e164266
 };
 
 const dev: Config = {
