@@ -27,6 +27,7 @@ class Server {
     }
 
     private initializeRoutes() {
+      // Add routers
        //this.app.use('api')
     }
 
