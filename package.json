@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.test.js"
+    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.test.js --timeout 25000"
   },
   "repository": {
     "type": "git",
@@ -23,13 +23,14 @@
     "@types/mongoose": "^5.0.15",
     "@types/node": "^10.3.1",
     "chai": "^4.1.2",
-    "expect": "^23.1.0",
     "mocha": "^5.2.0",
     "tslint": "^5.10.0"
   },
   "dependencies": {
     "@types/node": "^10.3.0",
+    "bluebird": "^3.5.1",
     "body-parser": "^1.18.3",
+    "chai-as-promised": "^7.1.1",
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "mongoose": "^5.1.4",

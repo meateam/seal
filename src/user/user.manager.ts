@@ -23,6 +23,7 @@ export class UserManager {
 
   public static addUser(newUser: IUser) {
     try {
+      console.log('**********savin`' + newUser.ID);
       return newUser.save();
     } catch (exception) {
       return handleExceptions(exception);
