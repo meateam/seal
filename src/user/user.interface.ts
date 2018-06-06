@@ -1,10 +1,10 @@
 import { Document } from 'mongoose';
 
-export interface IUser extends Document{
-  ID: String;           // TODO: is it?
-  uniqueID: String;
-  name: String;
+export interface IUser extends Document {
+  ID: string;           // TODO: is it?
+  uniqueID: string;
+  name: string;
   creationDate: Date;
-  heirarchy: String;
-  rootFolder: String;  // TODO: is it?
+  heirarchy: string;
+  rootFolder: string;  // TODO: is it?
 }

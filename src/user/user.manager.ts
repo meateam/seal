@@ -21,9 +21,25 @@ export class UserManager {
     }
   }
 
-  public static addUser = (newUser) => {
+  public static addUser(newUser: IUser) {
     try {
       return newUser.save();
+    } catch (exception) {
+      return handleExceptions(exception);
+    }
+  }
+
+  public static deleteUser(userID: string) {
+    try {
+      return userModel.deleteOne({ ID: userID });
+    } catch (exception) {
+      return handleExceptions(exception);
+    }
+  }
+
+  public static deleteAllUsers() {
+    try {
+      return userModel.remove({});
     } catch (exception) {
       return handleExceptions(exception);
     }

@@ -5,6 +5,7 @@ import * as mongoose from 'mongoose';
 import { UserManager } from './user.manager';
 import { userModel } from './user.model';
 import * as expect from 'expect';
+import * as bluebird from 'bluebird';
 
 const testUsers: IUser[] = [];
 const config = {
@@ -20,48 +21,52 @@ console.log(testUsers);
 //   Root_Folder : '/Path/To/Root/Folder' + 0,
 // };
 for (let i = 0; i < 4; i += 1) {
-  const user = {
+  const user = new userModel({
     ID: '000' + i,
     uniqueID: 'uID' + i,
     creationDate: new Date(),
     heirarchy: 'Aman/Sapir/MadorHaim/' + i,
     name: 'User' + i,
     rootFolder: '/Path/To/Root/Folder' + i,
-  };
+  });
 
   testUsers.push(user);
 }
 
+before(() => {
+  (<any>mongoose).Promise = global.Promise;
+  mongoose.connect(config.database);
+});
+
 console.log(testUsers);
 describe('Test Users', () => {
 
-  before(async () => {
-    mongoose.Promise = global.Promise;
-    mongoose.connect(config.database);
-  });
-
-  it('Drop the collection', async () => {
+  it('Delete all users from the collection', () => {
     mongoose.connection.once('connected', async () => {
-      console.log('dropping collection!');
-      mongoose.connection.db.dropCollection('users');
       // console.log(await UserManager.addUser(new userModel(testUsers[0])));
-      const result = await UserManager.getUserById(testUsers[0].ID);
+      const result1 = await UserManager.deleteAllUsers();
+      const result2 = await UserManager.getAllUsers();
       // console.log(result);
-      expect(result).to.not.exist;
+      expect(result2).to.be.empty;
       // console.log('getUser');
     });
-
   });
 
-  // it('check if user db is empty', async () => {
-  //   const result = await UserManager.getAllUsers();
-  //   expect(result).to.be.empty;
-  // });
 
-  after((done) => {
-    // console.log('done! ' + done);
-    mongoose.disconnect();
-    done();
+  it('add users to the collection', async () => {
+    for (let i = 0; i < testUsers.length; i += 1) {
+      // await UserManager.addUser(testUsers[i]);
+    }
+    await UserManager.addUser(testUsers[0]);
+    // const usersReturned = await UserManager.getAllUsers();
+    // expect(usersReturned).to.not.be.empty;
+    // expect(usersReturned).to.have.lengthOf(testUsers.length);
   });
 
+});
+after((done) => {
+  // console.log('done! ' + done);
+  // console.log(mongoose.disconnect());
+  mongoose.disconnect();
+  done();
 });
