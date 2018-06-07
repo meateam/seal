@@ -8,8 +8,8 @@ const testUsers: IUser[] = [];
 const config = {
   database: 'mongodb://localhost:27017/testing',
 };
-// console.log(testUsers);
-let numberOfUsers: number = 5;
+
+let numberOfUsers: number = 7;
 
 for (let i = 0; i < numberOfUsers; i++) {
   const user = new userModel({
@@ -23,19 +23,15 @@ for (let i = 0; i < numberOfUsers; i++) {
 
   testUsers.push(user);
 }
-// console.log('testUsers:' + testUsers);
 
 before(() => {
   (<any>mongoose).Promise = global.Promise;
   mongoose.connect(config.database);
 });
 
-// console.log(testUsers);
 describe('Test Users', () => {
 
   it('Delete all users from the collection', async () => {
-    mongoose.connection.once('connected', () => { });
-
     await UserManager.deleteAllUsers();
     const result2 = await UserManager.getAllUsers();
     expect(result2).to.be.empty;
@@ -74,6 +70,12 @@ describe('Test Users', () => {
     expect(users[0].ID).to.be.equal(testUsers[1].ID);
     expect(users[1].ID).to.be.equal(testUsers[2].ID);
     expect(users.length).to.be.equal(2);
+  });
+
+  it('Delete all users from the collection', async () => {
+    await UserManager.deleteAllUsers();
+    const result2 = await UserManager.getAllUsers();
+    expect(result2).to.be.empty;
   });
 
 });
