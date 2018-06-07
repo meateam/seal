@@ -1,5 +1,4 @@
-import * as mongoose from 'mongoose';
-import { userSchema, userModel } from './user.model';
+import { userModel } from './user.model';
 import { IUser } from './user.interface';
 
 export class UserManager {

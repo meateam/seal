@@ -72,7 +72,7 @@ describe('Test Users', () => {
     expect(users.length).to.be.equal(2);
   });
 
-  it('Delete all users from the collection', async () => {
+  it.skip('Delete all users from the collection', async () => {
     await UserManager.deleteAllUsers();
     const result2 = await UserManager.getAllUsers();
     expect(result2).to.be.empty;

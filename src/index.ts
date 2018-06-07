@@ -7,7 +7,7 @@ import * as path from 'path';
 import { initRouting } from './helper/routing';
 
 export let config = {
-  database: 'mongodb://localhost:27017/devDB',
+  database: 'mongodb://localhost:27017/testing',
 };
 
 // Connect mongoose to our database
