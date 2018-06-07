@@ -6,8 +6,23 @@ export class UserManager {
 
   public static getUserById(myId: String) {
     try {
-      console.log('getUserById called');
       return userModel.findOne({ ID: myId });
+    } catch (exception) {
+      return handleExceptions(exception);
+    }
+  }
+
+  public static getUsersByName (myName : String) {
+    try {
+      return userModel.find({ name : myName });
+    } catch (exception) {
+      return handleExceptions(exception);
+    }
+  }
+
+  public static updateUser = (myId: String, newUser: Partial<IUser>) => {
+    try {
+      return userModel.findOneAndUpdate({ ID: myId }, newUser, { new : true });
     } catch (exception) {
       return handleExceptions(exception);
     }
@@ -23,14 +38,13 @@ export class UserManager {
 
   public static addUser(newUser: IUser) {
     try {
-      console.log('**********savin`' + newUser.ID);
       return newUser.save();
     } catch (exception) {
       return handleExceptions(exception);
     }
   }
 
-  public static deleteUser(userID: string) {
+  public static deleteUserById(userID: string) {
     try {
       return userModel.deleteOne({ ID: userID });
     } catch (exception) {
