@@ -2,8 +2,8 @@ import * as express from 'express';
 import * as  bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
-import * as path from 'path';
 import { config } from './config';
+import { initRouting } from './helper/routing';
 
 class Server {
   public app: express.Application;
@@ -27,6 +27,7 @@ class Server {
   private initializeRoutes() {
     // Add routers
     // this.app.use('api')
+    initRouting(this.app);
   }
 
   private configApplication() {
