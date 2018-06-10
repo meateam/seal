@@ -5,7 +5,7 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "set NODE_ENV=dev && tsc && node dist/server.js",
-    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.test.js --timeout 25000",
+    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.spec.js --timeout 25000",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js"
   },
   "repository": {
