@@ -2,10 +2,11 @@
   "name": "katsefet",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "dist/server.js",
   "scripts": {
-    "start": "tsc && node dist/index.js",
-    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.test.js --timeout 25000"
+    "start": "set NODE_ENV=dev && tsc && node dist/index.js",
+    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.test.js --timeout 25000",
+    "prod": "set NODE_ENV=prod&& tsc && node dist/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,9 @@
     "@types/node": "^10.3.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
+    "tslint-config-airbnb": "^5.9.2",
+    "@types/node": "^10.3.0",
+    "typescript": "^2.9.1",
     "tslint": "^5.10.0"
   },
   "dependencies": {
