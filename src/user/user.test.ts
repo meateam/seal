@@ -13,7 +13,7 @@ let numberOfUsers: number = 7;
 
 for (let i = 0; i < numberOfUsers; i++) {
   const user = new userModel({
-    ID: '100' + i,
+    _id: '100' + i,
     uniqueID: 'uID' + i,
     creationDate: new Date(),
     heirarchy: 'Aman/Sapir/MadorHaim/' + i,
@@ -48,8 +48,8 @@ describe('Test Users', () => {
   });
 
   it('Delete a single user', async () => {
-    await UserManager.deleteUserById(testUsers[0].ID);
-    const result = await UserManager.getUserById(testUsers[0].ID);
+    await UserManager.deleteUserById(testUsers[0]._id);
+    const result = await UserManager.getUserById(testUsers[0]._id);
     const usersReturned = await UserManager.getAllUsers();
     numberOfUsers--;
     expect(result).to.not.exist;
@@ -57,8 +57,8 @@ describe('Test Users', () => {
   });
 
   it('Update user', async () => {
-    await UserManager.updateUser(testUsers[1].ID, { name: testUsers[2].name });
-    const updatedUser = await UserManager.getUserById(testUsers[1].ID);
+    await UserManager.updateUser(testUsers[1]._id, { name: testUsers[2].name });
+    const updatedUser = await UserManager.getUserById(testUsers[1]._id);
     expect(updatedUser.name).to.be.equal(testUsers[2].name);
   });
 
@@ -67,8 +67,8 @@ describe('Test Users', () => {
     for(let i = 0; i < users.length; i++){
       expect(users[i].name).to.be.equal(testUsers[2].name);
     }
-    expect(users[0].ID).to.be.equal(testUsers[1].ID);
-    expect(users[1].ID).to.be.equal(testUsers[2].ID);
+    expect(users[0]._id).to.be.equal(testUsers[1]._id);
+    expect(users[1]._id).to.be.equal(testUsers[2]._id);
     expect(users.length).to.be.equal(2);
   });
 

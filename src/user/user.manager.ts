@@ -5,7 +5,7 @@ export class UserManager {
 
   public static getUserById(myId: String) {
     try {
-      return userModel.findOne({ ID: myId });
+      return userModel.findOne({ _id: myId });
     } catch (exception) {
       return handleExceptions(exception);
     }
@@ -21,7 +21,7 @@ export class UserManager {
 
   public static updateUser = (myId: String, newUser: Partial<IUser>) => {
     try {
-      return userModel.findOneAndUpdate({ ID: myId }, newUser, { new : true });
+      return userModel.findOneAndUpdate({ _id: myId }, newUser, { new : true });
     } catch (exception) {
       return handleExceptions(exception);
     }
@@ -45,7 +45,7 @@ export class UserManager {
 
   public static deleteUserById(userID: string) {
     try {
-      return userModel.deleteOne({ ID: userID });
+      return userModel.deleteOne({ _id: userID });
     } catch (exception) {
       return handleExceptions(exception);
     }

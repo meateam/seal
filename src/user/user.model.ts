@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import { IUser } from './user.interface';
 
 export const userSchema = new mongoose.Schema({
-  ID:{
+  _id:{
     // TODO: create a new type?
     type: String,
     required: true,
