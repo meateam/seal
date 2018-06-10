@@ -5,8 +5,8 @@ export function initRouting(app) {
 
   app.use(api + routeEnum.USERS, userRouter);
 
-  // app.get('/', (req, res) => {
-  //   res.send('Invalid page');
-  // });
+  app.get('/', (req, res) => {
+    res.send('Main page of the application');
+  });
 
 }
