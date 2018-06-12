@@ -9,7 +9,7 @@ export let fileRouter: express.Router = express.Router();
 
 fileRouter.post('/upload', async (req: express.Request, res: express.Response) => {
   if (!req.files) {
-    res.status(400).send({ message: 'Files cannot be empty' });
+    return res.status(400).send({ message: 'Files cannot be empty' });
   } else {
     const files = (<Express.Multer.File[]>req.files).map((val) => {
       const file: IFile = new fileModel({
@@ -24,17 +24,30 @@ fileRouter.post('/upload', async (req: express.Request, res: express.Response) =
       });
       return file;
     });
-    const ret = await fileController.create(files);
-    res.json({ success: true, return: ret });
+
+    try {
+      const ret = await fileController.create(files);
+      return res.send({ message: 'File saved successfully' });
+    } catch (err) {
+      return res.status(500).send({ message: 'Could not save file' });
+    }
   }
 });
 
 fileRouter.get('/list', async (req: express.Request, res: express.Response) => {
-  const ret = await fileController.list();
-  res.json({ success: true, return: ret });
+  try {
+    const ret = await fileController.list();
+    return res.json({ success: true, return: ret });
+  } catch (err) {
+    return res.status(500).send({ message: 'Could not retrieve files' });
+  }
 });
 
 fileRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
-  const ret = await fileController.delete(req.params.id);
-  res.json({ success: true, return: ret });
+  try {
+    const ret = await fileController.delete(req.params.id);
+    return res.send({ message: 'File deleted successfully' });
+  } catch (err) {
+    return res.status(500).send({ message: 'Could not delete file' });
+  }
 });
