@@ -5,12 +5,11 @@ import { fileService } from './file.service';
 
 export class fileController {
 
-  public static async create(files: IFile[], res: express.Response) {
-    const services: Promise<void>[] = files.map((val) => {
+  public static create(files: IFile[]) {
+    const services: Promise<IFile>[] = files.map((val) => {
       return fileService.create(val);
     });
-    const ret = await Promise.all(services);
-    res.json({ success: true, return: ret });
+    return Promise.all(services);
   }
 
   public static list() {

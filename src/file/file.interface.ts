@@ -1,6 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface IFile extends Document {
+  _id: string;
   fileName: string;
   fileSize: number;
   path: string;
