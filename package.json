@@ -6,6 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=dev && tsc && node dist/server.js",
     "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.spec.js --timeout 25000",
+    "test-router": "set NODE_ENV=test-router && tsc && mocha dist/**/**/*-spec.js --timeout 25000",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js"
   },
   "repository": {
@@ -25,9 +26,10 @@
     "@types/node": "^10.3.1",
     "chai": "^4.1.2",
     "mocha": "^5.2.0",
+    "supertest": "^3.1.0",
+    "tslint": "^5.10.0",
     "tslint-config-airbnb": "^5.9.2",
-    "typescript": "^2.9.1",
-    "tslint": "^5.10.0"
+    "typescript": "^2.9.1"
   },
   "dependencies": {
     "bluebird": "^3.5.1",

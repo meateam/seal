@@ -7,6 +7,7 @@ import { initRouting } from './helper/routing';
 
 class Server {
   public app: express.Application;
+  public listener;
 
   public static bootstrap(): Server {
     return new Server();
@@ -47,7 +48,7 @@ class Server {
   }
 
   private listen() {
-    this.app.listen(config.port, () => {
+    this.listener = this.app.listen(config.port, () => {
       console.log(`Server running on port :${config.port}`);
     });
   }
