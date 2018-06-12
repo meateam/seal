@@ -9,9 +9,9 @@
     "target": "es6"
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*.ts"
   ],
   "exclude": [
     "node_modules"
-  ],
+  ]
 }
