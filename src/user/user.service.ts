@@ -1,7 +1,7 @@
 import { userModel } from './user.model';
 import { IUser } from './user.interface';
 
-export class UserManager {
+export class UserService {
 
   public static getUserById(myId: String) {
     try {
@@ -19,7 +19,7 @@ export class UserManager {
     }
   }
 
-  public static updateUser = (myId: String, newUser: Partial<IUser>) => {
+  public static updateUser (myId: String, newUser: Partial<IUser>) {
     try {
       return userModel.findOneAndUpdate({ _id: myId }, newUser, { new : true });
     } catch (exception) {

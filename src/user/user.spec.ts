@@ -1,7 +1,7 @@
 import { IUser } from './user.interface';
 import { expect } from 'chai';
 import * as mongoose from 'mongoose';
-import { UserManager } from './user.manager';
+import { UserController } from './user.controller';
 import { userModel } from './user.model';
 
 const testUsers: IUser[] = [];
@@ -32,39 +32,39 @@ before(() => {
 describe('Test Users', () => {
 
   it('Delete all users from the collection', async () => {
-    await UserManager.deleteAllUsers();
-    const result2 = await UserManager.getAllUsers();
+    await UserController.deleteAllUsers();
+    const result2 = await UserController.getAllUsers();
     expect(result2).to.be.empty;
 
   });
 
   it('Add users to the collection', async () => {
     for (let i = 0; i < testUsers.length; i++) {
-      await UserManager.addUser(testUsers[i]);
+      await UserController.addUser(testUsers[i]);
     }
-    const usersReturned = await UserManager.getAllUsers();
+    const usersReturned = await UserController.getAllUsers();
     expect(usersReturned).to.not.be.empty;
     expect(usersReturned).to.have.lengthOf(testUsers.length);
   });
 
   it('Delete a single user', async () => {
-    await UserManager.deleteUserById(testUsers[0]._id);
-    const result = await UserManager.getUserById(testUsers[0]._id);
-    const usersReturned = await UserManager.getAllUsers();
+    await UserController.deleteUserById(testUsers[0]._id);
+    const result = await UserController.getUserById(testUsers[0]._id);
+    const usersReturned = await UserController.getAllUsers();
     numberOfUsers--;
     expect(result).to.not.exist;
     expect(usersReturned).to.have.lengthOf(numberOfUsers);
   });
 
   it('Update user', async () => {
-    await UserManager.updateUser(testUsers[1]._id, { name: testUsers[2].name });
-    const updatedUser = await UserManager.getUserById(testUsers[1]._id);
+    await UserController.updateUser(testUsers[1]._id, { name: testUsers[2].name });
+    const updatedUser = await UserController.getUserById(testUsers[1]._id);
     expect(updatedUser.name).to.be.equal(testUsers[2].name);
   });
 
   it('Get all users by name', async () => {
-    const users = await UserManager.getUsersByName(testUsers[2].name);
-    for(let i = 0; i < users.length; i++){
+    const users = await UserController.getUsersByName(testUsers[2].name);
+    for (let i = 0; i < users.length; i++) {
       expect(users[i].name).to.be.equal(testUsers[2].name);
     }
     expect(users[0]._id).to.be.equal(testUsers[1]._id);
@@ -73,8 +73,8 @@ describe('Test Users', () => {
   });
 
   it.skip('Delete all users from the collection', async () => {
-    await UserManager.deleteAllUsers();
-    const result2 = await UserManager.getAllUsers();
+    await UserController.deleteAllUsers();
+    const result2 = await UserController.getAllUsers();
     expect(result2).to.be.empty;
   });
 
