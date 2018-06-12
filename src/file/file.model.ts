@@ -2,10 +2,6 @@ import * as mongoose from 'mongoose';
 import { IFile } from './file.interface';
 
 const fileSchema: mongoose.Schema = new mongoose.Schema({
-  _id: {
-    type: String,
-    unique: true,
-  },
   fileName: {
     type: String,
     required: true,

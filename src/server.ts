@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
 import { config } from './config';
+import { fileRouter } from './file/file.router';
 
 class Server {
   public app: express.Application;
@@ -25,18 +26,17 @@ class Server {
   }
 
   private initializeRoutes() {
-    // Add routers
-    // this.app.use('api')
+    this.app.use('/api', fileRouter);
   }
 
   private configApplication() {
-    this.app.use(bodyParser.urlencoded({ extened: true }));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(morgan('tiny'));  // 'combined for more info'
 
 		/*express.static is a built i"n middleware function to serve static files.
 		We are telling express server public folder is the place to look for the static files */
-    this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.use(express.static(path.join(__dirname, '../public')));
   }
 
   private connectDB() {

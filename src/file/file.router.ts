@@ -9,7 +9,7 @@ export let fileRouter: express.Router = express.Router();
 
 fileRouter.post('/upload', async (req: express.Request, res: express.Response) => {
   if (!req.files) {
-    return res.status(400).send({ message: 'Files cannot be empty' });
+    res.status(400).send({ message: 'Files cannot be empty' });
   } else {
     const files = (<Express.Multer.File[]>req.files).map((val) => {
       const file: IFile = new fileModel({
