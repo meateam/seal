@@ -1,29 +1,53 @@
 import * as request from 'supertest';
-import * as express from 'express';
-// import { server } from '../server';
-import * as assert from 'assert';
-import * as mongoose from 'mongoose';
+// import * as express from 'express';
+import { server } from '../server';
+// import * as assert from 'assert';
+// import * as mongoose from 'mongoose';
+let app;
 
-let server;
-
-const request = require('supertest');
 describe('loading express', () => {
+
   beforeEach(() => {
-    server = makeServer();
+    // app = makeServer();
+    app = server.listener;
   });
+
   afterEach((done) => {
-    server.close(done);
+    app.close(done);
   });
+
   it('responds to /', (done) => {
-    request(server)
+    request(app)
       .get('/')
       .expect(200, done);
   });
+
   it('404 everything else', (done) => {
-    request(server)
+    request(app)
       .get('/foo/bar')
       .expect(404, done);
   });
+
+  it('GET /api/user', (done) => {
+
+    request(app)
+      .get('/api/user')
+      .expect('Content-type', 'text/html; charset=utf-8')
+      .expect(404)
+      .end((err, res) => {
+        if (err) {
+          console.log('Error occured' + err);
+          return done(err);
+        }
+        console.log('*/*******************');
+        console.log(res.body);
+        // res.body.password.should.have.length(64);
+
+        done();
+      });
+
+  });
+
 });
 
 function makeServer() {

@@ -34,6 +34,7 @@ describe('Test Users', () => {
   it('Delete all users from the collection', async () => {
     await UserController.deleteAllUsers();
     const result2 = await UserController.getAllUsers();
+    console.log(result2);
     expect(result2).to.be.empty;
 
   });
