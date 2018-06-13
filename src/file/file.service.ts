@@ -16,4 +16,12 @@ export class fileService {
   public static delete(fileId: String) {
     return fileModel.remove({ _id: fileId });
   }
+
+  public static update (file: IFile) {
+    return fileModel.findByIdAndUpdate(file._id, file);
+  }
+
+  public static findById(fileId: String) {
+    return fileModel.findById(fileId);
+  }
 }

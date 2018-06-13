@@ -17,8 +17,8 @@ class Server {
   constructor() {
     this.createApplication();
     this.connectDB();
-    this.initializeRoutes();
     this.configApplication();
+    this.initializeRoutes();
     this.listen();
   }
 

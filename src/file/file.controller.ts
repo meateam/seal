@@ -16,7 +16,15 @@ export class fileController {
     return fileService.list();
   }
 
+  public static findById(fileId: String) {
+    return fileService.findById(fileId);
+  }
+
   public static delete(fileId: String) {
     return fileService.delete(fileId);
+  }
+
+  public static update(file: IFile) {
+    return fileService.update(file);
   }
 }

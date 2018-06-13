@@ -58,3 +58,23 @@ fileRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
     return res.status(500).send({ message: 'Could not delete file - ' + err.message });
   }
 });
+
+fileRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+  try {
+    const ret = await fileController.findById(req.params.id);
+    return res.json({ success: true, return: ret });
+  } catch (err) {
+    return res.status(500).send({ message: 'Could not retrieve files - ' + err.message });
+  }
+});
+
+fileRouter.put('/update' , async (req: express.Request, res: express.Response) => {
+  try {
+    const file: IFile = req.body;
+    const ret = await fileController.update(file);
+    return res.send({ message: 'File saved successfully' });
+  } catch (err) {
+    console.log(err.message);
+    return res.status(500).send({ message: 'Could not save file - ' + err.message });
+  }
+});
