@@ -3,6 +3,7 @@ import * as  bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
+import * as multer from 'multer';
 import { config } from './config';
 import { fileRouter } from './file/file.router';
 

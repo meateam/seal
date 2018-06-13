@@ -3,15 +3,16 @@
         <meta charset="utf-8">
         <title>Katsefet</title>
         <base href="/">
+
         <script type="text/javascript" src="scripts/Dropzone/dropzone.js?v=1.0"></script>
-        <link href="scripts/Dropzone/dropzone.css" rel="stylesheet" />
-        <link href="scripts/Dropzone/basic.css" rel="stylesheet" />
+        <link href="scripts/Dropzone/dropzone.css?v=1.0" rel="stylesheet" />
+        <link href="scripts/Dropzone/basic.css?v=1.0" rel="stylesheet" />
     </head>
     <body>
         <h1>Hello World!</h1>
-        <form action="/api/upload" method="POST" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
+        <form action="/api/upload" method="post" enctype="multipart/form-data" class="dropzone" id="dropzoneForm">
             <div class="fallback">
-                <input name="file" type="file" multiple />
+                <input name="file" type="file" />
             </div>
         </form>
     </body>
