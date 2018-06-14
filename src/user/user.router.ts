@@ -37,7 +37,7 @@ userRouter.post('/', async (req: express.Request, res: express.Response) => {
       rootFolder: req.body.rootFolder,
     });
 
-    const result = UserController.addUser(newUser);
+    const result = await UserController.addUser(newUser);
     res.json({ success: true, returned: result });
   } catch (exception) {
     res.json({ success: false, returned: exception, message: `Could not create a new user` });
@@ -58,11 +58,11 @@ userRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
   try {
     const id = req.params.id;
     const result = await UserController.deleteUserById(id);
-    res.json({ success: true, returned: result }, null, 2);
+    const retMessage : string = (result.n) ? `User ${req.params.id} removed` : 'User not found' ;
+    res.json({ success: true, returned: result, message : retMessage }, null, 2);
   } catch (exception) {
     res.json({ success: false, returned: exception, message: `Could not delete user` });
   }
-  res.json({ success: true });
 });
 
 userRouter.delete('/', async (req: express.Request, res: express.Response) => {

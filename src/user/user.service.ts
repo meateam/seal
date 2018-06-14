@@ -45,11 +45,7 @@ export class UserService {
 
   public static deleteUserById(userID: string) {
     try {
-      console.log('got ' + userID);
       return userModel.deleteOne({ _id: userID });
-      // return userModel.deleteOne({ _id: userID })
-      //   .then(() => { console.log(`meh`); })
-      //   .catch((err) => { console.log(err); });
     } catch (exception) {
       return handleExceptions(exception);
     }

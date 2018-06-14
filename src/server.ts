@@ -21,6 +21,7 @@ class Server {
     this.configApplication();
     this.initializeRoutes();
     this.listen();
+    console.log('Server initialized.');
   }
 
   private createApplication() {
@@ -34,18 +35,17 @@ class Server {
 
   private configApplication() {
     this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extened: false  }));
+    this.app.use(bodyParser.urlencoded({ extened: false }));
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
 
   private connectDB() {
     // Connect mongoose to our database
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-    console.log(`connecting mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {
-      console.log('CONNECTED!');
+      console.log(`CONNECTED! to: mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     });
   }
 
@@ -58,5 +58,3 @@ class Server {
 }
 
 export let server = Server.bootstrap();
-
-console.log('hello world');
