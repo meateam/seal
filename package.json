@@ -5,8 +5,8 @@
   "main": "dist/server.js",
   "scripts": {
     "start": "set NODE_ENV=dev && tsc && node dist/server.js",
-    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.spec.js --timeout 25000",
-    "test-router2": "set NODE_ENV=test && tsc && mocha --exit dist/**/**/*-spec2.js --timeout 10000",
+    "test": "set NODE_ENV=test && tsc && mocha dist/**/**/*.spec.js --timeout 10000",
+    "test-router": "set NODE_ENV=test && tsc && mocha --exit dist/**/**/*-spec.js --timeout 10000",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js"
   },
   "repository": {

@@ -5,37 +5,71 @@ import { IUser } from './user.interface';
 
 export const userRouter: express.Router = express.Router();
 
-userRouter.get('/:id', async (req, res) => {
-  const ret = await UserController.getUserById(req.params.id);
-  res.json({ success: true, returned: ret });
+userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+  try {
+    const ret = await UserController.getUserById(req.params.id);
+    res.json({ success: true, returned: ret });
+  } catch (exception) {
+    res.json({ success: false, returned: exception, message: `Could not get user by id` });
+  }
 });
 
-userRouter.get('/', async (req, res) => {
-  const ret = await UserController.getAllUsers();
-  res.json({ success: true, returned: ret }, null, 2);
+userRouter.get('/', async (req: express.Request, res: express.Response) => {
+  try {
+    const result = await UserController.getAllUsers();
+    res.json({ success: true, returned: result }, null, 2);
+  } catch (exception) {
+    res.json({ success: false, returned: exception, message: `Could not get all users` });
+  }
+
 });
 
-userRouter.post('/', async (req, res, next) => {
-  const newUser :IUser = new userModel(req.body);
-  //   {
-  //   _id:            req.body.id,
-  //   uniqueID:       req.body.uniqueID,
-  //   name:           req.body.name,
-  //   creationDate:   req.body.creationDate,
-  //   heirarchy:      req.body.heirarchy,
-  //   rootFolder:     req.body.rootFolder,
-  // }
+userRouter.post('/', async (req: express.Request, res: express.Response) => {
+  try {
+    // const newUser :IUser = new userModel(req.body);
+    console.log(req.body);
+    const newUser: IUser = new userModel({
+      _id: req.body.id,
+      uniqueID: req.body.uniqueID,
+      name: req.body.name,
+      creationDate: req.body.creationDate,
+      heirarchy: req.body.heirarchy,
+      rootFolder: req.body.rootFolder,
+    });
 
-  UserController.addUser(newUser);
+    const result = UserController.addUser(newUser);
+    res.json({ success: true, returned: result });
+  } catch (exception) {
+    res.json({ success: false, returned: exception, message: `Could not create a new user` });
+  }
 });
 
-userRouter.put('/', async (req, res, next) => {
-  const partialUser : Partial<IUser> = req.body;
-  const updatedUser = await UserController.updateUser(partialUser._id, partialUser as IUser);
-  if (updatedUser) res.json(updatedUser);
+userRouter.put('/', async (req: express.Request, res: express.Response) => {
+  try {
+    const partialUser: Partial<IUser> = req.body;
+    const updatedUser = await UserController.updateUser(partialUser._id, partialUser as IUser);
+    if (updatedUser) res.json(updatedUser);
+  } catch (exception) {
+    res.json({ success: false, returned: exception });
+  }
 });
 
-userRouter.delete('/:id', async (req, res, next) => {
-  const id = req.params.id;
-  UserController.deleteUserById(id);
+userRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
+  try {
+    const id = req.params.id;
+    const result = await UserController.deleteUserById(id);
+    res.json({ success: true, returned: result }, null, 2);
+  } catch (exception) {
+    res.json({ success: false, returned: exception, message: `Could not delete user` });
+  }
+  res.json({ success: true });
+});
+
+userRouter.delete('/', async (req: express.Request, res: express.Response) => {
+  try {
+    const result = await UserController.deleteAllUsers();
+    res.json({ success: true, returned: result }, null, 2);
+  } catch (exception) {
+    res.json({ success: false, returned: exception, message: `Could not delete all users`  });
+  }
 });

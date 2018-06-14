@@ -11,17 +11,17 @@ export class UserService {
     }
   }
 
-  public static getUsersByName (myName : String) {
+  public static getUsersByName(myName: String) {
     try {
-      return userModel.find({ name : myName });
+      return userModel.find({ name: myName });
     } catch (exception) {
       return handleExceptions(exception);
     }
   }
 
-  public static updateUser (myId: String, newUser: Partial<IUser>) {
+  public static updateUser(myId: String, newUser: Partial<IUser>) {
     try {
-      return userModel.findOneAndUpdate({ _id: myId }, newUser, { new : true });
+      return userModel.findOneAndUpdate({ _id: myId }, newUser, { new: true });
     } catch (exception) {
       return handleExceptions(exception);
     }
@@ -45,7 +45,11 @@ export class UserService {
 
   public static deleteUserById(userID: string) {
     try {
+      console.log('got ' + userID);
       return userModel.deleteOne({ _id: userID });
+      // return userModel.deleteOne({ _id: userID })
+      //   .then(() => { console.log(`meh`); })
+      //   .catch((err) => { console.log(err); });
     } catch (exception) {
       return handleExceptions(exception);
     }
@@ -62,6 +66,6 @@ export class UserService {
 }
 
 function handleExceptions(exception) {
-  console.log('Exception caught! ' + exception);
+  console.log('Exception caught in service! ' + exception);
   return Promise.reject(exception);
 }

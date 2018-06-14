@@ -5,6 +5,8 @@ import * as morgan from 'morgan';
 import { config } from './config';
 import { initRouting } from './helper/routing';
 
+mongoose.set('debug', true);
+
 class Server {
   public app: express.Application;
   public listener;
@@ -16,8 +18,8 @@ class Server {
   constructor() {
     this.createApplication();
     this.connectDB();
-    this.initializeRoutes();
     this.configApplication();
+    this.initializeRoutes();
     this.listen();
   }
 
@@ -31,15 +33,15 @@ class Server {
   }
 
   private configApplication() {
-    this.app.use(bodyParser.urlencoded({ extened: true }));
     this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extened: false  }));
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
 
   private connectDB() {
     // Connect mongoose to our database
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
+    console.log(`connecting mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {

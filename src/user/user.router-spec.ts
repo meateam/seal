@@ -1,64 +1,47 @@
-import * as request from 'supertest';
-// import * as express from 'express';
+import * as chaiHttp from 'chai-http';
+// import * as chai from 'chai';
 import { server } from '../server';
-// import * as assert from 'assert';
-// import * as mongoose from 'mongoose';
-let app;
+const chai = require('chai');
+import { expect } from 'chai';
+
+let listener;
+// let requester;
+chai.use(chaiHttp);
+// const should = chai.should();
+// console.log(should);
 
 describe('loading express', () => {
-
-  beforeEach(() => {
-    // app = makeServer();
-    app = server.listener;
+  before(() => {
+    listener = server.listener;
+    // requester = chai.request(app).keepOpen();
   });
 
-  afterEach((done) => {
-    app.close(done);
+  after((done) => {
+    listener.close();
+    done();
   });
 
-  it('responds to /', (done) => {
-    request(app)
-      .get('/')
-      .expect(200, done);
-  });
-
-  it('404 everything else', (done) => {
-    request(app)
-      .get('/foo/bar')
-      .expect(404, done);
-  });
-
-  it('GET /api/user', (done) => {
-
-    request(app)
+  it('testing1', (done) => {
+    chai.request('http://localhost:3000')
       .get('/api/user')
-      .expect('Content-type', 'text/html; charset=utf-8')
-      .expect(404)
       .end((err, res) => {
-        if (err) {
-          console.log('Error occured' + err);
-          return done(err);
-        }
-        console.log('*/*******************');
+        console.log('***********RES************');
         console.log(res.body);
-        // res.body.password.should.have.length(64);
-
+        expect(res.body.returned).to.have.length(0);
+        // res.body.returned.length.should.be.eql(0);
         done();
       });
+  });
 
+  it('testing2', (done) => {
+    chai.request('http://localhost:3000')
+      .get('/api/user')
+      .end((err, res) => {
+        console.log('***********RES************');
+        console.log(res.body);
+        expect(res.body.returned).to.not.have.length(1);
+        done();
+      });
   });
 
 });
-
-function makeServer() {
-  const express = require('express');
-  const app = express();
-  app.get('/', (req, res) => {
-    res.status(200).send('ok');
-  });
-  const server = app.listen(3000, () => {
-    const port = server.address().port;
-    console.log('Example app listening at port %s', port);
-  });
-  return server;
-}
