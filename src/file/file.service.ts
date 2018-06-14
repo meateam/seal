@@ -9,10 +9,6 @@ export class fileService {
     return file.save();
   }
 
-  public static list() {
-    return fileModel.find();
-  }
-
   public static delete(fileId: String) {
     return fileModel.remove({ _id: fileId });
   }
@@ -23,5 +19,12 @@ export class fileService {
 
   public static findById(fileId: String) {
     return fileModel.findById(fileId);
+  }
+
+  public static findFiles(fieldType?: String, fieldValue?: String) {
+    if (fieldType) {
+      return fileModel.find({ fieldType: fieldValue });
+    }
+    return fileModel.find();
   }
 }

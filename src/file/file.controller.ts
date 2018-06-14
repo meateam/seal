@@ -12,8 +12,8 @@ export class fileController {
     return Promise.all(services);
   }
 
-  public static list() {
-    return fileService.list();
+  public static getFiles(fieldType?: String, fieldName?: String) {
+    return fileService.findFiles(fieldType, fieldName);
   }
 
   public static findById(fileId: String) {

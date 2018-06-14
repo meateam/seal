@@ -41,9 +41,9 @@ fileRouter.post('/upload', upload, async (req: express.Request, res: express.Res
   }
 });
 
-fileRouter.get('/list', async (req: express.Request, res: express.Response) => {
+fileRouter.get('/', async (req: express.Request, res: express.Response) => {
   try {
-    const ret = await fileController.list();
+    const ret = await fileController.getFiles();
     return res.json({ success: true, return: ret });
   } catch (err) {
     return res.status(500).send({ message: 'Could not retrieve files - ' + err.message });
@@ -59,14 +59,21 @@ fileRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
   }
 });
 
-fileRouter.get('/:id', async (req: express.Request, res: express.Response) => {
-  try {
-    const ret = await fileController.findById(req.params.id);
-    return res.json({ success: true, return: ret });
-  } catch (err) {
-    return res.status(500).send({ message: 'Could not retrieve files - ' + err.message });
-  }
-});
+fileRouter.get('/:fieldValue',
+               async (req: express.Request, res: express.Response) => {
+                 try {
+                   if (req.query.fieldType) {
+                     const ret = await fileController.getFiles(req.params.fieldType,
+                                                               req.params.fieldValue);
+                     return res.json({ success: true, return: ret });
+                   }
+                   const ret = await fileController.findById(req.params.fieldValue);
+                   return res.json({ success: true, return: ret });
+                 } catch (err) {
+                   return res.status(500).send({
+                     message: 'Could not retrieve files - ' + err.message });
+                 }
+               });
 
 fileRouter.put('/:id' , async (req: express.Request, res: express.Response) => {
   try {
