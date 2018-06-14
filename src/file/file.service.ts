@@ -17,8 +17,8 @@ export class fileService {
     return fileModel.remove({ _id: fileId });
   }
 
-  public static update (file: IFile) {
-    return fileModel.findByIdAndUpdate(file._id, file);
+  public static update(fileId: String, file: Partial<IFile>) {
+    return fileModel.findByIdAndUpdate(fileId, file);
   }
 
   public static findById(fileId: String) {

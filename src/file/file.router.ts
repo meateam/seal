@@ -68,11 +68,11 @@ fileRouter.get('/:id', async (req: express.Request, res: express.Response) => {
   }
 });
 
-fileRouter.put('/update' , async (req: express.Request, res: express.Response) => {
+fileRouter.put('/:id' , async (req: express.Request, res: express.Response) => {
   try {
-    const file: IFile = req.body;
-    const ret = await fileController.update(file);
-    return res.send({ message: 'File saved successfully' });
+    const file: Partial<IFile> = req.body;
+    const ret = await fileController.update(req.params.id, file);
+    return res.send({ message: 'File updated successfully' });
   } catch (err) {
     console.log(err.message);
     return res.status(500).send({ message: 'Could not save file - ' + err.message });

@@ -24,7 +24,7 @@ export class fileController {
     return fileService.delete(fileId);
   }
 
-  public static update(file: IFile) {
-    return fileService.update(file);
+  public static update(fileId: String, file: Partial<IFile>) {
+    return fileService.update(fileId, file);
   }
 }
