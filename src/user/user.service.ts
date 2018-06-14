@@ -1,6 +1,9 @@
 import { userModel } from './user.model';
 import { IUser } from './user.interface';
 
+/*
+* UserService handles the calls to the database
+*/
 export class UserService {
 
   public static getUserById(myId: String) {

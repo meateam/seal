@@ -5,8 +5,6 @@ import * as morgan from 'morgan';
 import { config } from './config';
 import { initRouting } from './helper/routing';
 
-mongoose.set('debug', true);
-
 class Server {
   public app: express.Application;
   public listener;
@@ -21,6 +19,7 @@ class Server {
     this.configApplication();
     this.initializeRoutes();
     this.listen();
+    this.useDebugging();
     console.log('Server initialized.');
   }
 
@@ -29,14 +28,13 @@ class Server {
   }
 
   private initializeRoutes() {
-    // Add routers
     initRouting(this.app);
   }
 
   private configApplication() {
     this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extened: false }));
-    this.app.use(morgan('tiny'));  // 'combined' for more info
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+
   }
 
   private connectDB() {
@@ -54,6 +52,12 @@ class Server {
       const port = this.listener.address().port;
       console.log(`Server running on port :${port}`);
     });
+  }
+
+  private useDebugging() {
+    console.log('************ YOU ARE IN DEBUG MODE ************');
+    this.app.use(morgan('tiny'));  // 'combined' for more info
+    mongoose.set('debug', true);
   }
 }
 

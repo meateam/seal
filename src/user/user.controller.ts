@@ -1,6 +1,10 @@
 import { UserService } from './user.service';
 import { IUser } from './user.interface';
 
+/*
+* UserService handles the logic of the requests
+* before calling the database
+*/
 export class UserController {
   static getUserById(id: String) {
     return UserService.getUserById(id);
