@@ -8,18 +8,27 @@ export const userRouter: express.Router = express.Router();
 userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
   try {
     const ret = await UserController.getUserById(req.params.id);
-    res.json({ success: true, returned: ret });
+    res.json.status(200)({ success: true, returned: ret, message: `Successfully obtained user` });
   } catch (exception) {
-    res.json({ success: false, returned: exception, message: `Could not get user by id` });
+    res.status(500).json({
+      success: false, returned: exception,
+      message: `Could not get user by id`,
+    });
   }
 });
 
 userRouter.get('/', async (req: express.Request, res: express.Response) => {
   try {
     const result = await UserController.getAllUsers();
-    res.json({ success: true, returned: result }, null, 2);
+    res.json.status(200)({
+      success: true, returned: result,
+      message: `Successfully obtained all users`,
+    });
   } catch (exception) {
-    res.json({ success: false, returned: exception, message: `Could not get all users` });
+    res.status(500).json({
+      success: false, returned: exception,
+      message: `Could not get all users`,
+    });
   }
 
 });
@@ -38,9 +47,15 @@ userRouter.post('/', async (req: express.Request, res: express.Response) => {
     });
 
     const result = await UserController.addUser(newUser);
-    res.json({ success: true, returned: result });
+    res.json.status(200)({
+      success: true, returned: result,
+      message: `User ${newUser.name} created successfully!`,
+    });
   } catch (exception) {
-    res.json({ success: false, returned: exception, message: `Could not create a new user` });
+    res.status(500).json({
+      success: false, returned: exception,
+      message: `Could not create a new user`,
+    });
   }
 });
 
@@ -50,7 +65,7 @@ userRouter.put('/', async (req: express.Request, res: express.Response) => {
     const updatedUser = await UserController.updateUser(partialUser._id, partialUser as IUser);
     if (updatedUser) res.json(updatedUser);
   } catch (exception) {
-    res.json({ success: false, returned: exception });
+    res.status(500).json({ success: false, returned: exception });
   }
 });
 
@@ -58,18 +73,24 @@ userRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
   try {
     const id = req.params.id;
     const result = await UserController.deleteUserById(id);
-    const retMessage : string = (result.n) ? `User ${req.params.id} removed` : 'User not found' ;
-    res.json({ success: true, returned: result, message : retMessage }, null, 2);
+    const retMessage: string = (result.n) ? `User ${req.params.id} removed` : 'User not found';
+    res.status(200).json({ success: true, returned: result, message: retMessage });
   } catch (exception) {
-    res.json({ success: false, returned: exception, message: `Could not delete user` });
+    res.status(500).json({ success: false, returned: exception, message: `Could not delete user` });
   }
 });
 
 userRouter.delete('/', async (req: express.Request, res: express.Response) => {
   try {
     const result = await UserController.deleteAllUsers();
-    res.json({ success: true, returned: result }, null, 2);
+    res.json.status(200)({
+      success: true, returned: result,
+      message: `${result.n} users deleted successfully`,
+    });
   } catch (exception) {
-    res.json({ success: false, returned: exception, message: `Could not delete all users`  });
+    res.status(500).json({
+      success: false, returned: exception,
+      message: `Could not delete all users`,
+    });
   }
 });
