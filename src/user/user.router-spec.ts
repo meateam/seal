@@ -1,6 +1,6 @@
 import * as chaiHttp from 'chai-http';
 import { IUser } from './user.interface';
-import { createUsers } from '../helper/functions';
+import { createJsonUsers } from '../helper/functions';
 import { server } from '../server';
 import { expect } from 'chai';
 
@@ -13,7 +13,7 @@ const config = {
 
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 10;
-const testUsers: IUser[] = createUsers(TOTAL_USERS);
+const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
 let tempUser: IUser;
 let listener;
 

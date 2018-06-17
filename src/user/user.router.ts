@@ -8,8 +8,19 @@ export const userRouter: express.Router = express.Router();
 userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
   try {
     const ret = await UserController.getUserById(req.params.id);
-    res.status(200).json({ success: true, returned: ret, message: `Successfully obtained user` });
+    if (ret._id === req.params.id) {
+      res.status(200).json({
+        success: true, returned: ret,
+        message: `Successfully obtained user`,
+      });
+    } else {
+      res.status(200).json({
+        success: false, returned: ret,
+        message: `User ${req.params.id} not found!`,
+      });
+    }
   } catch (exception) {
+    console.log(exception);
     res.status(500).json({
       success: false, returned: exception,
       message: `Could not get user by id`,

@@ -2,26 +2,15 @@ import { IUser } from './user.interface';
 import { expect } from 'chai';
 import * as mongoose from 'mongoose';
 import { UserController } from './user.controller';
+import { createUsers } from '../helper/functions';
 import { userModel } from './user.model';
 import { config } from '../config';
 
-const testUsers: IUser[] = [];
 const TOTAL_USERS: number = 10000;
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
 const newName: string = 'shaharTheKing';
 
 let numberOfUsers = TOTAL_USERS;
-for (let i = 0; i < TOTAL_USERS; i++) {
-  const user = new userModel({
-    _id: 10 * TOTAL_USERS + i,
-    uniqueID: 'uID' + i,
-    creationDate: new Date(),
-    heirarchy: 'Aman/Sapir/MadorHaim/' + i,
-    name: 'User' + i,
-    rootFolder: '/Path/To/Root/Folder' + i,
-  });
-
-  testUsers.push(user);
-}
 
 before(() => {
   (<any>mongoose).Promise = global.Promise;
@@ -29,7 +18,6 @@ before(() => {
 });
 
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
-
   it('Delete all users from the collection', async () => {
     await UserController.deleteAllUsers();
     const result2: IUser[] = await UserController.getAllUsers();
