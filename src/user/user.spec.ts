@@ -3,17 +3,16 @@ import { expect } from 'chai';
 import * as mongoose from 'mongoose';
 import { UserController } from './user.controller';
 import { userModel } from './user.model';
+import { config } from '../config';
 
 const testUsers: IUser[] = [];
-const config = {
-  database: 'mongodb://localhost:27017/testing',
-};
+const TOTAL_USERS: number = 11;
+const newName : string = 'shaharTheKing';
 
-let numberOfUsers: number = 7;
-
-for (let i = 0; i < numberOfUsers; i++) {
+let numberOfUsers = TOTAL_USERS;
+for (let i = 0; i < TOTAL_USERS; i++) {
   const user = new userModel({
-    _id: '100' + i,
+    _id: '10' + i,
     uniqueID: 'uID' + i,
     creationDate: new Date(),
     heirarchy: 'Aman/Sapir/MadorHaim/' + i,
@@ -26,14 +25,14 @@ for (let i = 0; i < numberOfUsers; i++) {
 
 before(() => {
   (<any>mongoose).Promise = global.Promise;
-  mongoose.connect(config.database);
+  mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 });
 
-describe('Test Users', () => {
+describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
   it('Delete all users from the collection', async () => {
     await UserController.deleteAllUsers();
-    const result2 = await UserController.getAllUsers();
+    const result2 : IUser[] = await UserController.getAllUsers();
     console.log(result2);
     expect(result2).to.be.empty;
 
@@ -50,32 +49,37 @@ describe('Test Users', () => {
 
   it('Delete a single user', async () => {
     await UserController.deleteUserById(testUsers[0]._id);
-    const result = await UserController.getUserById(testUsers[0]._id);
-    const usersReturned = await UserController.getAllUsers();
+    const result : IUser = await UserController.getUserById(testUsers[0]._id);
+    const usersReturned : IUser[] = await UserController.getAllUsers();
     numberOfUsers--;
+    testUsers.shift();
     expect(result).to.not.exist;
     expect(usersReturned).to.have.lengthOf(numberOfUsers);
   });
 
-  it('Update user', async () => {
-    await UserController.updateUser(testUsers[1]._id, { name: testUsers[2].name });
-    const updatedUser = await UserController.getUserById(testUsers[1]._id);
-    expect(updatedUser.name).to.be.equal(testUsers[2].name);
+  it(`Update half (${Math.floor(testUsers.length / 2)}) of the names to ${newName}`, async () => {
+
+    for (let i = 0; i < Math.floor(testUsers.length / 2); i++) {
+      await UserController
+        .updateUser(testUsers[i]._id, { name: newName });
+    }
+    const updatedUser : IUser = await UserController.getUserById(testUsers[0]._id);
+    expect(updatedUser.name).to.be.equal(newName);
   });
 
   it('Get all users by name', async () => {
-    const users = await UserController.getUsersByName(testUsers[2].name);
+    const users : IUser[] = await UserController.getUsersByName(newName);
+    users.sort(sortUserBy_id);
+    expect(users.length).to.be.equal(Math.floor(testUsers.length / 2));
     for (let i = 0; i < users.length; i++) {
-      expect(users[i].name).to.be.equal(testUsers[2].name);
+      expect(users[i].name).to.be.equal(newName);
+      expect(users[i]._id).to.be.equal(testUsers[i]._id);
     }
-    expect(users[0]._id).to.be.equal(testUsers[1]._id);
-    expect(users[1]._id).to.be.equal(testUsers[2]._id);
-    expect(users.length).to.be.equal(2);
   });
 
   it.skip('Delete all users from the collection', async () => {
     await UserController.deleteAllUsers();
-    const result2 = await UserController.getAllUsers();
+    const result2 : IUser[] = await UserController.getAllUsers();
     expect(result2).to.be.empty;
   });
 
@@ -85,3 +89,14 @@ after((done) => {
   mongoose.disconnect();
   done();
 });
+
+function sortUserBy_id(user1: IUser, user2: IUser) {
+  if (user1._id > user2._id) {
+    return 1;
+  }
+  if (user1._id < user2._id) {
+    return -1;
+  }
+  return 0;
+
+}
