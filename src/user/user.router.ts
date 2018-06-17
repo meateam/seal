@@ -34,16 +34,7 @@ userRouter.get('/', async (req: express.Request, res: express.Response) => {
 
 userRouter.post('/', async (req: express.Request, res: express.Response) => {
   try {
-    // const newUser :IUser = new userModel(req.body);
-    const newUser: IUser = new userModel({
-      _id: req.body.id,
-      uniqueID: req.body.uniqueID,
-      name: req.body.name,
-      creationDate: req.body.creationDate,
-      heirarchy: req.body.heirarchy,
-      rootFolder: req.body.rootFolder,
-    });
-
+    const newUser: IUser = new userModel(req.body);
     const result: IUser = await UserController.addUser(newUser);
     res.status(200).json({
       success: true, returned: result,
@@ -62,9 +53,15 @@ userRouter.put('/', async (req: express.Request, res: express.Response) => {
     const partialUser: Partial<IUser> = req.body;
     const updatedUser: IUser = await UserController.
       updateUser(partialUser._id, partialUser as IUser);
-    if (updatedUser) res.json(updatedUser);
+    res.status(200).json({
+      success: true, returned: updatedUser,
+      message: `User ${updatedUser.name} updated successfully!`,
+    });
   } catch (exception) {
-    res.status(500).json({ success: false, returned: exception });
+    res.status(500).json({
+      success: false, returned: exception,
+      message: `Could not update the user`,
+    });
   }
 });
 

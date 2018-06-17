@@ -1,35 +1,25 @@
 import * as chaiHttp from 'chai-http';
 import { IUser } from './user.interface';
-import { userModel } from './user.model';
+import { createUsers } from '../helper/functions';
 import { server } from '../server';
-const chai = require('chai');
 import { expect } from 'chai';
 
-let listener;
+const chai = require('chai');
 chai.use(chaiHttp);
+
 const config = {
   host: 'http://localhost:3000',
 };
 
-const testUsers = [];
-let numberOfUsers: number = 5;
-
-for (let i = 0; i < numberOfUsers; i++) {
-  const user = {
-    id: 'ID' + i,
-    uniqueID: 'uID' + i,
-    creationDate: new Date(),
-    heirarchy: 'Aman/Sapir/MadorHaim/' + i,
-    name: 'User' + i,
-    rootFolder: '/Path/To/Root/Folder' + i,
-  };
-  testUsers.push(user);
-}
+const newName: string = 'Mr. Nobody';
+const TOTAL_USERS: number = 10;
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
+let tempUser: IUser;
+let listener;
 
 describe('loading express', () => {
   before(() => {
     listener = server.listener;
-    // requester = chai.request(app).keepOpen();
   });
 
   after((done) => {
@@ -54,8 +44,8 @@ describe('loading express', () => {
       });
   });
 
-  it(`Add ${numberOfUsers} users`, (done) => {
-    for (let i = 0; i < numberOfUsers; i++) {
+  it(`Add ${testUsers.length} users`, (done) => {
+    for (let i = 0; i < testUsers.length; i++) {
       chai.request(config.host)
         .post('/api/user')
         .set('content-type', 'application/x-www-form-urlencoded')
@@ -67,18 +57,22 @@ describe('loading express', () => {
   });
 
   it('Check all users added', (done) => {
-    chai.request(config.host)
+    sleep(5000).then(() => {
+      chai.request(config.host)
       .get('/api/user')
       .end((err, res) => {
-        expect(res.body.returned).to.have.length(numberOfUsers);
+        expect(res.body.returned).to.have.length(testUsers.length);
         done();
       });
+    });
   });
 
   it('Delete a single user', (done) => {
+    tempUser = testUsers[0];
     chai.request(config.host)
-      .delete('/api/user/' + testUsers[--numberOfUsers].id)
+      .delete('/api/user/' + testUsers[0]._id)
       .end((err, res) => {
+        testUsers.shift();
         done();
       });
   });
@@ -87,12 +81,34 @@ describe('loading express', () => {
     chai.request(config.host)
       .get('/api/user')
       .end((err, res) => {
-        expect(res.body.returned).to.have.length(numberOfUsers);
-        for (let i = 0; i < numberOfUsers; i++) {
-          expect(res.body.returned[i]._id).to.not.be.equal(testUsers[numberOfUsers].id);
+        expect(res.body.returned).to.have.length(testUsers.length);
+        for (let i = 0; i < testUsers.length; i++) {
+          expect(res.body.returned[i]._id).to.not.be.equal(tempUser._id);
         }
         done();
       });
   });
 
+  it(`Change username`, (done) => {
+    chai.request(config.host)
+      .put(`/api/user`)
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({ _id: testUsers[0]._id, name: newName })
+      .end((err, res) => {
+      });
+    done();
+  });
+
+  it('Check user changed', (done) => {
+    chai.request(config.host)
+      .get(`/api/user/${testUsers[0]._id}`)
+      .end((err, res) => {
+        expect(res.body.returned.name).to.be.eql(newName);
+        done();
+      });
+  });
 });
+
+function sleep(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}

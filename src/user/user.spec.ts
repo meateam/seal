@@ -98,5 +98,4 @@ function sortUserBy_id(user1: IUser, user2: IUser) {
     return -1;
   }
   return 0;
-
 }
