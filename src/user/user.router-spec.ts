@@ -91,7 +91,7 @@ describe('loading express', () => {
 
   it(`Change username`, (done) => {
     chai.request(config.host)
-      .put(`/api/user`)
+      .put(`/api/user/${testUsers[0]._id}`)
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({ _id: testUsers[0]._id, name: newName })
       .end((err, res) => {

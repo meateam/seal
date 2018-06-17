@@ -48,11 +48,11 @@ userRouter.post('/', async (req: express.Request, res: express.Response) => {
   }
 });
 
-userRouter.put('/', async (req: express.Request, res: express.Response) => {
+userRouter.put('/:id', async (req: express.Request, res: express.Response) => {
   try {
     const partialUser: Partial<IUser> = req.body;
     const updatedUser: IUser = await UserController.
-      updateUser(partialUser._id, partialUser as IUser);
+      updateUser(req.body._id, partialUser as IUser);
     res.status(200).json({
       success: true, returned: updatedUser,
       message: `User ${updatedUser.name} updated successfully!`,
