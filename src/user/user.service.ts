@@ -22,7 +22,7 @@ export class UserService {
     return userModel.find({});
   }
 
-  public static add(newUser: IUser) {
+  public static add(newUser: IUser) : Promise<IUser> {
     return newUser.save();
   }
 
