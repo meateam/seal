@@ -3,32 +3,26 @@ import { IUser } from './user.interface';
 
 export const userSchema = new mongoose.Schema({
   _id:{
-    // TODO: create a new type?
     type: String,
     required: true,
   },
   uniqueID:{
-    // TODO: create a new type?
     type: String,
     required: true,
   },
   name:{
-    // TODO: create a new type?
     type: String,
     required: true,
   },
   creationDate:{
-    // TODO: create a new type?
     type: Date,
     required: true,
   },
   heirarchy:{
-    // TODO: create a new type?
     type: String,
     required: true,
   },
   rootFolder:{
-    // TODO: create a new type?
     type: String,
     required: true,
   },

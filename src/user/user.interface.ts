@@ -1,7 +1,7 @@
 import { Document } from 'mongoose';
 
 export interface IUser extends Document {
-  _id: string;           // TODO: is it?
+  id: string;           // TODO: is it?
   uniqueID: string;
   name: string;
   creationDate: Date;

@@ -1,6 +1,5 @@
-import { environment, database } from './helper/ENUMS';
-
 type Config = {
+  type : string,
   port: number,
   db: {
     host: string,
@@ -10,44 +9,47 @@ type Config = {
 };
 
 const testing: Config = {
+  type : 'testing',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: database.TESTING,
+    name: 'testingDB',
   },
 };
 
 const dev: Config = {
+  type : 'dev',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: database.DEV,
+    name: 'devDB',
   },
 };
 
 // Change to Production Enviorment
 const prod: Config = {
+  type : 'prod',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: database.PROD,
+    name: 'prodDB',
   },
 };
 
 function getConfig(type: string) {
   switch (type) {
-    case environment.DEV:
+    case dev.type:
       return dev;
-    case environment.PROD:
+    case prod.type:
       return prod;
-    case environment.TESTING:
+    case testing.type:
       return testing;
     default:
       return dev;
   }
 }
 
-export const config = getConfig(process.env.NODE_ENV || environment.DEV);
+export const config = getConfig(process.env.NODE_ENV || dev.type);
