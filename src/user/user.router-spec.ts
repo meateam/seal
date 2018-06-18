@@ -12,12 +12,12 @@ const config = {
 };
 
 const newName: string = 'Mr. Nobody';
-const TOTAL_USERS: number = 10;
+const TOTAL_USERS: number = 30;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
 let tempUser: IUser;
 let listener;
 
-describe('loading express', () => {
+describe('Router', () => {
   before(() => {
     listener = server.listener;
   });
@@ -27,88 +27,76 @@ describe('loading express', () => {
     done();
   });
 
-  it('Delete all users', (done) => {
-    chai.request(config.host)
-      .delete('/api/user')
-      .end((err, res) => {
-        done();
-      });
-  });
-
-  it('Check all users deleted', (done) => {
-    chai.request(config.host)
-      .get('/api/user')
-      .end((err, res) => {
-        expect(res.body.returned).to.have.length(0);
-        done();
-      });
-  });
-
-  it(`Add ${testUsers.length} users`, (done) => {
-    for (let i = 0; i < testUsers.length; i++) {
+  describe(`DELETE all`, () => {
+    it('should delete all users', (done) => {
       chai.request(config.host)
-        .post('/api/user')
-        .set('content-type', 'application/x-www-form-urlencoded')
-        .send(testUsers[i])
+        .delete('/api/user')
         .end((err, res) => {
+          chai.request(config.host)
+            .get('/api/user')
+            .end((err, res) => {
+              expect(res.body.returned).to.have.length(0);
+              done();
+            });
         });
-    }
-    done();
-  });
-
-  it('Check all users added', (done) => {
-    sleep(5000).then(() => {
-      chai.request(config.host)
-      .get('/api/user')
-      .end((err, res) => {
-        expect(res.body.returned).to.have.length(testUsers.length);
-        done();
-      });
     });
   });
 
-  it('Delete a single user', (done) => {
-    tempUser = testUsers[0];
-    chai.request(config.host)
-      .delete('/api/user/' + testUsers[0]._id)
-      .end((err, res) => {
-        testUsers.shift();
-        done();
-      });
+  describe(`POST new user`, () => {
+    it(`should add ${testUsers.length} users`, (done) => {
+      for (let i = 0; i < testUsers.length; i++) {
+        chai.request(config.host)
+          .post('/api/user')
+          .set('content-type', 'application/x-www-form-urlencoded')
+          .send(testUsers[i])
+          .end((err, res) => {
+            if (i === testUsers.length - 1) {
+              chai.request(config.host)
+                .get('/api/user')
+                .end((err, res) => {
+                  expect(res.body.returned).to.have.length(testUsers.length);
+                });
+              done();
+            }
+          });
+      }
+    });
   });
 
-  it('Check user was deleted', (done) => {
-    chai.request(config.host)
-      .get('/api/user')
-      .end((err, res) => {
-        expect(res.body.returned).to.have.length(testUsers.length);
-        for (let i = 0; i < testUsers.length; i++) {
-          expect(res.body.returned[i]._id).to.not.be.equal(tempUser._id);
-        }
-        done();
-      });
+  describe(`DELETE one`, () => {
+    it('should delete a single user', (done) => {
+      tempUser = testUsers[0];
+      chai.request(config.host)
+        .delete('/api/user/' + testUsers[0]._id)
+        .end((err, res) => {
+          testUsers.shift();
+          chai.request(config.host)
+            .get('/api/user')
+            .end((err, res) => {
+              expect(res.body.returned).to.have.length(testUsers.length);
+              for (let i = 0; i < testUsers.length; i++) {
+                expect(res.body.returned[i]._id).to.not.be.equal(tempUser._id);
+              }
+              done();
+            });
+        });
+    });
   });
 
-  it(`Change username`, (done) => {
-    chai.request(config.host)
-      .put(`/api/user/${testUsers[0]._id}`)
-      .set('content-type', 'application/x-www-form-urlencoded')
-      .send({ _id: testUsers[0]._id, name: newName })
-      .end((err, res) => {
-      });
-    done();
-  });
-
-  it('Check user changed', (done) => {
-    chai.request(config.host)
-      .get(`/api/user/${testUsers[0]._id}`)
-      .end((err, res) => {
-        expect(res.body.returned.name).to.be.eql(newName);
-        done();
-      });
+  describe(`PUT`, () => {
+    it(`should change a single user name`, (done) => {
+      chai.request(config.host)
+        .put(`/api/user/${testUsers[0]._id}`)
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({ _id: testUsers[0]._id, name: newName })
+        .end((err, res) => {
+          chai.request(config.host)
+            .get(`/api/user/${testUsers[0]._id}`)
+            .end((err, res) => {
+              expect(res.body.returned.name).to.be.eql(newName);
+              done();
+            });
+        });
+    });
   });
 });
-
-function sleep(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
