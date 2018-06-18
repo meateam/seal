@@ -7,7 +7,7 @@ export const userRouter: express.Router = express.Router();
 
 userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
   try {
-    const ret = await UserController.getUserById(req.params.id);
+    const ret = await UserController.getById(req.params.id);
     if (ret._id === req.params.id) {
       res.status(200).json({
         success: true, returned: ret,
@@ -30,7 +30,7 @@ userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
 
 userRouter.get('/', async (req: express.Request, res: express.Response) => {
   try {
-    const result: IUser[] = await UserController.getAllUsers();
+    const result: IUser[] = await UserController.getAll();
     res.status(200).json({
       success: true, returned: result,
       message: `Successfully obtained all users: ${result.length}`,
@@ -46,7 +46,7 @@ userRouter.get('/', async (req: express.Request, res: express.Response) => {
 userRouter.post('/', async (req: express.Request, res: express.Response) => {
   try {
     const newUser: IUser = new userModel(req.body);
-    const result: IUser = await UserController.addUser(newUser);
+    const result: IUser = await UserController.add(newUser);
     res.status(200).json({
       success: true, returned: result,
       message: `User ${newUser.name} created successfully!`,
@@ -63,7 +63,7 @@ userRouter.put('/:id', async (req: express.Request, res: express.Response) => {
   try {
     const partialUser: Partial<IUser> = req.body;
     const updatedUser: IUser = await UserController.
-      updateUser(req.body._id, partialUser as IUser);
+      update(req.body._id, partialUser as IUser);
     res.status(200).json({
       success: true, returned: updatedUser,
       message: `User ${updatedUser.name} updated successfully!`,
@@ -79,7 +79,7 @@ userRouter.put('/:id', async (req: express.Request, res: express.Response) => {
 userRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
   try {
     const id = req.params.id;
-    const result = await UserController.deleteUserById(id);
+    const result = await UserController.deleteById(id);
     const retMessage: string = (result.n) ? `User ${req.params.id} removed` : 'User not found';
     res.status(200).json({ success: true, returned: result, message: retMessage });
   } catch (exception) {
@@ -90,7 +90,7 @@ userRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
 
 userRouter.delete('/', async (req: express.Request, res: express.Response) => {
   try {
-    const result = await UserController.deleteAllUsers();
+    const result = await UserController.deleteAll();
     res.status(200).json({
       success: true, returned: result,
       message: `${result.n} users deleted successfully`,

@@ -6,65 +6,32 @@ import { IUser } from './user.interface';
 */
 export class UserService {
 
-  public static getUserById(myId: String) {
-    try {
-      return userModel.findOne({ _id: myId });
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static getById(myId: String) {
+    return userModel.findOne({ _id: myId });
   }
 
-  public static getUsersByName(myName: String) {
-    try {
-      return userModel.find({ name: myName });
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static getByName(myName: String) {
+    return userModel.find({ name: myName });
   }
 
-  public static updateUser(myId: String, newUser: Partial<IUser>) {
-    try {
-      return userModel.findOneAndUpdate({ _id: myId }, newUser, { new: true });
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static update(myId: String, newUser: Partial<IUser>) {
+    return userModel.findOneAndUpdate({ _id: myId }, newUser, { new: true });
   }
 
-  public static getAllUsers() {
-    try {
-      return userModel.find({});
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static getAll() {
+    return userModel.find({});
   }
 
-  public static addUser(newUser: IUser) {
-    try {
-      return newUser.save();
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static add(newUser: IUser) {
+    return newUser.save();
   }
 
-  public static deleteUserById(userID: string) {
-    try {
-      return userModel.deleteOne({ _id: userID });
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static deleteById(userID: string) {
+    return userModel.deleteOne({ _id: userID });
   }
 
-  public static deleteAllUsers() {
-    try {
-      return userModel.remove({});
-    } catch (exception) {
-      return handleExceptions(exception);
-    }
+  public static deleteAll() {
+    return userModel.remove({});
   }
 
-}
-
-function handleExceptions(exception) {
-  console.log('Exception caught in service! ' + exception);
-  return Promise.reject(exception);
 }

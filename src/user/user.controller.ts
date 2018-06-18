@@ -6,31 +6,31 @@ import { IUser } from './user.interface';
 * before calling the database
 */
 export class UserController {
-  static getUserById(id: String) {
-    return UserService.getUserById(id);
+  static getById(id: String) {
+    return UserService.getById(id);
   }
 
-  static getUsersByName(name: String) {
-    return UserService.getUsersByName(name);
+  static getByName(name: String) {
+    return UserService.getByName(name);
   }
 
-  static updateUser(id: String, partialUser: Partial<IUser>) {
-    return UserService.updateUser(id, partialUser);
+  static update(id: String, partialUser: Partial<IUser>) {
+    return UserService.update(id, partialUser);
   }
 
-  static getAllUsers() {
-    return UserService.getAllUsers();
+  static getAll() {
+    return UserService.getAll();
   }
 
-  static addUser(newUser: IUser) {
-    return UserService.addUser(newUser);
+  static add(newUser: IUser) {
+    return UserService.add(newUser);
   }
 
-  static deleteUserById(id: string) {
-    return UserService.deleteUserById(id);
+  static deleteById(id: string) {
+    return UserService.deleteById(id);
   }
 
-  static deleteAllUsers() {
-    return UserService.deleteAllUsers();
+  static deleteAll() {
+    return UserService.deleteAll();
   }
 }
