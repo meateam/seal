@@ -30,7 +30,7 @@ class Server {
   }
 
   private configApplication() {
-    this.app.use(bodyParser.urlencoded({ extened: true }));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
