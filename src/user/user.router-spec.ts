@@ -93,7 +93,8 @@ describe('Router', () => {
           chai.request(config.host)
             .get(`/api/user/${testUsers[0]._id}`)
             .end((err, res) => {
-              expect(res.body.returned.name).to.be.eql(newName);
+              console.log(res.body);
+              expect(res.body.name).to.be.eql(newName);
               done();
             });
         });

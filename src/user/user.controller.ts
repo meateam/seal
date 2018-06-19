@@ -6,9 +6,15 @@ import { UserValidator } from './user.validator';
 * before calling the database
 */
 export class UserController {
-  static getById(id: String) {
-    return UserService.getById(id);
+  static async getById(id: string) {
+    if (await UserValidator.idExists(id)) {
+      return await UserService.getById(id);
+    }
+    throw new Error('User id does not exist');
   }
+  // static getById(id: string) {
+  //   return UserService.getById(id);
+  // }
 
   static getByName(name: String) {
     return UserService.getByName(name);

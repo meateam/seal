@@ -4,8 +4,9 @@ import { IUser } from './user.interface';
 export class UserValidator {
   static async idExists(id: string): Promise<boolean> {
     const user: IUser = await UserService.getById(id);
-    if (user._id) {
+    if (user) {
       if (user._id === id) {
+        console.log(`${user._id} === ${id}`);
         return true;
       }
     }

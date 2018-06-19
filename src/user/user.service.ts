@@ -6,23 +6,23 @@ import { IUser } from './user.interface';
 */
 export class UserService {
 
-  public static getById(myId: String) {
-    return userModel.findOne({ _id: myId });
+  public static getById(id: String) {
+    return userModel.findById(id);
   }
 
-  public static getByName(myName: String) {
-    return userModel.find({ name: myName });
+  public static getByName(name: String) {
+    return userModel.find({ name });
   }
 
-  public static update(myId: String, newUser: Partial<IUser>) {
-    return userModel.findOneAndUpdate({ _id: myId }, newUser, { new: true });
+  public static update(id: String, newUser: Partial<IUser>) {
+    return userModel.findByIdAndUpdate(id, newUser);
   }
 
   public static getAll() {
     return userModel.find({});
   }
 
-  public static add(newUser: IUser) : Promise<IUser> {
+  public static add(newUser: IUser): Promise<IUser> {
     return newUser.save();
   }
 

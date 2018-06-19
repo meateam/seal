@@ -28,6 +28,17 @@ userRouter.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
+// userRouter.get('/:id', async (req: Request, res: Response) => {
+//   try {
+//     const ret =  await UserController.getById(req.params.id + 'a');
+//     res.json(ret);
+//   } catch (error) {
+//     console.log('error.message: ');
+//     console.log(error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
+
 userRouter.get('/', async (req: Request, res: Response) => {
   try {
     const result: IUser[] = await UserController.getAll();
