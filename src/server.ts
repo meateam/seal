@@ -9,6 +9,7 @@ import { fileRouter } from './file/file.router';
 
 class Server {
   public app: express.Application;
+  public listener;
 
   public static bootstrap(): Server {
     return new Server();
@@ -51,9 +52,10 @@ class Server {
     });
   }
 
-  private listen() {
-    this.app.listen(config.port, () => {
-      console.log(`Server running on port :${config.port}`);
+  public listen() {
+    this.listener = this.app.listen(config.port, () => {
+      const port = this.listener.address().port;
+      console.log(`Server running on port :${port}`);
     });
   }
 }

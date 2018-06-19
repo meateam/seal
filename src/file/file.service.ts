@@ -27,4 +27,15 @@ export class fileService {
     }
     return fileModel.find();
   }
+
+  public static findByDate (from?: Date, to?: Date) {
+    console.log(from);
+    console.log(to);
+    fileModel.find({
+      creationDate : {
+        $gte: from,
+        // $lt: to,
+      },
+    });
+  }
 }

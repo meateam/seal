@@ -4,7 +4,7 @@ import * as express from 'express';
 import { IFile } from './file.interface';
 import { fileController } from './file.controller';
 import { fileModel } from './file.model';
-import { upload } from './storage.manager';
+import { upload } from './storage/storage.manager';
 
 export let fileRouter: express.Router = express.Router();
 
@@ -62,13 +62,20 @@ fileRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
 fileRouter.get('/:fieldValue',
                async (req: express.Request, res: express.Response) => {
                  try {
-                   if (req.query.fieldType) {
-                     const ret = await fileController.getFiles(req.params.fieldType,
-                                                               req.params.fieldValue);
+                   let ret;
+                   if (req.query.fromDate) {
+                     ret = await fileController.findByDate(req.query.fromDate,
+                                                           req.query.toDate);
+                   } else if (req.query.fieldType) {
+                     ret = await fileController.getFiles(req.query.fieldType,
+                                                         req.params.fieldValue);
+                   } else {
+                     ret = await fileController.findById(req.params.fieldValue);
+                   }
+                   if (ret) {
                      return res.json({ success: true, return: ret });
                    }
-                   const ret = await fileController.findById(req.params.fieldValue);
-                   return res.json({ success: true, return: ret });
+                   return res.status(404).send({ message: 'No files found' });
                  } catch (err) {
                    return res.status(500).send({
                      message: 'Could not retrieve files - ' + err.message });
@@ -82,6 +89,6 @@ fileRouter.put('/:id' , async (req: express.Request, res: express.Response) => {
     return res.send({ message: 'File updated successfully' });
   } catch (err) {
     console.log(err.message);
-    return res.status(500).send({ message: 'Could not save file - ' + err.message });
+    return res.status(500).send({ message: 'Could not update file - ' + err.message });
   }
 });
