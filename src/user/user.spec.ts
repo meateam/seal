@@ -20,14 +20,14 @@ before(() => {
 
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
-  describe('getAll', () => {
+  describe('#getAll', () => {
     it('should return an empty collection', async () => {
       const allUsers: IUser[] = await UserController.getAll();
       expect(allUsers).to.be.empty;
     });
   });
 
-  describe('add', () => {
+  describe('#add', () => {
     it(`should add ${TOTAL_USERS} new users to the collection`, async () => {
       for (let i = 0; i < testUsers.length; i++) {
         await UserController.add(testUsers[i]);
@@ -38,7 +38,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     });
   });
 
-  describe('deleteById', () => {
+  describe('#deleteById', () => {
     it('should delete a single user', async () => {
       await UserController.deleteById(testUsers[0]._id);
       const result: IUser = await UserController.getById(testUsers[0]._id);
@@ -50,7 +50,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     });
   });
 
-  describe('update', () => {
+  describe('#update', () => {
     it(`should update half (${Math.floor(testUsers.length / 2)}) of the names`, async () => {
       for (let i = 0; i < Math.floor(testUsers.length / 2); i++) {
         await UserController
@@ -61,7 +61,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     });
   });
 
-  describe('getByName', () => {
+  describe('#getByName', () => {
     it('should get all users with the same name', async () => {
       const users: IUser[] = await UserController.getByName(newName);
       users.sort(sortUserBy_id);
@@ -73,7 +73,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     });
   });
 
-  describe('deleteAll', () => {
+  describe('#deleteAll', () => {
     it('should delete all users from the collection', async () => {
       await UserController.deleteAll();
       const result2: IUser[] = await UserController.getAll();

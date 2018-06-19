@@ -1,11 +1,11 @@
-import * as express from 'express';
+import { Router, Request, Response } from 'express';
 import { userModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 
-export const userRouter: express.Router = express.Router();
+export const userRouter: Router = Router();
 
-userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
+userRouter.get('/:id', async (req: Request, res: Response) => {
   try {
     const ret = await UserController.getById(req.params.id);
     if (ret._id === req.params.id) {
@@ -28,7 +28,7 @@ userRouter.get('/:id', async (req: express.Request, res: express.Response) => {
   }
 });
 
-userRouter.get('/', async (req: express.Request, res: express.Response) => {
+userRouter.get('/', async (req: Request, res: Response) => {
   try {
     const result: IUser[] = await UserController.getAll();
     res.status(200).json({
@@ -43,7 +43,7 @@ userRouter.get('/', async (req: express.Request, res: express.Response) => {
   }
 });
 
-userRouter.post('/', async (req: express.Request, res: express.Response) => {
+userRouter.post('/', async (req: Request, res: Response) => {
   try {
     const newUser: IUser = new userModel(req.body);
     const result: IUser = await UserController.add(newUser);
@@ -59,7 +59,7 @@ userRouter.post('/', async (req: express.Request, res: express.Response) => {
   }
 });
 
-userRouter.put('/:id', async (req: express.Request, res: express.Response) => {
+userRouter.put('/:id', async (req: Request, res: Response) => {
   try {
     const partialUser: Partial<IUser> = req.body;
     const updatedUser: IUser = await UserController.
@@ -76,7 +76,7 @@ userRouter.put('/:id', async (req: express.Request, res: express.Response) => {
   }
 });
 
-userRouter.delete('/:id', async (req: express.Request, res: express.Response) => {
+userRouter.delete('/:id', async (req: Request, res: Response) => {
   try {
     const id = req.params.id;
     const result = await UserController.deleteById(id);
@@ -88,7 +88,7 @@ userRouter.delete('/:id', async (req: express.Request, res: express.Response) =>
   }
 });
 
-userRouter.delete('/', async (req: express.Request, res: express.Response) => {
+userRouter.delete('/', async (req: Request, res: Response) => {
   try {
     const result = await UserController.deleteAll();
     res.status(200).json({
@@ -102,3 +102,11 @@ userRouter.delete('/', async (req: express.Request, res: express.Response) => {
     });
   }
 });
+
+function handleRouter(req: Request, res: Response) {
+  try {
+
+  } catch (exception) {
+
+  }
+}

@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { IUser } from './user.interface';
-
+import { UserValidator } from './user.validator';
 /*
 * UserService handles the logic of the requests
 * before calling the database
