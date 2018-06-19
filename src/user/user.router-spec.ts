@@ -12,7 +12,7 @@ const config = {
 };
 
 const newName: string = 'Mr. Nobody';
-const TOTAL_USERS: number = 30;
+const TOTAL_USERS: number = 10;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
 let tempUser: IUser;
 let listener;
@@ -35,7 +35,7 @@ describe('Router', () => {
           chai.request(config.host)
             .get('/api/user')
             .end((err, res) => {
-              expect(res.body.returned).to.have.length(0);
+              expect(res.body).to.have.length(0);
               done();
             });
         });
@@ -54,7 +54,7 @@ describe('Router', () => {
               chai.request(config.host)
                 .get('/api/user')
                 .end((err, res) => {
-                  expect(res.body.returned).to.have.length(testUsers.length);
+                  expect(res.body).to.have.length(testUsers.length);
                 });
               done();
             }
@@ -73,9 +73,9 @@ describe('Router', () => {
           chai.request(config.host)
             .get('/api/user')
             .end((err, res) => {
-              expect(res.body.returned).to.have.length(testUsers.length);
+              expect(res.body).to.have.length(testUsers.length);
               for (let i = 0; i < testUsers.length; i++) {
-                expect(res.body.returned[i]._id).to.not.be.equal(tempUser._id);
+                expect(res.body[i]._id).to.not.be.equal(tempUser._id);
               }
               done();
             });
@@ -93,7 +93,6 @@ describe('Router', () => {
           chai.request(config.host)
             .get(`/api/user/${testUsers[0]._id}`)
             .end((err, res) => {
-              console.log(res.body);
               expect(res.body.name).to.be.eql(newName);
               done();
             });

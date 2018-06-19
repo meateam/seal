@@ -34,9 +34,6 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   describe('#add', () => {
     it(`should add ${TOTAL_USERS} new users to the collection`, async () => {
       await Promise.all(testUsers.map(user => UserController.add(user)));
-      // for (let i = 0; i < testUsers.length; i++) {
-      //   await UserController.add(testUsers[i]);
-      // }
       const usersReturned = await UserController.getAll();
       expect(usersReturned).to.not.be.empty;
       expect(usersReturned).to.have.lengthOf(testUsers.length);
@@ -47,11 +44,10 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     it('should delete a single user', async () => {
       await UserController.deleteById(testUsers[0]._id);
       expect(UserController.getById(testUsers[0]._id))
-        .to.eventually.be.rejectedWith('User id does not exist');
+        .to.eventually.be.rejectedWith('User does not exist');
       const usersReturned: IUser[] = await UserController.getAll();
       numberOfUsers--;
       testUsers.shift();
-      // expect(result).to.not.exist;
       expect(usersReturned).to.have.lengthOf(numberOfUsers);
     });
   });
@@ -59,8 +55,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   describe('#update', () => {
     it(`should update half (${Math.floor(testUsers.length / 2)}) of the names`, async () => {
       for (let i = 0; i < Math.floor(testUsers.length / 2); i++) {
-        await UserController
-          .update(testUsers[i]._id, { name: newName });
+        await UserController.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
       }
       const updatedUser: IUser = await UserController.getById(testUsers[0]._id);
       expect(updatedUser.name).to.be.equal(newName);

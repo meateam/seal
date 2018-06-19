@@ -6,7 +6,7 @@ export class UserValidator {
     const user: IUser = await UserService.getById(id);
     if (user) {
       if (user._id === id) {
-        console.log(`${user._id} === ${id}`);
+        // console.log(`id exists! ${user._id}`);
         return true;
       }
     }
