@@ -6,7 +6,7 @@ pipeline {
                 label 'backend-dev'
             }
             when {
-            expression { BRANCH_NAME !==~ /master/ }
+            not { branch 'master' }
             }            
             steps {
                 sh 'sudo service mongod start'
