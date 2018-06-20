@@ -28,7 +28,7 @@ const dev: Config = {
   },
 };
 
-// Change to Production Enviorment
+// Change to Production Environment
 const prod: Config = {
   type : 'prod',
   port: 3000,
