@@ -18,9 +18,7 @@ pipeline {
             agent {
                 label 'backend-prod'
             }
-            when {
-            expression { BRANCH_NAME ==~ /master/ }
-            }
+            when { branch 'master' }
             steps {
                 sh 'sudo service mongod start'
                 sh 'npm install'
