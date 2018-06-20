@@ -13,7 +13,7 @@ const config = {
 };
 
 const newName: string = 'Mr. Nobody';
-const TOTAL_USERS: number = 10;
+const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
 let tempUser: IUser;
 let listener;

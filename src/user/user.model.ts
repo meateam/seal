@@ -1,31 +1,43 @@
-import * as mongoose from 'mongoose';
+import { Schema, model, Document } from 'mongoose';
 import { IUser } from './user.interface';
 
-export const userSchema = new mongoose.Schema({
-  _id:{
-    type: String,
-    required: true,
+export const userSchema = new Schema(
+  {
+    _id: {
+      type: String,
+      required: true,
+    },
+    uniqueID: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    creationDate: {
+      type: Date,
+      required: true,
+    },
+    hierarchy: {
+      type: String,
+      required: true,
+    },
+    rootFolder: {
+      type: String,
+      required: true,
+    },
   },
-  uniqueID:{
-    type: String,
-    required: true,
+  {
+    timestamps: true,
+    id: true,
+    toJSON: {
+      virtuals: true,
+    },
+    toObject: {
+      virtuals: true,
+    },
   },
-  name:{
-    type: String,
-    required: true,
-  },
-  creationDate:{
-    type: Date,
-    required: true,
-  },
-  heirarchy:{
-    type: String,
-    required: true,
-  },
-  rootFolder:{
-    type: String,
-    required: true,
-  },
-});
+);
 
-export const userModel = mongoose.model<IUser>('User', userSchema);
+export const userModel = model<IUser>('User', userSchema);

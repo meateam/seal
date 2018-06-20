@@ -11,9 +11,9 @@ const expect = chai.expect;
 import * as chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 
-const TOTAL_USERS: number = 100;
+const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createUsers(TOTAL_USERS);
-const newName: string = 'shaharTheKing';
+const newName: string = 'shamanTheKing';
 
 let numberOfUsers = TOTAL_USERS;
 
@@ -54,7 +54,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       numberOfUsers--;
       expect(usersReturned).to.have.lengthOf(numberOfUsers);
     });
-    it(`should throw exception when trying to remove a non-existant user`, async () => {
+    it(`should throw exception when trying to remove a non-existent user`, async () => {
       await expect(UserController.deleteById(testUsers[0]._id))
         .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
       testUsers.shift();
@@ -69,8 +69,8 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       const updatedUser: IUser = await UserController.getById(testUsers[0]._id);
       expect(updatedUser.name).to.be.equal(newName);
     });
-    it(`should throw exception when trying to update a non-existant user`, async () => {
-      await expect(UserController.update('non_existant_id', { name: 'ErrorName' }))
+    it(`should throw exception when trying to update a non-existent user`, async () => {
+      await expect(UserController.update('non_existent_id', { name: 'ErrorName' }))
         .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
     });
   });

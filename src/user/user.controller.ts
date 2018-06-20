@@ -9,8 +9,9 @@ import { ERRORS } from '../helpers/enums';
 */
 export class UserController {
   static async getById(id: string) {
-    if (await UserValidator.idExists(id)) {
-      return await UserService.getById(id);
+    const user = await UserService.getById(id);
+    if (user) {
+      return user;
     }
     throw new Error(ERRORS.NOT_EXIST);
   }
@@ -25,8 +26,9 @@ export class UserController {
         throw new Error(ERRORS.BAD_ID);
       }
     }
-    if (await UserValidator.idExists(id)) {
-      return UserService.update(partialUser._id, partialUser);
+    const updatedUser = await UserService.update(partialUser._id, partialUser);
+    if (updatedUser) {
+      return updatedUser;
     }
     throw new Error(ERRORS.NOT_EXIST);
   }
@@ -37,16 +39,14 @@ export class UserController {
 
   static async add(reqUser) {
     const newUser: IUser = new userModel(reqUser);
-    if (!(await UserValidator.idExists(newUser._id))) {
+    try {
       return await UserService.add(newUser);
+    } catch (error) {
+      throw new Error(ERRORS.USER_EXISTS);
     }
-    throw new Error(ERRORS.USER_EXISTS);
   }
 
   static async deleteById(id: string) {
-    if (await UserValidator.idExists(id)) {
-      return UserService.deleteById(id);
-    }
-    throw new Error(`User does not exist`);
+    return UserService.deleteById(id);
   }
 }

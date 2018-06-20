@@ -9,10 +9,9 @@ import { Request, Response, NextFunction, Router } from 'express';
  */
 export const controllerHandler = (promise: Function, params: Function, errorCode: number = 500) => async (req: Request, res: Response, next: NextFunction) => {
   const boundParams = params ? params(req, res, next) : [];
-  console.log(`boundParams : ${boundParams}`);
   try {
     const result = await promise(...boundParams);
-    return res.json(result || { message: 'OK' });
+    return res.json(result);
   } catch (error) {
     if (error.message) {
       error = error.message;

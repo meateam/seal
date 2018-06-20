@@ -15,7 +15,7 @@ export class UserService {
   }
 
   public static update(id: String, newUser: Partial<IUser>) {
-    return userModel.findByIdAndUpdate(id, newUser);
+    return userModel.findByIdAndUpdate(id, newUser, { new : true });
   }
 
   public static getAll() {

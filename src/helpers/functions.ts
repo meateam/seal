@@ -8,7 +8,7 @@ export function createJsonUsers(numUsers: number) {
       _id: 'ID' + i,
       uniqueID: 'uID' + i,
       creationDate: new Date(),
-      heirarchy: 'Aman/Sapir/MadorHaim/' + i,
+      hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
       rootFolder: '/Path/To/Root/Folder' + i,
     };
@@ -24,7 +24,7 @@ export function createUsers(numUsers: number) {
       _id: 10 * numUsers + i,
       uniqueID: 'uID' + i,
       creationDate: new Date(),
-      heirarchy: 'Aman/Sapir/MadorHaim/' + i,
+      hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
       rootFolder: '/Path/To/Root/Folder' + i,
     });
