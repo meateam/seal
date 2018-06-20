@@ -15,18 +15,9 @@ const config = {
 // const TOTAL_USERS: number = 30;
 // const testFiles: IFile[] = createJsonUsers(TOTAL_USERS);
 // let tempUser: IUser;
-let listener;
+// let listener;
 
-describe('Router', () => {
-  before(() => {
-    listener = server.listener;
-  });
-
-  after((done) => {
-    listener.close();
-    done();
-  });
-
+describe('Test Files CRUD', () => {
   // describe('Get all Files', () => {
   //   it('should return an empty collection', async () => {
   //     const allUsers: IFile[] = await fileController.getFiles();
@@ -36,12 +27,12 @@ describe('Router', () => {
 
   describe(`POST new file`, () => {
     it(`Should add a file`, (done) => {
-      chai.request(config.host)
+      chai.request(server.app)
         .post('/api/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('files', 'test/test.html')
+        .attach('file', 'test/test.txt')
         .end((err, res) => {
-          res.should.have.status(200); // 'success' status
+          expect(res.status).to.equal(200); // 'success' status
           done();
         });
     });

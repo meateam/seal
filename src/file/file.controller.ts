@@ -8,6 +8,7 @@ export class fileController {
 
   public static create(files: IFile[]) {
     const services: Promise<IFile>[] = files.map((val) => {
+      console.log('Files sent to create: ' + val);
       return fileService.create(val);
     });
     return Promise.all(services);

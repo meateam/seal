@@ -32,6 +32,7 @@ fileRouter.post('/upload', upload, async (req: express.Request, res: express.Res
     });
 
     try {
+      console.log('Files sent to controller: ' + files);
       const ret = await fileController.create(files);
       return res.send({ message: 'File saved successfully' });
     } catch (err) {

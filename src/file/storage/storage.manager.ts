@@ -5,6 +5,7 @@ const configStorage = multer.diskStorage({
     cb(null, './uploads');
   },
   filename: (req, file, cb) => {
+    // Choose how to save filename in Storage
     cb(null, file.fieldname + '-' + Date.now());
   },
 });
