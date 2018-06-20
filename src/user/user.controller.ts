@@ -2,6 +2,7 @@ import { UserService } from './user.service';
 import { IUser } from './user.interface';
 import { UserValidator } from './user.validator';
 import { userModel } from './user.model';
+import { ERRORS } from '../helpers/enums';
 /*
 * UserService handles the logic of the requests
 * before calling the database
@@ -11,7 +12,7 @@ export class UserController {
     if (await UserValidator.idExists(id)) {
       return await UserService.getById(id);
     }
-    throw new Error('User does not exist');
+    throw new Error(ERRORS.NOT_EXIST);
   }
 
   static getByName(name: String) {
@@ -21,13 +22,13 @@ export class UserController {
   static async update(id: string, partialUser: Partial<IUser>) {
     if (partialUser._id) {
       if (id !== partialUser._id) {
-        throw new Error('User bad id');
+        throw new Error(ERRORS.BAD_ID);
       }
     }
     if (await UserValidator.idExists(id)) {
       return UserService.update(partialUser._id, partialUser);
     }
-    throw new Error('User already exists');
+    throw new Error(ERRORS.NOT_EXIST);
   }
 
   static getAll() {
@@ -39,7 +40,7 @@ export class UserController {
     if (!(await UserValidator.idExists(newUser._id))) {
       return await UserService.add(newUser);
     }
-    throw new Error(`User already exists`);
+    throw new Error(ERRORS.USER_EXISTS);
   }
 
   static async deleteById(id: string) {
@@ -47,9 +48,5 @@ export class UserController {
       return UserService.deleteById(id);
     }
     throw new Error(`User does not exist`);
-  }
-
-  static deleteAll() {
-    return UserService.deleteAll();
   }
 }

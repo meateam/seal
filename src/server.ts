@@ -3,7 +3,7 @@ import * as  bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import { config } from './config';
-import { initRouting } from './helper/routing';
+import { initRouting } from './helpers/routing';
 
 class Server {
   public app: express.Application;

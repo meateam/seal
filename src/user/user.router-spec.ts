@@ -1,8 +1,9 @@
 import * as chaiHttp from 'chai-http';
 import { IUser } from './user.interface';
-import { createJsonUsers } from '../helper/functions';
+import { createJsonUsers } from '../helpers/functions';
 import { server } from '../server';
 import { expect } from 'chai';
+import { userModel } from './user.model';
 
 const chai = require('chai');
 chai.use(chaiHttp);
@@ -20,26 +21,12 @@ let listener;
 describe('Router', () => {
   before(() => {
     listener = server.listener;
+    userModel.remove({}, (err) => { });
   });
 
   after((done) => {
     listener.close();
     done();
-  });
-
-  describe(`DELETE all`, () => {
-    it('should delete all users', (done) => {
-      chai.request(config.host)
-        .delete('/api/user')
-        .end((err, res) => {
-          chai.request(config.host)
-            .get('/api/user')
-            .end((err, res) => {
-              expect(res.body).to.have.length(0);
-              done();
-            });
-        });
-    });
   });
 
   describe(`POST new user`, () => {

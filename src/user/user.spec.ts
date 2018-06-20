@@ -2,15 +2,16 @@ import { IUser } from './user.interface';
 import * as chai from 'chai';
 import * as mongoose from 'mongoose';
 import { UserController } from './user.controller';
-import { createUsers } from '../helper/functions';
+import { createUsers } from '../helpers/functions';
 import { userModel } from './user.model';
 import { config } from '../config';
+import { ERRORS } from '../helpers/enums';
 
 const expect = chai.expect;
 import * as chaiAsPromised from 'chai-as-promised';
 chai.use(chaiAsPromised);
 
-const TOTAL_USERS: number = 10;
+const TOTAL_USERS: number = 100;
 const testUsers: IUser[] = createUsers(TOTAL_USERS);
 const newName: string = 'shaharTheKing';
 
@@ -38,17 +39,25 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       expect(usersReturned).to.not.be.empty;
       expect(usersReturned).to.have.lengthOf(testUsers.length);
     });
+    it(`should throw exception when trying to add new user with existed id`, async () => {
+      await expect(UserController.add(testUsers[0]))
+        .to.eventually.be.rejectedWith(ERRORS.USER_EXISTS);
+    });
   });
 
   describe('#deleteById', () => {
     it('should delete a single user', async () => {
       await UserController.deleteById(testUsers[0]._id);
-      expect(UserController.getById(testUsers[0]._id))
-        .to.eventually.be.rejectedWith('User does not exist');
+      await expect(UserController.getById(testUsers[0]._id))
+        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
       const usersReturned: IUser[] = await UserController.getAll();
       numberOfUsers--;
-      testUsers.shift();
       expect(usersReturned).to.have.lengthOf(numberOfUsers);
+    });
+    it(`should throw exception when trying to remove a non-existant user`, async () => {
+      await expect(UserController.deleteById(testUsers[0]._id))
+        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
+      testUsers.shift();
     });
   });
 
@@ -59,6 +68,10 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       }
       const updatedUser: IUser = await UserController.getById(testUsers[0]._id);
       expect(updatedUser.name).to.be.equal(newName);
+    });
+    it(`should throw exception when trying to update a non-existant user`, async () => {
+      await expect(UserController.update('non_existant_id', { name: 'ErrorName' }))
+        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
     });
   });
 
@@ -71,14 +84,6 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
         expect(users[i].name).to.be.equal(newName);
         expect(users[i]._id).to.be.equal(testUsers[i]._id);
       }
-    });
-  });
-
-  describe('#deleteAll', () => {
-    it.skip('should delete all users from the collection', async () => {
-      await UserController.deleteAll();
-      const result2: IUser[] = await UserController.getAll();
-      expect(result2).to.be.empty;
     });
   });
 

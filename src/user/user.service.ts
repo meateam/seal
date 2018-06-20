@@ -29,9 +29,4 @@ export class UserService {
   public static deleteById(userID: string) {
     return userModel.deleteOne({ _id: userID });
   }
-
-  public static deleteAll() {
-    return userModel.remove({});
-  }
-
 }

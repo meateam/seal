@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-import { userModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 
@@ -40,14 +39,6 @@ userRouter.put('/:id', async (req: Request, res: Response) => {
 userRouter.delete('/:id', async (req: Request, res: Response) => {
   try {
     res.json(await UserController.deleteById(req.params.id));
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
-
-userRouter.delete('/', async (req: Request, res: Response) => {
-  try {
-    res.json(await UserController.deleteAll());
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
