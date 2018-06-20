@@ -6,5 +6,6 @@ export default interface IShare{
   permissions: Permission;
   from: IUser | String;
   to: IUser | String;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

@@ -33,7 +33,7 @@ export const ShareSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-    id: false,
+    id: true,
     toJSON: {
       virtuals: true,
     },
