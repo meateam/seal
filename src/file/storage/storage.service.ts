@@ -1,7 +1,8 @@
 import * as express from 'express';
+import * as fs from 'fs';
 import * as mongoose from 'mongoose';
-import { IFile } from './file.interface';
-import { fileModel } from './file.model';
+import { IFile } from '../file.interface';
+import { fileModel } from '../file.model';
 
 export class storageService {
 
@@ -9,11 +10,12 @@ export class storageService {
 //     return file.save();
 //   }
 
-//   public static delete(fileId: String) {
-//     return fileModel.remove({ _id: fileId });
-//   }
+  public static delete(filePath: fs.PathLike) {
+    return fs.unlink(filePath, (err) => { if (err) throw err; });
+  }
 
   public static update(filePath: String) {
+    // Change filePath in S3 (fileName)
     return filePath;
   }
 

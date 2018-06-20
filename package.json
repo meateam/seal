@@ -6,7 +6,7 @@
   "scripts": {
     "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "set NODE_ENV=testing&& tsc && mocha dist/**/**/*.spec.js --timeout 50000"
   },
   "repository": {
     "type": "git",

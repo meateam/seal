@@ -1,4 +1,5 @@
 type Config = {
+  type : string,
   port: number,
   db: {
     host: string,
@@ -7,7 +8,18 @@ type Config = {
   },
 };
 
+const testing: Config = {
+  type : 'testing',
+  port: 3000,
+  db: {
+    host: 'localhost',
+    port: '27017',
+    name: 'testingDB',
+  },
+};
+
 const dev: Config = {
+  type : 'dev',
   port: 3000,
   db: {
     host: 'localhost',
@@ -18,6 +30,7 @@ const dev: Config = {
 
 // Change to Production Enviorment
 const prod: Config = {
+  type : 'prod',
   port: 3000,
   db: {
     host: 'localhost',
@@ -28,13 +41,15 @@ const prod: Config = {
 
 function getConfig(type: string) {
   switch (type) {
-    case 'dev':
+    case dev.type:
       return dev;
-    case 'prod':
+    case prod.type:
       return prod;
+    case testing.type:
+      return testing;
     default:
       return dev;
   }
 }
 
-export const config = getConfig(process.env.NODE_ENV || 'dev');
+export const config = getConfig(process.env.NODE_ENV || dev.type);

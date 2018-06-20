@@ -13,7 +13,7 @@ const config = {
 
 // const newName: string = 'Mr. Nobody';
 // const TOTAL_USERS: number = 30;
-const testFiles: IFile[] = createJsonUsers(TOTAL_USERS);
+// const testFiles: IFile[] = createJsonUsers(TOTAL_USERS);
 // let tempUser: IUser;
 let listener;
 
@@ -34,12 +34,12 @@ describe('Router', () => {
   //   });
   // });
 
-  describe(`POST new user`, () => {
-    it(`Should add ${testFiles.length} files`, (done) => {
+  describe(`POST new file`, () => {
+    it(`Should add a file`, (done) => {
       chai.request(config.host)
         .post('/api/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('files', testFiles)
+        .attach('files', 'test/test.html')
         .end((err, res) => {
           res.should.have.status(200); // 'success' status
           done();

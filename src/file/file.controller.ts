@@ -25,14 +25,17 @@ export class fileController {
     return fileService.findByDate(from, to);
   }
 
-  public static delete(fileId: String) {
-    // Decide if to save for monitoring purposes
-    return fileService.delete(fileId);
+  public static async delete(fileId: String) {
+    const ret = await fileService.delete(fileId);
+    const currFile: IFile = await fileController.findById(fileId);
+    // Add if not deleted from storage
+    return storageService.delete(currFile.path);
   }
 
   public static async update(fileId: String, file: Partial<IFile>) {
     const ret = await fileService.update(fileId, file);
     const currFile: IFile = await fileController.findById(fileId);
+    // Add if not updated in storage
     return storageService.update(currFile.path);
   }
 }
