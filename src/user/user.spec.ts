@@ -6,6 +6,7 @@ import { createUsers } from '../helpers/functions';
 import { userModel } from './user.model';
 import { config } from '../config';
 import { ERRORS } from '../helpers/enums';
+import { UserValidator as uv } from './user.validator';
 
 const expect = chai.expect;
 import * as chaiAsPromised from 'chai-as-promised';
@@ -20,24 +21,37 @@ let numberOfUsers = TOTAL_USERS;
 before(() => {
   (<any>mongoose).Promise = global.Promise;
   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+});
+
+beforeEach(async () => {
   userModel.remove({}, (err) => { });
+  await Promise.all(testUsers.map(user => UserController.add(user)));
 });
 
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
+  describe('#getById', () => {
+    it(`should return a user by its id`, async () => {
+      const user: IUser = await UserController.getById(testUsers[0]._id);
+      expect(testUsers[0].equals(user)).to.be.true;
+    });
+  });
+
   describe('#getAll', () => {
-    it('should return an empty collection', async () => {
-      const allUsers: IUser[] = await UserController.getAll();
-      expect(allUsers).to.be.empty;
+    it(`should return a collection with ${TOTAL_USERS} users`, async () => {
+      const usersReturned = await UserController.getAll();
+      expect(usersReturned).to.not.be.empty;
+      expect(usersReturned).to.have.lengthOf(testUsers.length);
     });
   });
 
   describe('#add', () => {
-    it(`should add ${TOTAL_USERS} new users to the collection`, async () => {
-      await Promise.all(testUsers.map(user => UserController.add(user)));
+    it(`should add a new user to the collection`, async () => {
+      const user: IUser = createUsers(1)[0];
+      await UserController.add(user);
       const usersReturned = await UserController.getAll();
       expect(usersReturned).to.not.be.empty;
-      expect(usersReturned).to.have.lengthOf(testUsers.length);
+      expect(usersReturned).to.have.lengthOf(testUsers.length + 1);
     });
     it(`should throw exception when trying to add new user with existed id`, async () => {
       await expect(UserController.add(testUsers[0]))
@@ -53,11 +67,6 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       const usersReturned: IUser[] = await UserController.getAll();
       numberOfUsers--;
       expect(usersReturned).to.have.lengthOf(numberOfUsers);
-    });
-    it(`should throw exception when trying to remove a non-existent user`, async () => {
-      await expect(UserController.deleteById(testUsers[0]._id))
-        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
-      testUsers.shift();
     });
   });
 
@@ -77,6 +86,9 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
   describe('#getByName', () => {
     it('should get all users with the same name', async () => {
+      for (let i = 0; i < Math.floor(testUsers.length / 2); i++) {
+        await UserController.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
+      }
       const users: IUser[] = await UserController.getByName(newName);
       users.sort(sortUserBy_id);
       expect(users.length).to.be.equal(Math.floor(testUsers.length / 2));

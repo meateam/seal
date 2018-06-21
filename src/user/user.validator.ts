@@ -17,8 +17,8 @@ export class UserValidator {
       if (partialUser._id === id) {
         return true;
       }
+      return false;
     }
-    return false;
+    return true;
   }
-
 }

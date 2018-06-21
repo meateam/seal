@@ -7,6 +7,7 @@ import { ERRORS } from '../helpers/enums';
 * UserService handles the logic of the requests
 * before calling the database
 */
+const isValidUpdate = UserValidator.isValidUpdate;
 export class UserController {
   static async getById(id: string) {
     const user = await UserService.getById(id);
@@ -21,10 +22,8 @@ export class UserController {
   }
 
   static async update(id: string, partialUser: Partial<IUser>) {
-    if (partialUser._id) {
-      if (id !== partialUser._id) {
-        throw new Error(ERRORS.BAD_ID);
-      }
+    if (!isValidUpdate(id, partialUser)) {
+      throw new Error(ERRORS.BAD_ID);
     }
     const updatedUser = await UserService.update(partialUser._id, partialUser);
     if (updatedUser) {

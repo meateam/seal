@@ -1,5 +1,4 @@
 import { userModel } from '../user/user.model';
-import { IUser } from '../user/user.interface';
 
 export function createJsonUsers(numUsers: number) {
   const testUsers = [];
