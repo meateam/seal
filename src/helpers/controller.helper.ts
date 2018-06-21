@@ -11,7 +11,7 @@ export const controllerHandler = (promise: Function, params: Function, errorCode
   const boundParams = params ? params(req, res, next) : [];
   try {
     const result = await promise(...boundParams);
-    return res.json(result || { message: 'OK' });
+    return res.json(result);
   } catch (error) {
     if (error.message) {
       error = error.message;
