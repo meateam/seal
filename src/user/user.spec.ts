@@ -6,7 +6,6 @@ import { createUsers } from '../helpers/functions';
 import { userModel } from './user.model';
 import { config } from '../config';
 import { ERRORS } from '../helpers/enums';
-import { UserValidator as uv } from './user.validator';
 
 const expect = chai.expect;
 import * as chaiAsPromised from 'chai-as-promised';
