@@ -1,9 +1,11 @@
 import * as express from 'express';
-import * as  bodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
+
 import { config } from './config';
+import { initRouting } from './helpers/routing';
 
 class Server {
   public app: express.Application;
@@ -14,9 +16,13 @@ class Server {
 
   constructor() {
     this.createApplication();
-    this.connectDB();
-    this.initializeRoutes();
+    console.log(process.env.NODE_ENV);
+    if (process.env.NODE_ENV !== 'test') {
+      this.connectDB();
+      this.log();
+    }
     this.configApplication();
+    this.initializeRoutes();
     this.listen();
   }
 
@@ -25,13 +31,16 @@ class Server {
   }
 
   private initializeRoutes() {
-    // Add routers
-    // this.app.use('api')
+    // initRouting(this.app);
+    initRouting(this.app);
   }
 
   private configApplication() {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
+  }
+
+  private log() {
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
 
@@ -42,17 +51,19 @@ class Server {
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {
-      console.log('CONNECTED!');
+      console.log('DB IS CONNECTED!');
     });
   }
 
   private listen() {
-    this.app.listen(config.port, () => {
-      console.log(`Server running on port :${config.port}`);
-    });
+    // Insures you don't run the server twice
+    if (!module.parent) {
+      this.app.listen(config.port, () => {
+        console.log(`Server running on port :${config.port}`);
+      });
+    }
   }
 }
 
-export let server = Server.bootstrap();
-
-console.log('hello world');
+export default new Server().app;
+// export let server = Server.bootstrap();
