@@ -1,5 +1,6 @@
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
+import *as mongoose from 'mongoose';
 
 import IShare from './share.interface';
 import ShareModel from './share.model';
@@ -25,6 +26,15 @@ before(async () => {
 });
 
 describe('Share', () => {
+  beforeEach(async () => {
+    const removeCollectionPromises = [];
+
+    for (const i in mongoose.connection.collections) {
+      removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    }
+
+    await Promise.all(removeCollectionPromises);
+  });
   describe('#getAll()', () => {
     it('Should be empty if there are no shares', async () => {
       const shares = await Share.getAll();
@@ -34,7 +44,7 @@ describe('Share', () => {
   });
   describe('#getById', () => {
     it('Should throw an error if the id does not exist', async () => {
-      await Share.getById(DB_ID_EXAMPLE).should.eventually.be.rejectedWith(Error, 'Cannot find share with ID: ' + DB_ID_EXAMPLE );
+      await Share.getById(DB_ID_EXAMPLE).should.eventually.be.rejectedWith(Error, 'Cannot find share with ID: ' + DB_ID_EXAMPLE);
     });
     it('Should get share by its ID', async () => {
       const newShare = await Share.create(<IShare>SHARE_BASIC);
@@ -66,7 +76,7 @@ describe('Share', () => {
   describe('#updatePermissions', () => {
     it('Should update the user permissions', async () => {
       const share = await Share.create(<IShare>SHARE_BASIC);
-      await Share.updatePermissions(share.id, {read: true});
+      await Share.updatePermissions(share.id, { read: true });
       const updatedShare = await Share.getById(share.id);
       should.exist(updatedShare);
       updatedShare.should.have.property('permissions');
@@ -81,7 +91,7 @@ describe('Share', () => {
       res.should.exist;
       res.should.have.property('ok', 1);
       res.should.have.property('n', 1);
-      await Share.getById(share.id).should.eventually.be.rejectedWith(Error, 'Cannot find share with ID: ' + share.id );
+      await Share.getById(share.id).should.eventually.be.rejectedWith(Error, 'Cannot find share with ID: ' + share.id);
     });
   });
 });

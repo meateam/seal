@@ -17,12 +17,12 @@ const newName: string = 'shamanTheKing';
 
 let numberOfUsers = TOTAL_USERS;
 
-beforeEach(async () => {
-  userModel.remove({}, (err) => { });
-  await Promise.all(testUsers.map(user => UserController.add(user)));
-});
-
 describe(`User Logic`, () => {
+
+  beforeEach(async () => {
+    await userModel.remove({}, (err) => { });
+    await Promise.all(testUsers.map(user => UserController.add(user)));
+  });
 
   describe('#getById', () => {
     it(`should return a user by its id`, async () => {

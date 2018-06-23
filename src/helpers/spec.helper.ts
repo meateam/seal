@@ -35,18 +35,7 @@ export const expectError = async (func: Function, params: any[]) => {
 };
 
 before(async () => {
-  mongoose.connect(process.env.MONGODB_TEST_URI);
-});
-
-beforeEach(async () => {
-
-  const removeCollectionPromises = [];
-
-  for (const i in mongoose.connection.collections) {
-    removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-  }
-
-  await Promise.all(removeCollectionPromises);
+  await mongoose.connect(process.env.MONGODB_TEST_URI);
 });
 
 after((done) => {
