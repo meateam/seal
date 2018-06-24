@@ -1,32 +1,32 @@
-import { userModel } from './user.model';
+/**
+ * UserService handles the calls to the database
+ */
 import { IUser } from './user.interface';
+import { userModel } from './user.model';
 
-/*
-* UserService handles the calls to the database
-*/
 export class UserService {
 
-  public static getById(id: String) {
-    return userModel.findById(id);
+  public static getById(id: String) : Promise<IUser> {
+    return userModel.findById(id).exec();
   }
 
-  public static getByName(name: String) {
-    return userModel.find({ name });
+  public static getByName(name: String) : Promise<IUser[]> {
+    return userModel.find({ name }).exec();
   }
 
-  public static update(id: String, newUser: Partial<IUser>) {
-    return userModel.findByIdAndUpdate(id, newUser, { new : true });
+  public static update(id: String, newUser: Partial<IUser>) : Promise<IUser> {
+    return userModel.findByIdAndUpdate(id, newUser, { new : true }).exec();
   }
 
-  public static getAll() {
-    return userModel.find({});
+  public static getAll() : Promise<IUser[]> {
+    return userModel.find({}).exec();
   }
 
   public static add(newUser: IUser): Promise<IUser> {
     return newUser.save();
   }
 
-  public static deleteById(userID: string) {
-    return userModel.deleteOne({ _id: userID });
+  public static deleteById(userID: string) : Promise<IUser> {
+    return userModel.deleteOne({ _id: userID }).exec();
   }
 }
