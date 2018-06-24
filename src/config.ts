@@ -20,6 +20,16 @@ const testing: Config = {
   storage : './uploadsTEST',
 };
 
+const testing: Config = {
+  type : 'testing',
+  port: 3000,
+  db: {
+    host: 'localhost',
+    port: '27017',
+    name: 'testingDB',
+  },
+};
+
 const dev: Config = {
   type : 'dev',
   port: 3000,

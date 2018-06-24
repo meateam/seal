@@ -6,6 +6,7 @@ import * as path from 'path';
 import * as multer from 'multer';
 import { config } from './config';
 import { fileRouter } from './file/file.router';
+import { initRouting } from './helpers/routing';
 
 class Server {
   public app: express.Application;
@@ -21,6 +22,8 @@ class Server {
     this.configApplication();
     this.initializeRoutes();
     this.listen();
+    this.useDebugging();
+    console.log('Server initialized.');
   }
 
   private createApplication() {
@@ -28,7 +31,8 @@ class Server {
   }
 
   private initializeRoutes() {
-    this.app.use('/api', fileRouter);
+    // this.app.use('/api', fileRouter);
+    initRouting(this.app);
   }
 
   private configApplication() {
@@ -44,11 +48,10 @@ class Server {
   private connectDB() {
     // Connect mongoose to our database
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {
-      console.log('CONNECTED!');
+      console.log(`CONNECTED! to: mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     });
   }
 
@@ -58,8 +61,12 @@ class Server {
       console.log(`Server running on port :${port}`);
     });
   }
+
+  private useDebugging() {
+    console.log('************ YOU ARE IN DEBUG MODE ************');
+    this.app.use(morgan('tiny'));  // 'combined' for more info
+    mongoose.set('debug', true);
+  }
 }
 
 export let server = Server.bootstrap();
-
-console.log('hello world');
