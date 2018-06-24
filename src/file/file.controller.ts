@@ -8,17 +8,17 @@ export class fileController {
 
   public static create(files: IFile[]) {
     const services: Promise<IFile>[] = files.map((val) => {
-      console.log('Files sent to create: ' + val);
+      // console.log('Files sent to create: ' + val);
       return fileService.create(val);
     });
     return Promise.all(services);
   }
 
-  public static getFiles(fieldType?: String, fieldName?: String) {
+  public static getFiles(fieldType?: string, fieldName?: string) {
     return fileService.findFiles(fieldType, fieldName);
   }
 
-  public static findById(fileId: String) {
+  public static findById(fileId: string) {
     return fileService.findById(fileId);
   }
 
@@ -26,17 +26,17 @@ export class fileController {
     return fileService.findByDate(from, to);
   }
 
-  public static async delete(fileId: String) {
-    const ret = await fileService.delete(fileId);
+  public static async delete(fileId: string) {
     const currFile: IFile = await fileController.findById(fileId);
-    // Add if not deleted from storage
+    const ret = await fileService.delete(fileId);
+    // TODO: Add if not deleted from storage
     return storageService.delete(currFile.path);
   }
 
-  public static async update(fileId: String, file: Partial<IFile>) {
+  public static async update(fileId: string, file: Partial<IFile>) {
     const ret = await fileService.update(fileId, file);
     const currFile: IFile = await fileController.findById(fileId);
-    // Add if not updated in storage
+    // TODO: Add if not updated in storage
     return storageService.update(currFile.path);
   }
 }

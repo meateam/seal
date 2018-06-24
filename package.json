@@ -6,11 +6,10 @@
   "scripts": {
     "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
-    //"test": "set NODE_ENV=testing&& tsc && mocha dist/**/**/*.spec.js --timeout 50000",
     "build": "npm run tslint && npm run build-ts",
     "build-ts": "tsc",
     "release": "standard-version",
-    "test": "set NODE_ENV=testing&& mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
+    "test": "set NODE_ENV=testing&& tsc && mocha dist/**/**/*.spec.js --timeout 50000",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": {

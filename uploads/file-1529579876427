@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+
+
+<!-- 
+    © All rights reserved to Shahar Yair, under Sapir unit.
+    Mentors: J&A
+    PortalSnake game in js  
+-->
+
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="styling.css">
+        <title>Snake Shahar</title>
+        <style>
+            canvas {
+                border: 1px solid #d3d3d3;
+                background-color: #f1f1f1;
+                opacity: 0.85;
+                margin-top:100px;
+            }
+        </style>
+        <script src="functionality.js"></script>
+    </head>
+
+    <body onload="init()">
+        <div style="margin-left:29%;">
+        <h2>Score: <span id="score">-----</span></h1>
+            <h3>Current High Score: <span id="curr_high_score"></span></h2>
+        <p></p>
+        <p></p>
+        <h4>Collect the green apples, teleport through the portals and catch the vanishing red superfruits for extra 5 points!</h4>
+        <h4>As you score more points, the speed increases!</h4>
+        <h3><span id="high_score"></span></h2>
+
+        <!-- <input style="margin-top:15px; margin-top:28%" type="button" onclick="take_over()" value="Take Over, Dummy!"> -->
+        </div>
+    </body>
+</html>
+
+

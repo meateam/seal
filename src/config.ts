@@ -6,6 +6,7 @@ type Config = {
     port: string,
     name: string,
   },
+  storage : string,
 };
 
 const testing: Config = {
@@ -16,6 +17,7 @@ const testing: Config = {
     port: '27017',
     name: 'testingDB',
   },
+  storage : './uploadsTEST',
 };
 
 const dev: Config = {
@@ -26,6 +28,7 @@ const dev: Config = {
     port: '27017',
     name: 'devDB',
   },
+  storage : './uploads',
 };
 
 // Change to Production Environment
@@ -37,6 +40,7 @@ const prod: Config = {
     port: '27017',
     name: 'prodDB',
   },
+  storage : './uploads-prod',
 };
 
 function getConfig(type: string) {

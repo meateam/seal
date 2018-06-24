@@ -9,21 +9,23 @@ export class fileService {
     return file.save();
   }
 
-  public static delete(fileId: String) {
+  public static delete(fileId: string) {
     return fileModel.remove({ _id: fileId });
   }
 
-  public static update(fileId: String, file: Partial<IFile>) {
+  public static update(fileId: string, file: Partial<IFile>) {
     return fileModel.findByIdAndUpdate(fileId, file);
   }
 
-  public static findById(fileId: String) {
+  public static findById(fileId: string) {
     return fileModel.findById(fileId);
   }
 
-  public static findFiles(fieldType?: String, fieldValue?: String) {
+  public static findFiles(fieldType?: string, fieldValue?: string) {
+    const condition: {[key: string]: any } = {};
+    condition[fieldType] = fieldValue;
     if (fieldType) {
-      return fileModel.find({ fieldType: fieldValue });
+      return fileModel.find(condition);
     }
     return fileModel.find();
   }

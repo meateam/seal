@@ -15,7 +15,7 @@ export class storageService {
   }
 
   public static update(filePath: String) {
-    // Change filePath in S3 (fileName)
+    // TODO: Change filePath in S3 (fileName)
     return filePath;
   }
 

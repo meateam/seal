@@ -18,7 +18,6 @@ let fileID;
 
 before(async () => {
 
-  // Remove all files from uploadsTEST folder
   const files = await readdir(config.storage);
   const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
   await Promise.all(unlinkPromises);
