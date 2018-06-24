@@ -5,7 +5,6 @@ import * as morgan from 'morgan';
 import * as path from 'path';
 import * as multer from 'multer';
 import { config } from './config';
-import { fileRouter } from './file/file.router';
 import { initRouting } from './helpers/routing';
 
 class Server {
@@ -31,7 +30,6 @@ class Server {
   }
 
   private initializeRoutes() {
-    // this.app.use('/api', fileRouter);
     initRouting(this.app);
   }
 

@@ -9,10 +9,8 @@
     "build": "npm run tslint && npm run build-ts",
     "build-ts": "tsc",
     "release": "standard-version",
-    "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
     "test": "set NODE_ENV=testing&& tsc && mocha dist/**/**/*.spec.js --timeout 50000",
     "test-router": "set NODE_ENV=testing&& tsc && mocha --exit dist/**/**/*-spec.js --timeout 20000",
-    "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": {
