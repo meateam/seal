@@ -13,11 +13,14 @@ const unlink = util.promisify(fs.unlink);
 const chai = require('chai');
 chai.use(chaiHttp);
 
+const NUM_FILES = 3;
+const newName = 'changed.txt';
 // "test": "set NODE_ENV=testing&& mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
 let fileID;
 
 before(async () => {
 
+  // Remove all files from uploadsTEST folder
   const files = await readdir(config.storage);
   const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
   await Promise.all(unlinkPromises);
@@ -37,7 +40,7 @@ describe('Test Files CRUD', () => {
   describe(`POST new file`, () => {
     it(`Should add 3 new files`, (done) => {
       chai.request(server.app)
-        .post('/api/upload')
+        .post('/api/file/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
         .attach('file', 'test/test.txt')
         .attach('file', 'test/test2.txt')
@@ -52,9 +55,9 @@ describe('Test Files CRUD', () => {
   describe('Get all Files', () => {
     it(`Should return all files`, (done) => {
       chai.request(server.app)
-        .get('/api/')
+        .get('/api/file')
         .end((err, res) => {
-          expect(res.body.return).to.have.length(3);
+          expect(res.body.return).to.have.length(NUM_FILES);
           done();
         });
     });
@@ -63,62 +66,72 @@ describe('Test Files CRUD', () => {
   describe('Get Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
       chai.request(server.app)
-        .get('/api/test2.txt?fieldType=fileName')
+        .get('/api/file/test2.txt?fieldType=fileName')
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
-          fileID = res.body.return._id;
-          console.log('---------');
-          console.log(res.body);
+          fileID = res.body.return[0]._id;
           console.log(fileID);
           done();
         });
     });
-    // it(`Should return file with specific ID (test2.txt)`, (done) => {
-    //   chai.request(server.app)
-    //     .get(`/api/${fileID}`)
-    //     .end((err, res) => {
-    //       // console.log(fileID);
-    //       // console.log(res.body.return);
-    //       // expect(res.body.return.fileName).equal('test2.txt');
-    //       expect(res.body.return).to.have.length(1);
-    //       done();
-    //     });
-    // });
+    it(`Should return file with specific ID (test2.txt)`, (done) => {
+      chai.request(server.app)
+        .get(`/api/file/${fileID}`)
+        .end((err, res) => {
+          // console.log(fileID);
+          // console.log(res.body);
+          expect(res.body.return.fileName).equal('test2.txt');
+          // expect(res.body.return).to.have.length(1);
+          done();
+        });
+    });
+    it(`Should return file by Date`, (done) => {
+      chai.request(server.app)
+        .get(`/api/file/Date?toDate=` + Date.now())
+        .end((err, res) => {
+          // console.log(fileID);
+          // console.log(res.body);
+          expect(res.body.return).to.have.length(NUM_FILES);
+          // expect(res.body.return).to.have.length(1);
+          done();
+        });
+    });
   });
 
-  // describe('Get all Files', () => {
-  //   it(`Should return all files`, (done) => {
-  //     chai.request(server.app)
-  //       .get('/api/')
-  //       .end((err, res) => {
-  //         expect(res.body).to.have.length(5); // 'success' status
-  //         done();
-  //       });
-  //   });
-  // });
+  describe('Update file', () => {
+    it('should change a single file name', (done) => {
+      chai.request(server.app)
+        .put(`/api/file/${fileID}`)
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send({ _id: fileID, fileName: newName })
+        .end((err, res) => {
+          chai.request(server.app)
+            .get(`/api/file/${fileID}`)
+            .end((err2, res2) => {
+              expect(res2.body.return.fileName).equal(newName);
+              done();
+            });
+        });
+    });
+  });
 
-//   describe('Add files', () => {
-//     it(`should add ${TOTAL_USERS} new users to the collection`, async () => {
-//       for (let i = 0; i < testUsers.length; i++) {
-//         await UserController.add(testUsers[i]);
-//       }
-//       const usersReturned = await fileController.getAll();
-//       expect(usersReturned).to.not.be.empty;
-//       expect(usersReturned).to.have.lengthOf(testUsers.length);
-//     });
-//   });
-
-//   describe('deleteById', () => {
-//     it('should delete a single user', async () => {
-//       await fileController.deleteById(testUsers[0]._id);
-//       const result: IUser = await fileController.getById(testUsers[0]._id);
-//       const usersReturned: IUser[] = await fileController.getAll();
-//       numberOfUsers--;
-//       testUsers.shift();
-//       expect(result).to.not.exist;
-//       expect(usersReturned).to.have.lengthOf(numberOfUsers);
-//     });
-//   });
+  describe('Delete file by ID', () => {
+    it('should delete a single file', (done) => {
+      chai.request(server.app)
+        .delete(`/api/file/${fileID}`)
+        .end((err, res) => {
+          chai.request(server.app)
+            .get('/api/file')
+            .end((err2, res2) => {
+              expect(res2.body.return).to.have.length(NUM_FILES - 1);
+              for (let i: number = 0; i < NUM_FILES - 1; i++) {
+                expect(res2.body.return[i]._id).to.not.be.equal(fileID);
+              }
+              done();
+            });
+        });
+    });
+  });
 
 //   describe('update', () => {
 //     it(`should update half (${Math.floor(testUsers.length / 2)}) of the names`, async () => {
@@ -140,14 +153,6 @@ describe('Test Files CRUD', () => {
 //         expect(users[i].name).to.be.equal(newName);
 //         expect(users[i]._id).to.be.equal(testUsers[i]._id);
 //       }
-//     });
-//   });
-
-//   describe('deleteAll', () => {
-//     it('should delete all users from the collection', async () => {
-//       await UserController.deleteAll();
-//       const result2: IUser[] = await UserController.getAll();
-//       expect(result2).to.be.empty;
 //     });
 //   });
 });

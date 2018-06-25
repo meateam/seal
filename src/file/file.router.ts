@@ -65,9 +65,9 @@ fileRouter.get('/:fieldValue',
                async (req: express.Request, res: express.Response) => {
                  try {
                    let ret;
-                   if (req.query.fromDate) {
-                     ret = await fileController.findByDate(req.query.fromDate,
-                                                           req.query.toDate);
+                   if (req.query.fromDate || req.query.toDate) {
+                     ret = await fileController.findByDate(new Date(req.query.fromDate),
+                                                           new Date(req.query.toDate));
                    } else if (req.query.fieldType) {
                      ret = await fileController.getFiles(req.query.fieldType,
                                                          req.params.fieldValue);

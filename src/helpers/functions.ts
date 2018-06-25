@@ -1,4 +1,5 @@
 import { userModel } from '../user/user.model';
+import { fileModel } from '../file/file.model';
 
 export function createJsonUsers(numUsers: number) {
   const testUsers = [];
@@ -30,4 +31,21 @@ export function createUsers(numUsers: number) {
     testUsers.push(user);
   }
   return testUsers;
+}
+
+export function createFiles(numFiles: number) {
+  const testFiles = [];
+  for (let i = 0; i < numFiles; i = i + 1) {
+    const file = new fileModel({
+      fileName: 'test-' + i,
+      fileSize: 10 * i,
+      path: 'uploadsTEST\\' + 'test-' + i,
+      fileType: 'txt',
+      createdAt: Date.now(),
+      Owner: 'Owner',
+      Parent: 'Parent',
+    });
+    testFiles.push(file);
+  }
+  return testFiles;
 }

@@ -33,10 +33,13 @@ export class fileService {
   public static findByDate (from?: Date, to?: Date) {
     console.log(from);
     console.log(to);
+    if (from.toString() === 'Invalid Date' && to.toString() === 'Invalid Date') {
+      throw new TypeError('Invalid Date');
+    }
     fileModel.find({
-      creationDate : {
+      createdAt : {
         $gte: from,
-        // $lt: to,
+        $lte: to,
       },
     });
   }
