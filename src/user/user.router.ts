@@ -1,7 +1,10 @@
-import { Router, Request, Response } from 'express';
+/**
+ *
+ */
+import {  Request, Response, Router } from 'express';
+import { controllerHandler } from '../helpers/controller.helper';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
-import { controllerHandler } from '../helpers/controller.helper';
 
 export const userRouter: Router = Router();
 
@@ -18,7 +21,7 @@ userRouter.post('/', async (req: Request, res: Response) => {
 });
 
 userRouter.put('/:id', async (req: Request, res: Response) => {
-  controllerHandler(UserController.update, () => [req.params.id, req.body as Partial<IUser>])(req, res, null);
+  controllerHandler(UserController.update, () => [req.params.id, req.body])(req, res, null);
 });
 
 userRouter.delete('/:id', async (req: Request, res: Response) => {

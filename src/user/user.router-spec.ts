@@ -1,66 +1,68 @@
+/**
+ *
+ */
+import { expect } from 'chai';
 import * as chaiHttp from 'chai-http';
-import { IUser } from './user.interface';
+import { Request, Response, Router } from 'express';
 import { createJsonUsers } from '../helpers/functions';
 import { server } from '../server';
-import { expect } from 'chai';
-import { userModel } from './user.model';
 import { UserController } from './user.controller';
-import { deepEqual } from 'assert';
+import { IUser } from './user.interface';
+import { userModel } from './user.model';
 import { UserValidator as uv } from './user.validator';
 
-const chai = require('chai');
-chai.use(chaiHttp);
+let chai: any;
 
-const config = {
-  host: 'http://localhost:3000',
-};
+const host: string = 'http://localhost:3000';
 
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
-const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
+let testUsers: IUser[];
 let tempUser: IUser;
-let listener;
+let listener: any;
 
 describe('Router', () => {
   before(() => {
+    chai = require('chai');
+    chai.use(chaiHttp);
+    testUsers = createJsonUsers(TOTAL_USERS);
     listener = server.listener;
-    // userModel.remove({}, (err) => { });
   });
 
   beforeEach(async () => {
-    userModel.remove({}, (err) => { });
-    await Promise.all(testUsers.map(user => UserController.add(user)));
+    userModel.remove({}, (err: Error) => { });
+    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
   });
 
-  after((done) => {
+  after((done: any) => {
     listener.close();
     done();
   });
 
-  describe(`GET user`, () => {
-    it(`should get user by its id`, (done) => {
-      chai.request(config.host)
+  describe('GET user', () => {
+    it('should get user by its id', (done: any) => {
+      chai.request(host)
         .get(`/api/user/${testUsers[0]._id}`)
-        .end((err, res) => {
+        .end((err: Error, res: Response) => {
           expect(uv.compareUsers(testUsers[0], res.body)).to.be.true;
           done();
         });
     });
   });
 
-  describe(`POST new user`, () => {
-    it(`should add ${testUsers.length} users`, (done) => {
-      for (let i = 0; i < testUsers.length; i++) {
-        chai.request(config.host)
+  describe('POST new user', () => {
+    it('should add 4 users', (done: any) => {
+      for (let i: number = 0; i < testUsers.length; i++) {
+        chai.request(host)
           .post('/api/user')
           .set('content-type', 'application/x-www-form-urlencoded')
           .send(testUsers[i])
-          .end((err, res) => {
+          .end((err: Error, res: Response) => {
             if (i === testUsers.length - 1) {
-              chai.request(config.host)
+              chai.request(host)
                 .get('/api/user')
-                .end((err, res) => {
-                  expect(res.body).to.have.length(testUsers.length);
+                .end((err2: Error, res2: Response) => {
+                  expect(res2.body).to.have.length(testUsers.length);
                 });
               done();
             }
@@ -69,16 +71,16 @@ describe('Router', () => {
     });
   });
 
-  describe(`PUT`, () => {
-    it(`should change a single user name`, (done) => {
-      chai.request(config.host)
+  describe('PUT', () => {
+    it('should change a single user name', (done: any) => {
+      chai.request(host)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
         .send({ _id: testUsers[0]._id, name: newName })
-        .end((err, res) => {
-          chai.request(config.host)
+        .end((err: Error, res: Response) => {
+          chai.request(host)
             .get(`/api/user/${testUsers[0]._id}`)
-            .end((err, res) => {
+            .end((err2: Error, res2: Response) => {
               expect(res.body.name).to.be.eql(newName);
               done();
             });
@@ -86,19 +88,19 @@ describe('Router', () => {
     });
   });
 
-  describe(`DELETE one`, () => {
-    it('should delete a single user', (done) => {
+  describe('DELETE one', () => {
+    it('should delete a single user', (done: any) => {
       tempUser = testUsers[0];
-      chai.request(config.host)
+      chai.request(host)
         .delete('/api/user/' + testUsers[0]._id)
-        .end((err, res) => {
+        .end((err: Error, res: Response) => {
           testUsers.shift();
-          chai.request(config.host)
+          chai.request(host)
             .get('/api/user')
-            .end((err, res) => {
-              expect(res.body).to.have.length(testUsers.length);
-              for (let i = 0; i < testUsers.length; i++) {
-                expect(res.body[i]._id).to.not.be.equal(tempUser._id);
+            .end((err2: Error, res2: Response) => {
+              expect(res2.body).to.have.length(testUsers.length);
+              for (let i: number = 0; i < testUsers.length; i++) {
+                expect(res2.body[i]._id).to.not.be.equal(tempUser._id);
               }
               done();
             });

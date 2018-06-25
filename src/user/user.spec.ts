@@ -16,7 +16,6 @@ chai.use(chaiAsPromised);
 
 const TOTAL_USERS: number = 4;
 const newName: string = 'shamanTheKing';
-const numberOfUsers: number = TOTAL_USERS;
 let testUsers: IUser[];
 
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
@@ -67,12 +66,12 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       await expect(UserController.getById(testUsers[0]._id))
         .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
       const usersReturned: IUser[] = await UserController.getAll();
-      expect(usersReturned).to.have.lengthOf(numberOfUsers);
+      expect(usersReturned).to.have.lengthOf(TOTAL_USERS - 1);
     });
   });
 
   describe('#update', () => {
-    it(`should update half (${Math.floor(testUsers.length / 2)}) of the names`, async () => {
+    it('should update half of the names', async () => {
       for (let i: number = 0; i < Math.floor(testUsers.length / 2); i++) {
         await UserController.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
       }
