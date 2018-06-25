@@ -10,6 +10,7 @@
     "build-ts": "tsc",
     "release": "standard-version",
     "test": "set NODE_ENV=testing&& tsc && mocha dist/**/**/*.spec.js --timeout 50000",
+    "test-file": "set NODE_ENV=testing&& tsc && mocha dist/file/**/*.spec.js --timeout 50000",
     "test-router": "set NODE_ENV=testing&& tsc && mocha --exit dist/**/**/*-spec.js --timeout 20000",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },

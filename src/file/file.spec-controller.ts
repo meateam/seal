@@ -67,7 +67,9 @@ describe('Test Files CRUD', () => {
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return._id;
-          console.log('------' + res);
+          console.log('---------');
+          console.log(res.body);
+          console.log(fileID);
           done();
         });
     });
