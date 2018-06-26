@@ -36,10 +36,11 @@ export function createUsers(numUsers: number) {
 export function createFiles(numFiles: number) {
   const testFiles = [];
   for (let i = 0; i < numFiles; i = i + 1) {
+    const currName = 'test-' + i + '.txt';
     const file = new fileModel({
-      fileName: 'test-' + i,
+      fileName: currName,
       fileSize: 10 * i,
-      path: 'uploadsTEST\\' + 'test-' + i,
+      path: 'uploadsTEST\\' + currName,
       fileType: 'txt',
       createdAt: Date.now(),
       Owner: 'Owner',
