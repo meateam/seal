@@ -2,16 +2,17 @@
  *
  */
 import * as chai from 'chai';
+import * as chaiAsPromised from 'chai-as-promised';
 import * as mongoose from 'mongoose';
 import { config } from '../config';
-import { ERRORS } from '../helpers/enums';
 import { createUsers } from '../helpers/functions';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
+import * as UserErrors from '../errors/user';
 
 const expect: Chai.ExpectStatic = chai.expect;
-import * as chaiAsPromised from 'chai-as-promised';
+
 chai.use(chaiAsPromised);
 
 const TOTAL_USERS: number = 4;
@@ -55,18 +56,28 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       expect(usersReturned).to.have.lengthOf(testUsers.length + 1);
     });
     it('should throw exception when trying to add new user with existed id', async () => {
-      await expect(UserController.add(testUsers[0]))
-        .to.eventually.be.rejectedWith(ERRORS.USER_EXISTS);
+      try {
+        await UserController.add(testUsers[0]);
+        expect(false).to.be.true;
+      } catch (err) {
+        expect(err).to.be.instanceof(UserErrors.UserExistsError);
+      }
     });
   });
 
   describe('#deleteById', () => {
     it('should delete a single user', async () => {
       await UserController.deleteById(testUsers[0]._id);
-      await expect(UserController.getById(testUsers[0]._id))
-        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
       const usersReturned: IUser[] = await UserController.getAll();
       expect(usersReturned).to.have.lengthOf(TOTAL_USERS - 1);
+    });
+    it('should throw UserNotFoundError for trying to delete non-existent user', async () => {
+      try {
+        await UserController.deleteById('non-existent user');
+        expect(false).to.be.true;
+      } catch (err) {
+        expect(err).to.be.instanceof(UserErrors.UserNotFoundError);
+      }
     });
   });
 
@@ -79,8 +90,13 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
       expect(updatedUser.name).to.be.equal(newName);
     });
     it('should throw exception when trying to update a non-existent user', async () => {
-      await expect(UserController.update('non_existent_id', { name: 'ErrorName' }))
-        .to.eventually.be.rejectedWith(ERRORS.NOT_EXIST);
+      try {
+        await UserController.update('non_existent_id', { name: 'ErrorName' });
+        expect(false).to.be.true;
+      } catch (err) {
+        expect(err).to.be.instanceof(UserErrors.UserNotFoundError);
+      }
+
     });
   });
 
