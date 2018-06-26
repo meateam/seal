@@ -21,8 +21,14 @@ export class fileController {
     return fileService.findById(fileId);
   }
 
-  public static findByDate(from?: Date, to?: Date) {
-    return fileService.findByDate(from, to);
+  public static findByDate(from?: string, to?: string) {
+    let fromDate;
+    let toDate;
+    if (from) fromDate = new Date(from);
+    else fromDate = new Date('0-0-0T00:00:00.000Z');
+    if (to) toDate = new Date(to);
+    else toDate = Date.now();
+    return fileService.findByDate(fromDate, toDate);
   }
 
   public static async delete(fileId: string) {
