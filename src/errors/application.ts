@@ -15,13 +15,13 @@ export class ApplicationError extends Error {
   }
 }
 
-export class UserError extends ApplicationError {
+export class ServerError extends ApplicationError {
   constructor(message?: string, status?: number) {
     super(message || 'Internal Server Error', status || 500);
   }
 }
 
-export class FolderError extends ApplicationError {
+export class ClientError extends ApplicationError {
   constructor(message?: string, status?: number) {
     super(message || 'Internal Server Error', status || 500);
   }

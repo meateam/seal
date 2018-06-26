@@ -1,7 +1,13 @@
 /**
  *
  */
-import { UserError } from './application';
+import { ApplicationError } from './application';
+
+export class UserError extends ApplicationError {
+  constructor(message?: string, status?: number) {
+    super(message || 'Bad user error', status || 400);
+  }
+}
 
 export class UserExistsError extends UserError {
   constructor(message?: string) {
