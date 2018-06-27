@@ -1,10 +1,11 @@
 /**
  *
  */
+import { ServerError } from '../errors/application';
 import { model, Model, Schema } from 'mongoose';
 import { IUser } from './user.interface';
 
-export const userSchema : Schema = new Schema(
+export const userSchema: Schema = new Schema(
   {
     _id: {
       type: String,
@@ -43,4 +44,8 @@ export const userSchema : Schema = new Schema(
   }
 );
 
-export const userModel : Model<IUser> = model<IUser>('User', userSchema);
+userSchema.post('save', (error, doc, next) => {
+  next(new ServerError(error.message));
+});
+
+export const userModel: Model<IUser> = model<IUser>('User', userSchema);

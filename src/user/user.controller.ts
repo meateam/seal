@@ -40,11 +40,7 @@ export class UserController {
 
   public static async add(reqUser: IUser): Promise<IUser> {
     const newUser: IUser = new userModel(reqUser);
-    try {
-      return await UserService.add(newUser);
-    } catch (error) {
-      throw new ServerError(error.message, error.status);
-    }
+    return await UserService.add(newUser);
   }
 
   public static async deleteById(id: string) {
