@@ -10,7 +10,7 @@ export class ApplicationError extends Error {
 
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.message = message || 'Error: Undefined Application Error';
+    this.message = message || 'Undefined Application Error';
     this.status = status || 500;
   }
 }

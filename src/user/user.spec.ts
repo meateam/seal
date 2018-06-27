@@ -3,17 +3,16 @@
  */
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
+import * as UserErrors from '../errors/user';
 import * as mongoose from 'mongoose';
 import { config } from '../config';
 import { createUsers } from '../helpers/functions';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
-import * as UserErrors from '../errors/user';
 import { ServerError } from '../errors/application';
 
 const expect: Chai.ExpectStatic = chai.expect;
-
 chai.use(chaiAsPromised);
 
 const TOTAL_USERS: number = 4;
