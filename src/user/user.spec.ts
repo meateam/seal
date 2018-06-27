@@ -1,5 +1,5 @@
 /**
- *
+ * Test on the user controller.
  */
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';

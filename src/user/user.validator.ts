@@ -1,5 +1,5 @@
 /**
- *
+ * Validation functions used by the user controller.
  */
 import { IUser } from './user.interface';
 import { UserService } from './user.service';

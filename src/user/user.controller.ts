@@ -1,9 +1,9 @@
 /**
- * UserService handles the logic of the requests
- * before calling the database
+ * The middleware between the router and the DB querying.
+ * Handles the logic of the requests.
  */
-import { ServerError } from '../errors/application';
 import * as UserErrors from '../errors/user';
+import { ServerError } from '../errors/application';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
 import { UserService } from './user.service';

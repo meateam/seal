@@ -1,5 +1,5 @@
 /**
- *
+ * Routes the REST API to the controller which takes care of the logic part.
  */
 import {  Request, Response, Router } from 'express';
 import { controllerHandler } from '../helpers/controller.helper';

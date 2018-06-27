@@ -1,5 +1,5 @@
 /**
- *
+ * Tests on the user router.
  */
 import { expect } from 'chai';
 import * as chaiHttp from 'chai-http';

@@ -1,5 +1,5 @@
 /**
- *
+ * The errors that come from the client-side
  */
 import { ClientError } from './application';
 

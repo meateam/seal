@@ -1,5 +1,5 @@
 /**
- *
+ * Helper functions for the tests
  */
 import { IUser } from '../user/user.interface';
 import { userModel } from '../user/user.model';

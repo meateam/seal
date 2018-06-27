@@ -1,6 +1,3 @@
-/**
- *
- */
 import { ServerError } from '../errors/application';
 import { model, Model, Schema } from 'mongoose';
 import { IUser } from './user.interface';
