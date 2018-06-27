@@ -1,9 +1,9 @@
 /**
  *
  */
-import { ApplicationError } from './application';
+import { ClientError } from './application';
 
-export class UserError extends ApplicationError {
+export class UserError extends ClientError {
   constructor(message?: string, status?: number) {
     super(message || 'Bad user error', status || 400);
   }

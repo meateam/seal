@@ -2,12 +2,12 @@
  * UserService handles the logic of the requests
  * before calling the database
  */
+import { ServerError } from '../errors/application';
 import * as UserErrors from '../errors/user';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
 import { UserService } from './user.service';
 import { UserValidator } from './user.validator';
-import { UserError } from '../errors/application';
 
 const isValidUpdate: (id: string, partialUser: Partial<IUser>) => boolean = UserValidator.isValidUpdate;
 export class UserController {
@@ -43,14 +43,14 @@ export class UserController {
     try {
       return await UserService.add(newUser);
     } catch (error) {
-      throw new UserErrors.UserExistsError();
+      throw new ServerError(error.message, error.status);
     }
   }
 
   public static async deleteById(id: string) {
     const res = await UserService.deleteById(id);
     if (!res.ok) {
-      throw new UserError();
+      throw new ServerError();
     } else if (res.n < 1) {
       throw new UserErrors.UserNotFoundError();
     }

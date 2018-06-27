@@ -23,6 +23,6 @@ export class ServerError extends ApplicationError {
 
 export class ClientError extends ApplicationError {
   constructor(message?: string, status?: number) {
-    super(message || 'Internal Server Error', status || 500);
+    super(message || 'Client Side Error', status || 400);
   }
 }

@@ -24,6 +24,6 @@ async (req: Request, res: Response, next: NextFunction) : Promise<Request> => {
     }
     error += '';
 
-    return res.status(errorCode).send(error);
+    return res.status(error.status).send(error);
   }
 };

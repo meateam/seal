@@ -10,6 +10,7 @@ import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { userModel } from './user.model';
 import * as UserErrors from '../errors/user';
+import { ServerError } from '../errors/application';
 
 const expect: Chai.ExpectStatic = chai.expect;
 
@@ -22,6 +23,7 @@ let testUsers: IUser[];
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
   before(() => {
+
     testUsers = createUsers(TOTAL_USERS);
     (<any>mongoose).Promise = global.Promise;
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
@@ -60,7 +62,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
         await UserController.add(testUsers[0]);
         expect(false).to.be.true;
       } catch (err) {
-        expect(err).to.be.instanceof(UserErrors.UserExistsError);
+        expect(err).to.be.instanceof(ServerError);
       }
     });
   });
