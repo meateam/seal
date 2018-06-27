@@ -66,9 +66,6 @@ fileRouter.get('/:fieldValue',
                  try {
                    let ret;
                    if (req.query.fromDate || req.query.toDate) {
-                     console.log('From query');
-                     console.log(req.query.fromDate);
-                     console.log(req.query.toDate);
                      ret = await fileController.findByDate(req.query.fromDate,
                                                            req.query.toDate);
                    } else if (req.query.fieldType) {
