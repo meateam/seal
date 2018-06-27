@@ -46,7 +46,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
       if (err) {
         console.error(err);
       } else {
-        console.log('Files added to Folder');
+        // console.log('Files added to Folder');
       }
     });
   });
@@ -80,6 +80,26 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     it('Should return a file by its id', async () => {
       const file: IFile = await fileController.findById(testFiles[0]._id);
       expect(testFiles[0].equals(file)).to.be.true;
+    });
+  });
+
+  describe('#getByDate', () => {
+    it('Should get all files that were created before now', async () => {
+      const toDate = new Date(Date.now());
+      const ret = await fileController.findByDate(null, toDate.toISOString());
+      expect(ret.length).to.be.equal(TOTAL_FILES);
+    });
+    it('Should return that were created from now', async () => {
+      const fromDate = new Date(Date.now());
+      const ret = await fileController.findByDate(fromDate.toISOString());
+      expect(ret.length).to.be.equal(0);
+    });
+    it('Should get all files created between yesterday and today', async () => {
+      const fromDate = new Date();
+      fromDate.setDate(fromDate.getDate() - 1);
+      const toDate = new Date(Date.now());
+      const ret = await fileController.findByDate(fromDate.toISOString(), toDate.toISOString());
+      expect(ret.length).to.be.equal(TOTAL_FILES);
     });
   });
 

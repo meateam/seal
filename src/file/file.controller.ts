@@ -24,8 +24,9 @@ export class fileController {
   public static findByDate(from?: string, to?: string) {
     let fromDate;
     let toDate;
+    // console.log(to);
     if (from) fromDate = new Date(from);
-    else fromDate = new Date('0-0-0T00:00:00.000Z');
+    else fromDate = new Date('0000000000000');
     if (to) toDate = new Date(to);
     else toDate = Date.now();
     return fileService.findByDate(fromDate, toDate);
