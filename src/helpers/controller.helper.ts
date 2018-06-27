@@ -16,14 +16,8 @@ async (req: Request, res: Response, next: NextFunction) : Promise<Request> => {
   const boundParams : any = params ? params(req, res, next) : [];
   try {
     const result : any = await promise(...boundParams);
-
     return res.json(result);
   } catch (error) {
-    if (error.message) {
-      error = error.message;
-    }
-    error += '';
-
-    return res.status(error.status).send(error);
+    return res.status(error.status).send(error.message + '');
   }
 };
