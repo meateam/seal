@@ -13,7 +13,6 @@ export let fileRouter: express.Router = express.Router();
 // });
 
 fileRouter.post('/upload', upload, async (req: express.Request, res: express.Response) => {
-  // console.log(req.files);
   if (!req.files) {
     res.status(400).send({ message: 'Files cannot be empty' });
   } else {
@@ -32,9 +31,7 @@ fileRouter.post('/upload', upload, async (req: express.Request, res: express.Res
     });
 
     try {
-      // console.log('Files sent to controller: ' + files);
       const ret = await fileController.create(files);
-      // console.log('Saved files: ' + ret);
       return res.send({ message: 'File saved successfully' });
     } catch (err) {
       console.log(err.message);

@@ -39,7 +39,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     await Promise.all(removeCollectionPromises);
 
     // Create files
-    const ret = await fileController.create(testFiles);
+    await fileController.create(testFiles);
 
     // TODO: Add all files to uploadsTEST folder
     fs.copy('./test', './uploadsTEST', (err) => {
