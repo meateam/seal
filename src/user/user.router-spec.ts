@@ -30,7 +30,7 @@ describe('Router', () => {
   });
 
   beforeEach(async () => {
-    userModel.remove({}, (err: Error) => { });
+    await userModel.remove({}, (err: Error) => { });
     await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
   });
 
