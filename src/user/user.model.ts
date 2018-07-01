@@ -43,7 +43,6 @@ export const userSchema: Schema = new Schema(
 );
 
 userSchema.post('save', (error, doc, next) => {
-  console.log(error);
   next(new ServerError(error.message));
 });
 
