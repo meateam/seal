@@ -44,6 +44,7 @@ export class UserController {
     try {
       return await UserService.add(newUser);
     } catch (error) {
+      // console.log(error);
       throw new Error(ERRORS.USER_EXISTS);
     }
   }

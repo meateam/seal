@@ -17,6 +17,7 @@
     "mocha-unneeded-done" : false,
     "no-require-imports" : false,
     "prefer-template" : false,
-    "no-http-string" : false
+    "no-http-string" : false,
+    "insecure-random" : false
   }
 }
