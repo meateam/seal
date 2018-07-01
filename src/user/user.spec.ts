@@ -29,7 +29,7 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   });
 
   beforeEach(async () => {
-    userModel.remove({}, (err: Error) => { });
+    await userModel.remove({}, (err: Error) => { });
     await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
   });
 
