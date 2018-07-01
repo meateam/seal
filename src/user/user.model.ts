@@ -10,6 +10,7 @@ export const userSchema: Schema = new Schema(
     },
     uniqueID: {
       type: String,
+      unique: true,
       required: true
     },
     name: {
