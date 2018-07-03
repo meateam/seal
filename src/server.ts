@@ -23,7 +23,7 @@ class Server {
     console.log('Server initialized.');
   }
 
-  public static BOOTSTRAP(): Server {
+  public static bootstrap(): Server {
     return new Server();
   }
 
@@ -65,4 +65,4 @@ class Server {
 
 }
 
-export let server : Server = Server.BOOTSTRAP();
+export let server : Server = Server.bootstrap();
