@@ -1,4 +1,5 @@
 import { userModel } from '../user/user.model';
+import { folderModel } from '../folder/folder.model';
 
 export function createJsonUsers(numUsers: number) {
   const testUsers = [];
@@ -30,4 +31,18 @@ export function createUsers(numUsers: number) {
     testUsers.push(user);
   }
   return testUsers;
+}
+
+export function createFolders(numFolders: number) {
+  const testFolders = [];
+  for (let i = 0; i < numFolders; i++) {
+    const folder = new folderModel({
+      name: 'FN_' + (10 * numFolders + i),
+      parent: 'FP_' + (10 * numFolders + i - 1),
+      files: [],
+      folders: [],
+    });
+    testFolders.push(folder);
+  }
+  return testFolders;
 }
