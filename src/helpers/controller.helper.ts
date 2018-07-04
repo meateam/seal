@@ -1,4 +1,7 @@
-import { Request, Response, NextFunction, Router } from 'express';
+/**
+ *
+ */
+import { NextFunction, Request, Response } from 'express';
 
 /**
  * Handles controller execution and responds to user (API Express version).
@@ -7,16 +10,14 @@ import { Request, Response, NextFunction, Router } from 'express';
  * @param params A function (req, res, next), all of which are optional
  * that maps our desired controller parameters. I.e. (req) => [req.params.username, ...].
  */
-export const controllerHandler = (promise: Function, params: Function, errorCode: number = 500) => async (req: Request, res: Response, next: NextFunction) => {
-  const boundParams = params ? params(req, res, next) : [];
+export const controllerHandler : any =
+(promise: Function, params: Function, errorCode: number = 500) : any =>
+async (req: Request, res: Response, next: NextFunction) : Promise<Request> => {
+  const boundParams : any = params ? params(req, res, next) : [];
   try {
-    const result = await promise(...boundParams);
+    const result : any = await promise(...boundParams);
     return res.json(result);
   } catch (error) {
-    if (error.message) {
-      error = error.message;
-    }
-    error += '';
-    return res.status(errorCode).send(error);
+    return res.status(error.status).send(error.message + '');
   }
 };
