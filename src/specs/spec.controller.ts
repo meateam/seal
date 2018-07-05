@@ -32,6 +32,14 @@ function runTests(controller: UserController) {
       });
     });
 
+    describe('#getAll', () => {
+      it(`should return a collection with ${TEST_ITEMS} items`, async () => {
+        const itemsReturned = await controller.getAll();
+        expect(itemsReturned).to.not.be.empty;
+        expect(itemsReturned).to.have.lengthOf(testItems.length);
+      });
+    });
+
     after((done: any) => {
       mongoose.disconnect();
       done();
