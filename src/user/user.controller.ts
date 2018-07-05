@@ -11,13 +11,16 @@ import { UserService } from './user.service';
 import { UserValidator } from './user.validator';
 import { EntityTypes } from '../helpers/enums';
 import { createUsers } from '../helpers/functions';
+import { Controller } from '../helpers/generic.controller';
 
 const isValidUpdate: (id: string, partialUser: Partial<IUser>) => boolean = UserValidator.isValidUpdate;
-export class UserController {
+
+export class UserController extends Controller<IUser> {
   public controllerType: EntityTypes;
-  public model : Model<IUser>;
+  public model: Model<IUser>;
 
   constructor() {
+    super();
     this.controllerType = EntityTypes.USER;
     this.model = userModel;
   }
@@ -28,6 +31,10 @@ export class UserController {
       return user;
     }
     throw new UserErrors.UserNotFoundError();
+  }
+
+  public getAll(): Promise<IUser[]> {
+    return UserService.getAll();
   }
 
   public getByName(name: String): Promise<IUser[]> {
@@ -45,16 +52,12 @@ export class UserController {
     throw new UserErrors.UserNotFoundError();
   }
 
-  public getAll(): Promise<IUser[]> {
-    return UserService.getAll();
-  }
-
   public async add(reqUser: IUser): Promise<IUser> {
     const newUser: IUser = new userModel(reqUser);
     return await UserService.add(newUser);
   }
 
-  public async deleteById(id: string) {
+  public async deleteById(id: string): Promise<any> {
     const res = await UserService.deleteById(id);
     if (!res.ok) {
       throw new ServerError();

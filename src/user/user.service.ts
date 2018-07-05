@@ -26,7 +26,7 @@ export class UserService {
     return newUser.save();
   }
 
-  public static deleteById(userID: string) {
+  public static deleteById(userID: string): Promise<any> {
     return userModel.deleteOne({ _id: userID }).exec();
   }
 }
