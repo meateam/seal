@@ -5,12 +5,13 @@ import { config } from '../config';
 import { EntityTypes } from '../helpers/enums';
 import { EntityConfig, user_entity } from './entity_config';
 import { UserController } from '../user/user.controller';
-import { ServerError } from '../errors/application';
+import { ServerError, ClientError } from '../errors/application';
 
 const expect: Chai.ExpectStatic = chai.expect;
 const TOTAL_ITEMS = 4;
 const ctr = new UserController();
 runTests(ctr);
+
 function runTests(controller: UserController) {
   let testItems;
   describe(`Test type ${controller.controllerType}`, () => {
@@ -64,6 +65,42 @@ function runTests(controller: UserController) {
         await controller.deleteById(testItems[0]._id);
         const usersReturned = await controller.getAll();
         expect(usersReturned).to.have.lengthOf(TOTAL_ITEMS - 1);
+      });
+      it('should throw UserNotFoundError for trying to delete non-existent user', async () => {
+        try {
+          await controller.deleteById('non-existent user');
+          expect(false).to.be.true;
+        } catch (err) {
+          expect(err).to.be.instanceof(ClientError);
+          expect(err.status).to.be.equal(404);
+        }
+      });
+    });
+
+    describe('#update', () => {
+      it('should update the name of the item', async () => {
+        await controller.update(testItems[0]._id, { _id: testItems[0]._id, name: 'newName' });
+        const updatedUser = await controller.getById(testItems[0]._id);
+        expect(updatedUser.name).to.be.equal('newName');
+      });
+      it('should throw exception when trying to update a non-existent item', async () => {
+        try {
+          await controller.update('non_existent_id', { name: 'ErrorName' });
+          expect(false).to.be.true;
+        } catch (err) {
+          expect(err).to.be.instanceof(ClientError);
+          expect(err.status).to.be.equal(404);
+        }
+      });
+      it('should throw exception when trying to update a wrong item', async () => {
+        try {
+          await controller.update('non_existent_id', { _id: 'badId', name: 'ErrorName' });
+          expect(false).to.be.true;
+        } catch (err) {
+          expect(err).to.be.instanceof(ClientError);
+          expect(err.status).to.be.equal(422);
+        }
+
       });
     });
 
