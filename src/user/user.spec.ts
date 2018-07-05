@@ -18,6 +18,7 @@ chai.use(chaiAsPromised);
 const TOTAL_USERS: number = 4;
 const newName: string = 'shamanTheKing';
 let testUsers: IUser[];
+const controller = new UserController();
 
 describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
@@ -30,19 +31,19 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
   beforeEach(async () => {
     await userModel.remove({}, (err: Error) => { });
-    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
+    await Promise.all(testUsers.map((user: IUser) => controller.add(user)));
   });
 
   describe('#getById', () => {
     it('should return a user by its id', async () => {
-      const user: IUser = await UserController.getById(testUsers[0]._id);
+      const user: IUser = await controller.getById(testUsers[0]._id);
       expect(testUsers[0].equals(user)).to.be.true;
     });
   });
 
   describe('#getAll', () => {
     it(`should return a collection with ${TOTAL_USERS} users`, async () => {
-      const usersReturned: IUser[] = await UserController.getAll();
+      const usersReturned: IUser[] = await controller.getAll();
       expect(usersReturned).to.not.be.empty;
       expect(usersReturned).to.have.lengthOf(testUsers.length);
     });
@@ -51,14 +52,14 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   describe('#add', () => {
     it('should add a new user to the collection', async () => {
       const user: IUser = createUsers(1)[0];
-      await UserController.add(user);
-      const usersReturned: IUser[] = await UserController.getAll();
+      await controller.add(user);
+      const usersReturned: IUser[] = await controller.getAll();
       expect(usersReturned).to.not.be.empty;
       expect(usersReturned).to.have.lengthOf(testUsers.length + 1);
     });
     it('should throw exception when trying to add new user with existed id', async () => {
       try {
-        await UserController.add(testUsers[0]);
+        await controller.add(testUsers[0]);
         expect(false).to.be.true;
       } catch (err) {
         expect(err).to.be.instanceof(ServerError);
@@ -68,13 +69,13 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
 
   describe('#deleteById', () => {
     it('should delete a single user', async () => {
-      await UserController.deleteById(testUsers[0]._id);
-      const usersReturned: IUser[] = await UserController.getAll();
+      await controller.deleteById(testUsers[0]._id);
+      const usersReturned: IUser[] = await controller.getAll();
       expect(usersReturned).to.have.lengthOf(TOTAL_USERS - 1);
     });
     it('should throw UserNotFoundError for trying to delete non-existent user', async () => {
       try {
-        await UserController.deleteById('non-existent user');
+        await controller.deleteById('non-existent user');
         expect(false).to.be.true;
       } catch (err) {
         expect(err).to.be.instanceof(UserErrors.UserNotFoundError);
@@ -85,14 +86,14 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   describe('#update', () => {
     it('should update half of the names', async () => {
       for (let i: number = 0; i < Math.floor(testUsers.length / 2); i++) {
-        await UserController.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
+        await controller.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
       }
-      const updatedUser: IUser = await UserController.getById(testUsers[0]._id);
+      const updatedUser: IUser = await controller.getById(testUsers[0]._id);
       expect(updatedUser.name).to.be.equal(newName);
     });
     it('should throw exception when trying to update a non-existent user', async () => {
       try {
-        await UserController.update('non_existent_id', { name: 'ErrorName' });
+        await controller.update('non_existent_id', { name: 'ErrorName' });
         expect(false).to.be.true;
       } catch (err) {
         expect(err).to.be.instanceof(UserErrors.UserNotFoundError);
@@ -104,9 +105,9 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
   describe('#getByName', () => {
     it('should get all users with the same name', async () => {
       for (let i: number = 0; i < Math.floor(testUsers.length / 2); i++) {
-        await UserController.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
+        await controller.update(testUsers[i]._id, { _id: testUsers[i]._id, name: newName });
       }
-      const users: IUser[] = await UserController.getByName(newName);
+      const users: IUser[] = await controller.getByName(newName);
       users.sort(sortUserBy_id);
       expect(users.length).to.be.equal(Math.floor(testUsers.length / 2));
       for (let i: number = 0; i < users.length; i++) {

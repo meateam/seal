@@ -20,6 +20,7 @@ const TOTAL_USERS: number = 4;
 let testUsers: IUser[];
 let tempUser: IUser;
 let listener: any;
+const controller = new UserController();
 
 describe('Router', () => {
   before(() => {
@@ -31,7 +32,7 @@ describe('Router', () => {
 
   beforeEach(async () => {
     await userModel.remove({}, (err: Error) => { });
-    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
+    await Promise.all(testUsers.map((user: IUser) => controller.add(user)));
   });
 
   after((done: any) => {

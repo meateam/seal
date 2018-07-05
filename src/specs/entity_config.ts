@@ -1,11 +1,16 @@
 import { EntityTypes } from '../helpers/enums';
+import { IUser } from '../user/user.interface';
+import { UserController } from '../user/user.controller';
+import { createUsers } from '../helpers/functions';
 
-type EntityConfig = {
+export type EntityConfig = {
   type: EntityTypes;
-  port: number;
-  db: {
-    host: string;
-    port: string;
-    name: string;
-  };
+  controller: any;
+  creator: any;
+};
+
+export const user_entity : EntityConfig = {
+  type: EntityTypes.USER,
+  controller: UserController,
+  creator: createUsers,
 };

@@ -1,6 +1,6 @@
 export enum EntityTypes {
-    USER,
-    FOLDER,
-    FILE,
-    SHARE
+    USER = 'User',
+    FOLDER = 'Folder',
+    FILE = 'File',
+    SHARE = 'Share'
 }
