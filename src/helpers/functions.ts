@@ -1,5 +1,7 @@
 import { userModel } from '../user/user.model';
 import { fileModel } from '../file/file.model';
+import * as fs from 'fs-extra';
+import { config } from '../config';
 
 export function createJsonUsers(numUsers: number) {
   const testUsers = [];
@@ -34,6 +36,9 @@ export function createUsers(numUsers: number) {
 }
 
 export function createFiles(numFiles: number) {
+  fs.ensureDir(`${config.storage}`, (err) => {
+    if (err) throw err;
+  });
   const testFiles = [];
   for (let i = 0; i < numFiles; i = i + 1) {
     const currName = 'test-' + i + '.txt';
@@ -47,6 +52,29 @@ export function createFiles(numFiles: number) {
       Parent: 'Parent',
     });
     testFiles.push(file);
+    createFile(file.fileName);
   }
   return testFiles;
+}
+
+function createFile(fileName: string) {
+  // Change the content of the file as you want
+  const fileContent = 'Hello World!';
+
+  // The absolute path of the new file with its name
+  const filepath = 'uploadsTEST/' + fileName;
+
+  fs.writeFile(filepath, fileContent, (err) => {
+    if (err) throw err;
+    // console.log('The file was succesfully saved!');
+  });
+}
+
+async function createFolder(directory) {
+  try {
+    await fs.ensureDir(directory);
+    console.log('success!');
+  } catch (err) {
+    console.error(err);
+  }
 }

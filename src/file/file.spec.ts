@@ -11,8 +11,8 @@ import { fileController } from './file.controller';
 import { IFile } from './file.interface';
 import { fileModel } from './file.model';
 
-const readdir = util.promisify(fs.readdir);
-const unlink = util.promisify(fs.unlink);
+// const readdir = util.promisify(fs.readdir);
+// const unlink = util.promisify(fs.unlink);
 const expect: Chai.ExpectStatic = chai.expect;
 chai.use(chaiAsPromised);
 
@@ -23,58 +23,51 @@ let testFiles: IFile[];
 describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
   before(async () => {
-    testFiles = createFiles(TOTAL_FILES);
     (<any>mongoose).Promise = global.Promise;
     mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 
-    // Remove all files from uploadsTEST folder
-    const files = await readdir(config.storage);
-    const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
-    await Promise.all(unlinkPromises);
+    // Remove uploadsTEST folder
+    // const files = await readdir(config.storage);
+    // const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
+    // await Promise.all(unlinkPromises);
+    // await fs.remove(`${config.storage}`);
 
+    // // Remove files from DB
+    // const removeCollectionPromises = [];
+    // for (const i in mongoose.connection.collections) {
+    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    // }
+    // await Promise.all(removeCollectionPromises);
+
+    // // Create files in Folder and DB
+    // testFiles = createFiles(TOTAL_FILES);
+    // await fileController.create(testFiles);
+
+    // TODO: Add all files to uploadsTEST folder
+    // fs.copy('./test', './uploadsTEST', (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     // console.log('Files added to Folder');
+    //   }
+    // });
+  });
+
+  beforeEach(async () => {
+    // Remove uploadsTEST folder
+    await fs.remove(`${config.storage}`);
+
+    // Remove files from DB
     const removeCollectionPromises = [];
     for (const i in mongoose.connection.collections) {
       removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
     }
     await Promise.all(removeCollectionPromises);
 
-    // Create files
+    // Create files in Folder and DB
+    testFiles = createFiles(TOTAL_FILES);
     await fileController.create(testFiles);
-
-    // TODO: Add all files to uploadsTEST folder
-    fs.copy('./test', './uploadsTEST', (err) => {
-      if (err) {
-        console.error(err);
-      } else {
-        // console.log('Files added to Folder');
-      }
-    });
   });
-
-  // beforeEach(async () => {
-
-  //   // Remove all files from uploadsTEST folder
-  //   const files = await readdir(config.storage);
-  //   const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
-  //   await Promise.all(unlinkPromises);
-
-  //   // Remove all files from DB
-  //   fileModel.remove({}, (err: Error) => { });
-
-  //   // Create files
-  //   const ret = await fileController.create(testFiles);
-  //   console.log('Saved files:');
-  //   console.log(ret);
-
-  //   // TODO: Add all files to uploadsTEST folder
-  //   fs.copy('./test', './uploadsTEST', (err) => {
-  //     if (err) {
-  //       console.error(err);
-  //     } else {
-  //       console.log('Files added to Folder');
-  //     }
-  //   });
-  // });
 
   describe('#getById', () => {
     it('Should return a file by its id', async () => {
@@ -127,6 +120,10 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
   describe('#getByName', () => {
     it('Should get all files with the same name', async () => {
+      // Change all the files names to the same name
+      for (let i: number = 0; i < testFiles.length; i++) {
+        await fileController.update(testFiles[i]._id, { _id: testFiles[i]._id, fileName: newName });
+      }
       const files: IFile[] = await fileController.getFiles(newName);
       expect(files.length).to.be.equal(testFiles.length);
       for (let i: number = 0; i < files.length; i++) {
@@ -148,7 +145,6 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
       })];
       await fileController.create(file);
       const filesReturned: IFile[] = await fileController.getFiles();
-      expect(filesReturned).to.not.be.empty;
       expect(filesReturned).to.have.lengthOf(testFiles.length + 1);
     });
   });
@@ -158,11 +154,12 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
       const filesReturned: IFile[] = await fileController.getFiles();
-      expect(filesReturned).to.have.lengthOf(TOTAL_FILES);
+      expect(filesReturned).to.have.lengthOf(TOTAL_FILES - 1);
     });
   });
 
   after((done: any) => {
+    fs.remove(`${config.storage}`);
     mongoose.disconnect();
     done();
   });
