@@ -6,11 +6,14 @@ import { storageService } from './storage/storage.service';
 
 export class fileController {
 
-  public static create(files: IFile[]) {
+  public static async create(files: IFile[]) {
     const services: Promise<IFile>[] = files.map((val) => {
       return fileService.create(val);
     });
-    return Promise.all(services);
+    const ret = await Promise.all(services);
+    console.log('ret promise all:');
+    console.log(ret);
+    return ret;
   }
 
   public static getFiles(fieldType?: string, fieldName?: string) {

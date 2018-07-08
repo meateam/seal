@@ -1,5 +1,5 @@
 import * as chaiHttp from 'chai-http';
-import * as fs from 'fs';
+import * as fs from 'node-fs-extra';
 import * as util from 'util';
 import { fileModel } from './file.model';
 import { IFile } from './file.interface';
@@ -7,9 +7,9 @@ import * as mongoose from 'mongoose';
 import { expect } from 'chai';
 import { server } from '../server';
 import { config } from '../config';
+import { createFiles } from '../helpers/functions';
+import { fileController } from './file.controller';
 
-const readdir = util.promisify(fs.readdir);
-const unlink = util.promisify(fs.unlink);
 const chai = require('chai');
 chai.use(chaiHttp);
 
@@ -17,40 +17,62 @@ const NUM_FILES = 3;
 const newName = 'changed.txt';
 // "test": "set NODE_ENV=testing&& mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
 let fileID;
+let testFiles: IFile[];
 
-before(async () => {
+describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
-  // Remove all files from uploadsTEST folder
-  const files = await readdir(config.storage);
-  const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
-  await Promise.all(unlinkPromises);
+  before(async () => {
+    // Create files in Folder
+    testFiles = createFiles(NUM_FILES);
 
-  // Remove all files from DB
-  const removeCollectionPromises = [];
+    // Remove files from DB
+    const removeCollectionPromises = [];
+    for (const i in mongoose.connection.collections) {
+      removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    }
+    await Promise.all(removeCollectionPromises);
+    // await fileModel.remove({}, (err: Error) => {});
 
-  for (const i in mongoose.connection.collections) {
-    removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-  }
-
-  await Promise.all(removeCollectionPromises);
-});
-
-describe('Test Files CRUD', () => {
-    // TODO : Add test multiple files
-  describe(`POST new file`, () => {
-    it(`Should add 3 new files`, (done) => {
-      chai.request(server.app)
-        .post('/api/file/upload')
-        .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('file', 'test/test-0.txt')
-        .attach('file', 'test/test-1.txt')
-        .attach('file', 'test/test-2.txt')
-        .end((err, res) => {
-          expect(res.status).to.equal(200); // 'success' status
-          done();
-        });
-    });
+    // Create files in DB
+    const files = await fileController.create(testFiles);
+    // console.log('ret:');
+    // console.log(files);
+    fileID = files[0]._id;
   });
+
+  beforeEach(async () => {
+    // Remove files from DB
+    // const removeCollectionPromises = [];
+    // for (const i in mongoose.connection.collections) {
+    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    // }
+    // await Promise.all(removeCollectionPromises);
+    // await fileModel.remove({}, (err: Error) => {});
+
+    // Create files in DB
+    // const files = await fileController.create(testFiles);
+    // console.log('ret:');
+    // console.log(await fileController.getFiles());
+    // console.log('ret:');
+    // console.log(files);
+    // fileID = files[0]._id;
+  });
+
+  // TODO : Add test multiple files
+  // describe(`POST new file`, () => {
+  //   it(`Should add 3 new files`, (done) => {
+  //     chai.request(server.app)
+  //       .post('/api/file/upload')
+  //       .set('content-type', 'application/x-www-form-urlencoded')
+  //       .attach('file', `${config.storage}/test-0.txt`)
+  //       .attach('file', `${config.storage}/test-1.txt`)
+  //       .attach('file', `${config.storage}/test-2.txt`)
+  //       .end((err, res) => {
+  //         expect(res.status).to.equal(200); // 'success' status
+  //         done();
+  //       });
+  //   });
+  // });
 
   describe('Get all Files', () => {
     it(`Should return all files`, (done) => {
@@ -68,17 +90,19 @@ describe('Test Files CRUD', () => {
       chai.request(server.app)
         .get('/api/file/test-2.txt?fieldType=fileName')
         .end((err, res) => {
+          console.log(res.body);
           expect(res.body.return).to.have.length(1);
-          fileID = res.body.return[0]._id;
-          console.log(fileID);
+          // fileID = res.body.return[0]._id;
+          // console.log(fileID);
           done();
         });
     });
-    it(`Should return file with specific ID (test2.txt)`, (done) => {
+    it(`Should return file with specific ID (test0.txt)`, (done) => {
       chai.request(server.app)
         .get(`/api/file/${fileID}`)
         .end((err, res) => {
-          expect(res.body.return.fileName).equal('test-2.txt');
+          // console.log(res.body);
+          expect(res.body.return.fileName).equal('test-0.txt');
           done();
         });
     });
@@ -87,6 +111,7 @@ describe('Test Files CRUD', () => {
       chai.request(server.app)
         .get(`/api/file/Date?toDate=` + toDate.toISOString())
         .end((err, res) => {
+          // console.log(res.body);
           expect(res.body.return).to.have.length(NUM_FILES);
           done();
         });
@@ -98,7 +123,7 @@ describe('Test Files CRUD', () => {
       chai.request(server.app)
         .put(`/api/file/${fileID}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ _id: fileID, fileName: newName })
+        .send({ id: fileID, fileName: newName })
         .end((err, res) => {
           chai.request(server.app)
             .get(`/api/file/${fileID}`)
@@ -126,5 +151,11 @@ describe('Test Files CRUD', () => {
             });
         });
     });
+  });
+
+  after((done: any) => {
+    fs.remove(`${config.storage}`);
+    server.listener.close();
+    done();
   });
 });

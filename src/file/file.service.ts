@@ -6,6 +6,8 @@ import { fileModel } from './file.model';
 export class fileService {
 
   public static create(file: IFile) {
+    // console.log('file to save:');
+    // console.log(file);
     return file.save();
   }
 
