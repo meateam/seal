@@ -43,8 +43,8 @@ fileRouter.post('/upload', upload, async (req: express.Request, res: express.Res
 fileRouter.get('/', async (req: express.Request, res: express.Response) => {
   try {
     const ret = await fileController.getFiles();
-    console.log('ret get files');
-    console.log(ret);
+    // console.log('ret get files');
+    // console.log(ret);
     return res.json({ success: true, return: ret });
   } catch (err) {
     return res.status(500).send({ message: 'Could not retrieve files - ' + err.message });

@@ -11,8 +11,8 @@ export class fileController {
       return fileService.create(val);
     });
     const ret = await Promise.all(services);
-    console.log('ret promise all:');
-    console.log(ret);
+    // console.log('ret promise all:');
+    // console.log(ret);
     return ret;
   }
 
