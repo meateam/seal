@@ -1,30 +1,60 @@
-import * as chaiHttp from 'chai-http';
-import * as fs from 'node-fs-extra';
-import * as util from 'util';
-import { fileModel } from './file.model';
-import { IFile } from './file.interface';
+import * as chai from 'chai';
 import * as mongoose from 'mongoose';
-import { expect } from 'chai';
-import { server } from '../server';
+import * as chaiAsPromised from 'chai-as-promised';
+// import * as fs from 'fs';
+import * as fs from 'node-fs-extra';
+// import * as util from 'util';
 import { config } from '../config';
 import { createFiles } from '../helpers/functions';
 import { fileController } from './file.controller';
-import * as express from 'express';
+import { IFile } from './file.interface';
+import { fileModel } from './file.model';
 
-const chai = require('chai');
-chai.use(chaiHttp);
+// const readdir = util.promisify(fs.readdir);
+// const unlink = util.promisify(fs.unlink);
+const expect: Chai.ExpectStatic = chai.expect;
+chai.use(chaiAsPromised);
 
-const NUM_FILES = 3;
-const newName = 'changed.txt';
-// "test": "set NODE_ENV=testing&& mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
-let fileID;
+const TOTAL_FILES: number = 3;
+const newName: string = 'changeName';
 let testFiles: IFile[];
 
-describe(`Test Router Files with ${NUM_FILES} files`, () => {
+describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
   before(async () => {
-    // Create files in Folder
-    testFiles = createFiles(NUM_FILES);
+    (<any>mongoose).Promise = global.Promise;
+    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+
+    // Remove uploadsTEST folder
+    // const files = await readdir(config.storage);
+    // const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
+    // await Promise.all(unlinkPromises);
+    // await fs.remove(`${config.storage}`);
+
+    // // Remove files from DB
+    // const removeCollectionPromises = [];
+    // for (const i in mongoose.connection.collections) {
+    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    // }
+    // await Promise.all(removeCollectionPromises);
+
+    // // Create files in Folder and DB
+    // testFiles = createFiles(TOTAL_FILES);
+    // await fileController.create(testFiles);
+
+    // TODO: Add all files to uploadsTEST folder
+    // fs.copy('./test', './uploadsTEST', (err) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     // console.log('Files added to Folder');
+    //   }
+    // });
+  });
+
+  beforeEach(async () => {
+    // Remove uploadsTEST folder
+    await fs.remove(`${config.storage}`);
 
     // Remove files from DB
     const removeCollectionPromises = [];
@@ -32,130 +62,105 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
       removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
     }
     await Promise.all(removeCollectionPromises);
-    // await fileModel.remove({}, (err: Error) => {});
 
-    // Create files in DB
-    // const files = await fileController.create(testFiles);
-    // console.log('ret:');
-    // console.log(files);
-    // fileID = files[0]._id;
+    // Create files in Folder and DB
+    testFiles = createFiles(TOTAL_FILES);
+    await fileController.create(testFiles);
   });
 
-  beforeEach(async () => {
-    // Remove files from DB
-    // const removeCollectionPromises = [];
-    // for (const i in mongoose.connection.collections) {
-    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    // }
-    // await Promise.all(removeCollectionPromises);
-    // await fileModel.remove({}, (err: Error) => {});
-
-    // Create files in DB
-    // const files = await fileController.create(testFiles);
-    // console.log('ret:');
-    // console.log(await fileController.getFiles());
-    // console.log('ret:');
-    // console.log(files);
-    // fileID = files[0]._id;
-  });
-
-  describe(`POST new file`, () => {
-    it(`Should add 3 new files`, (done) => {
-      chai.request(server.app)
-        .post('/api/file/upload')
-        .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('file', `${config.storage}/test-0.txt`)
-        .attach('file', `${config.storage}/test-1.txt`)
-        .attach('file', `${config.storage}/test-2.txt`)
-        .end((err, res: express.Response) => {
-          expect(res.status).to.equal(200); // 'success' status
-          done();
-        });
+  describe('#getById', () => {
+    it('Should return a file by its id', async () => {
+      const file: IFile = await fileController.findById(testFiles[0]._id);
+      expect(testFiles[0].equals(file)).to.be.true;
     });
   });
 
-  describe('Get all Files', () => {
-    it(`Should return all files`, (done) => {
-      chai.request(server.app)
-        .get('/api/file')
-        .end((err, res) => {
-          expect(res.body.return).to.have.length(NUM_FILES);
-          done();
-        });
-    });
-  });
-
-  describe('Get Specific Files', () => {
-    it(`Should return file which name is test2`, (done) => {
-      chai.request(server.app)
-        .get('/api/file/test-2.txt?fieldType=fileName')
-        .end((err, res) => {
-          console.log(res.body);
-          expect(res.body.return).to.have.length(1);
-          fileID = res.body.return[0]._id;
-          // console.log(fileID);
-          done();
-        });
-    });
-    it(`Should return file with specific ID (test2.txt)`, (done) => {
-      chai.request(server.app)
-        .get(`/api/file/${fileID}`)
-        .end((err, res) => {
-          // console.log(res.body);
-          expect(res.body.return.fileName).equal('test-2.txt');
-          done();
-        });
-    });
-    it(`Should return all files created before NOW`, (done) => {
+  describe('#getByDate', () => {
+    it('Should get all files that were created before now', async () => {
       const toDate = new Date(Date.now());
-      chai.request(server.app)
-        .get(`/api/file/Date?toDate=` + toDate.toISOString())
-        .end((err, res) => {
-          // console.log(res.body);
-          expect(res.body.return).to.have.length(NUM_FILES);
-          done();
-        });
+      const ret = await fileController.findByDate(null, toDate.toISOString());
+      expect(ret.length).to.be.equal(TOTAL_FILES);
+    });
+    it('Should return that were created from now', async () => {
+      const fromDate = new Date(Date.now());
+      const ret = await fileController.findByDate(fromDate.toISOString());
+      expect(ret.length).to.be.equal(0);
+    });
+    it('Should get all files created between yesterday and today', async () => {
+      const fromDate = new Date();
+      fromDate.setDate(fromDate.getDate() - 1);
+      const toDate = new Date(Date.now());
+      const ret = await fileController.findByDate(fromDate.toISOString(), toDate.toISOString());
+      expect(ret.length).to.be.equal(TOTAL_FILES);
     });
   });
 
-  describe('Update file', () => {
-    it('should change a single file name', (done) => {
-      chai.request(server.app)
-        .put(`/api/file/${fileID}`)
-        .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ id: fileID, fileName: newName })
-        .end((err, res) => {
-          chai.request(server.app)
-            .get(`/api/file/${fileID}`)
-            .end((err2, res2) => {
-              expect(res2.body.return.fileName).equal(newName);
-              done();
-            });
-        });
+  describe('#getAll', () => {
+    it(`Should return a collection with ${TOTAL_FILES} files`, async () => {
+      const filesReturned: IFile[] = await fileController.getFiles();
+      expect(filesReturned).to.not.be.empty;
+      expect(filesReturned).to.have.lengthOf(testFiles.length);
     });
   });
 
-  describe('Delete file by ID', () => {
-    it('should delete a single file', (done) => {
-      chai.request(server.app)
-        .delete(`/api/file/${fileID}`)
-        .end((err, res) => {
-          chai.request(server.app)
-            .get('/api/file')
-            .end((err2, res2) => {
-              expect(res2.body.return).to.have.length(NUM_FILES - 1);
-              for (let i: number = 0; i < NUM_FILES - 1; i++) {
-                expect(res2.body.return[i]._id).to.not.be.equal(fileID);
-              }
-              done();
-            });
-        });
+  describe('#update', () => {
+    it('Should update all of the names', async () => {
+      for (let i: number = 0; i < testFiles.length; i++) {
+        await fileController.update(testFiles[i]._id, { _id: testFiles[i]._id, fileName: newName });
+      }
+      const updatedFile: IFile = await fileController.findById(testFiles[0]._id);
+      expect(updatedFile.fileName).to.be.equal(newName);
+    });
+    // it('Should throw exception when trying to update a non-existent file', async () => {
+    //   await expect(fileController.update('non_existent_id', { fileName: 'ErrorName' }))
+    //     .to.eventually.be.rejectedWith('File doesnt exist');
+    // });
+  });
+
+  describe('#getByName', () => {
+    it('Should get all files with the same name', async () => {
+      // Change all the files names to the same name
+      for (let i: number = 0; i < testFiles.length; i++) {
+        await fileController.update(testFiles[i]._id, { _id: testFiles[i]._id, fileName: newName });
+      }
+      const files: IFile[] = await fileController.getFiles(newName);
+      expect(files.length).to.be.equal(testFiles.length);
+      for (let i: number = 0; i < files.length; i++) {
+        expect(files[i].fileName).to.be.equal(newName);
+      }
+    });
+  });
+
+  describe('#add', () => {
+    it('Should add a new file to the collection', async () => {
+      const file: IFile[] = [new fileModel({
+        fileName: 'newFile.txt',
+        fileSize: 1,
+        path: 'uploadsTEST\\' + 'newFile.txt',
+        fileType: 'txt',
+        createdAt: Date.now(),
+        Owner: 'Owner',
+        Parent: 'Parent',
+      })];
+      await fileController.create(file);
+      const filesReturned: IFile[] = await fileController.getFiles();
+      expect(filesReturned).to.have.lengthOf(testFiles.length + 1);
+    });
+  });
+
+  describe('#deleteById', () => {
+    it('Should delete a single file', async () => {
+      await fileController.delete(testFiles[0]._id);
+      await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
+      const filesReturned: IFile[] = await fileController.getFiles();
+      expect(filesReturned).to.have.lengthOf(TOTAL_FILES - 1);
     });
   });
 
   after((done: any) => {
     fs.remove(`${config.storage}`);
-    server.listener.close();
+    mongoose.disconnect();
     done();
   });
+
 });
