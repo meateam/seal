@@ -12,7 +12,7 @@ import { NextFunction, Request, Response } from 'express';
  */
 export const controllerHandler : any =
 (promise: Function, params: Function, errorCode: number = 500) : any =>
-async (req: Request, res: Response, next: NextFunction) : Promise<Request> => {
+async (req: Request, res: Response, next: NextFunction) : Promise<Response> => {
   const boundParams : any = params ? params(req, res, next) : [];
   try {
     const result : any = await promise(...boundParams);
