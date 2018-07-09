@@ -43,7 +43,7 @@ describe('Router', () => {
     it('should get user by its id', (done: any) => {
       chai.request(host)
         .get(`/api/user/${testUsers[0]._id}`)
-        .end((err: Error, res: Response) => {
+        .end((err: Error, res) => {
           expect(uv.compareUsers(testUsers[0], res.body)).to.be.true;
           done();
         });
@@ -57,11 +57,11 @@ describe('Router', () => {
           .post('/api/user')
           .set('content-type', 'application/x-www-form-urlencoded')
           .send(testUsers[i])
-          .end((err: Error, res: Response) => {
+          .end((err: Error, res) => {
             if (i === testUsers.length - 1) {
               chai.request(host)
                 .get('/api/user')
-                .end((err2: Error, res2: Response) => {
+                .end((err2: Error, res2) => {
                   expect(res2.body).to.have.length(testUsers.length);
                 });
               done();
@@ -77,10 +77,10 @@ describe('Router', () => {
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
         .send({ _id: testUsers[0]._id, name: newName })
-        .end((err: Error, res: Response) => {
+        .end((err: Error, res) => {
           chai.request(host)
             .get(`/api/user/${testUsers[0]._id}`)
-            .end((err2: Error, res2: Response) => {
+            .end((err2: Error, res2) => {
               expect(res.body.name).to.be.eql(newName);
               done();
             });
@@ -93,11 +93,11 @@ describe('Router', () => {
       tempUser = testUsers[0];
       chai.request(host)
         .delete('/api/user/' + testUsers[0]._id)
-        .end((err: Error, res: Response) => {
+        .end((err: Error, res) => {
           testUsers.shift();
           chai.request(host)
             .get('/api/user')
-            .end((err2: Error, res2: Response) => {
+            .end((err2: Error, res2) => {
               expect(res2.body).to.have.length(testUsers.length);
               for (let i: number = 0; i < testUsers.length; i++) {
                 expect(res2.body[i]._id).to.not.be.equal(tempUser._id);

@@ -9,6 +9,7 @@ import { server } from '../server';
 import { config } from '../config';
 import { createFiles } from '../helpers/functions';
 import { fileController } from './file.controller';
+import * as express from 'express';
 
 const chai = require('chai');
 chai.use(chaiHttp);
@@ -66,7 +67,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
         .attach('file', `${config.storage}/test-0.txt`)
         .attach('file', `${config.storage}/test-1.txt`)
         .attach('file', `${config.storage}/test-2.txt`)
-        .end((err, res) => {
+        .end((err, res: express.Response) => {
           expect(res.status).to.equal(200); // 'success' status
           done();
         });
