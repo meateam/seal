@@ -7,7 +7,7 @@
     "build": "npm run tslint&& npm run build-ts",
     "release": "standard-version",
     "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
-    "test": " set NODE_ENV=test&& npm run tslint&& npm run run_tests",
+    "test": " set NODE_ENV=testing&& npm run tslint&& npm run run_tests",
     "run_tests": "mocha --opts ./mocha.opts src/**/*.spec.ts",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json"

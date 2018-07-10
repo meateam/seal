@@ -39,7 +39,7 @@ describe(`User Logic`, () => {
     });
   });
 
-  describe('#add', () => {
+  describe.skip('#add', () => {
     it(`should add a new user to the collection`, async () => {
       const user: IUser = createUsers(1)[0];
       await UserController.add(user);

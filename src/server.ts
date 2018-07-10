@@ -20,10 +20,7 @@ export class Server {
     console.log(process.env.NODE_ENV);
     this.configApplication();
     this.initializeRoutes();
-    console.log('testing = ' + testing);
     if (!testing) {
-
-      console.log('testing = ' + testing);
       this.connectDB();
       this.log();
       this.listen();
