@@ -26,7 +26,7 @@ before(async () => {
 });
 
 describe('Share', () => {
-  beforeEach(async () => {
+  beforeEach('Cleans DB', async () => {
     const removeCollectionPromises = [];
 
     for (const i in mongoose.connection.collections) {
@@ -64,14 +64,8 @@ describe('Share', () => {
       share.should.have.property('createdAt');
       share.should.have.property('updatedAt');
     });
-    // TODO:
-    // it('Should not create share if one of the Users does not exist in the DB', async () => {
-    //   should.exist(null);
-
-    // });
-    // it('Should not create share if the file does not exist in the DB', async () => {
-    //   should.exist(null);
-    // });
+    it('Should not create share if one of the Users does not exist in the DB');
+    it('Should not create share if the file does not exist in the DB');
   });
   describe('#updatePermissions', () => {
     it('Should update the user permissions', async () => {

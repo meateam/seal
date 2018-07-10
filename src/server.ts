@@ -31,7 +31,6 @@ export class Server {
   }
 
   private initializeRoutes() {
-    // initRouting(this.app);
     initRouting(this.app);
   }
 

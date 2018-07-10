@@ -19,7 +19,7 @@ let numberOfUsers = TOTAL_USERS;
 
 describe(`User Logic`, () => {
 
-  beforeEach(async () => {
+  beforeEach('Write Me', async () => {
     await userModel.remove({}, (err) => { });
     await Promise.all(testUsers.map(user => UserController.add(user)));
   });
