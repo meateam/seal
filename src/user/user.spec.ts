@@ -17,21 +17,15 @@ chai.use(chaiAsPromised);
 
 const TOTAL_USERS: number = 4;
 const newName: string = 'shamanTheKing';
-let testUsers: IUser[];
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
 const controller = new UserController();
 
-describe(`Test Users with ${TOTAL_USERS} users`, () => {
-
-  before(() => {
-
-    testUsers = createUsers(TOTAL_USERS);
-    (<any>mongoose).Promise = global.Promise;
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-  });
+describe(`User Logic`, () => {
 
   beforeEach(async () => {
-    await userModel.remove({}, (err: Error) => { });
-    await Promise.all(testUsers.map((user: IUser) => controller.add(user)));
+    await userModel.remove({}, (err) => { });
+    await Promise.all(testUsers.map(user => controller.add(user)));
+
   });
 
   describe('#getById', () => {
