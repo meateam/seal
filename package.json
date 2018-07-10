@@ -6,10 +6,10 @@
   "scripts": {
     "build": "npm run tslint&& npm run build-ts",
     "release": "standard-version",
-    "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
-    "test": " set NODE_ENV=testing&& npm run tslint&& npm run run_tests",
-    "run_tests": "mocha --opts ./mocha.opts src/**/*.spec.ts",
-    "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
+    "start": "tsc && cross-env NODE_ENV=dev node dist/server.js",
+    "test": "npm run tslint&& npm run run_tests",
+    "run_tests": "cross-env NODE_ENV=testing mocha --opts ./mocha.opts src/**/*.spec.ts",
+    "prod": "tsc && cross-env NODE_ENV=prod node dist/server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
   "repository": {
@@ -33,9 +33,10 @@
     "chai": "^4.1.2",
     "chai-as-promised": "^7.1.1",
     "chai-http": "^4.0.0",
+    "cross-env": "^5.2.0",
     "mocha": "^5.2.0",
     "supertest": "^3.1.0",
-    "ts-node": "^6.1.2",
+    "ts-node": "^6.2.0",
     "tslint": "^5.10.0",
     "tslint-config-airbnb": "^5.9.2",
     "typescript": "^2.9.2"

@@ -17,7 +17,6 @@ export class Server {
   constructor(testing = false) {
 
     this.createApplication();
-    console.log(process.env.NODE_ENV);
     this.configApplication();
     this.initializeRoutes();
     if (!testing) {
