@@ -16,12 +16,8 @@ class Server {
 
   constructor() {
     this.createApplication();
-    console.log('NODE_ENV: ');
-    console.log(process.env.NODE_ENV);
-    if (process.env.NODE_ENV !== 'testing ') {
-      this.connectDB();
-      this.log();
-    }
+    this.connectDB();
+    this.log();
     this.configApplication();
     this.initializeRoutes();
     this.listen();

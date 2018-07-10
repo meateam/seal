@@ -1,6 +1,6 @@
 import * as mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
-
+import { config } from '../config';
 // process.env.NODE_ENV = 'test';
 
 dotenv.config({ path: '.env' });
@@ -39,6 +39,6 @@ before(async () => {
 });
 
 after((done) => {
-  mongoose.disconnect();
+  mongoose.connection.close();
   done();
 });
