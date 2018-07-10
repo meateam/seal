@@ -7,7 +7,7 @@
     "build": "npm run tslint && npm run build-ts",
     "release": "standard-version",
     "start": "set NODE_ENV=dev&& tsc && node dist/server.js",
-    "test": " set NODE_ENV=test && mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
+    "test": " set NODE_ENV=testing&& mocha --exit -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
     "prod": "set NODE_ENV=prod&& tsc && node dist/server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
@@ -45,6 +45,6 @@
     "express": "^4.16.3",
     "mongoose": "^5.1.4",
     "morgan": "^1.9.0",
-    "path": "^0.12.7"
+    "tslint-microsoft-contrib": "^5.0.3"
   }
 }

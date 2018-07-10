@@ -1,43 +1,49 @@
-import { Schema, model, Document } from 'mongoose';
+import { ServerError } from '../errors/application';
+import { model, Model, Schema } from 'mongoose';
 import { IUser } from './user.interface';
 
-export const userSchema = new Schema(
+export const userSchema: Schema = new Schema(
   {
     _id: {
       type: String,
-      required: true,
+      required: true
     },
     uniqueID: {
       type: String,
-      required: true,
+      unique: true,
+      required: true
     },
     name: {
       type: String,
-      required: true,
+      required: true
     },
     creationDate: {
       type: Date,
-      required: true,
+      required: true
     },
     hierarchy: {
       type: String,
-      required: true,
+      required: true
     },
     rootFolder: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   {
     timestamps: true,
     id: true,
     toJSON: {
-      virtuals: true,
+      virtuals: true
     },
     toObject: {
-      virtuals: true,
-    },
-  },
+      virtuals: true
+    }
+  }
 );
 
-export const userModel = model<IUser>('User', userSchema);
+userSchema.post('save', (error, doc, next) => {
+  next(new ServerError(error.message));
+});
+
+export const userModel: Model<IUser> = model<IUser>('User', userSchema);

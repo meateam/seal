@@ -10,14 +10,15 @@ import { initRouting } from './helpers/routing';
 class Server {
   public app: express.Application;
 
-  public static bootstrap(): Server {
-    return new Server();
-  }
+  // public static bootstrap(): Server {
+  //   return new Server();
+  // }
 
   constructor() {
     this.createApplication();
+    console.log('NODE_ENV: ');
     console.log(process.env.NODE_ENV);
-    if (process.env.NODE_ENV !== 'test') {
+    if (process.env.NODE_ENV !== 'testing ') {
       this.connectDB();
       this.log();
     }
@@ -26,7 +27,14 @@ class Server {
     this.listen();
   }
 
-  private createApplication() {
+  // public listen(): void {
+  //   this.listener = this.app.listen(config.port, () => {
+  //     const port : any = this.listener.address().port;
+  //     console.log(`Server running on port :${port}`);
+  //   });
+  // }
+
+  private createApplication(): void {
     this.app = express();
   }
 
@@ -35,7 +43,7 @@ class Server {
     initRouting(this.app);
   }
 
-  private configApplication() {
+  private configApplication(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
   }
@@ -63,6 +71,7 @@ class Server {
       });
     }
   }
+
 }
 
 export default new Server().app;

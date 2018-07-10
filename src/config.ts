@@ -1,55 +1,60 @@
+/**
+ *
+ */
+
 type Config = {
-  type : string,
-  port: number,
+  conf_type: string;
+  port: number;
   db: {
-    host: string,
-    port: string,
-    name: string,
-  },
+    host: string;
+    port: string;
+    name: string;
+  };
 };
 
 const testing: Config = {
-  type : 'testing',
+  conf_type: 'testing',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'testingDB',
-  },
+    name: 'testingDB'
+  }
 };
 
 const dev: Config = {
-  type : 'dev',
+  conf_type: 'dev',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'devDB',
-  },
+    name: 'devDB'
+  }
 };
 
 // Change to Production Environment
 const prod: Config = {
-  type : 'prod',
+  conf_type: 'prod',
   port: 3000,
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'prodDB',
-  },
+    name: 'prodDB'
+  }
 };
 
-function getConfig(type: string) {
-  switch (type) {
-    case dev.type:
+function getConfig(confType: string) : Config {
+  console.log('confType: ' + confType);
+  switch (confType) {
+    case dev.conf_type:
       return dev;
-    case prod.type:
+    case prod.conf_type:
       return prod;
-    case testing.type:
+    case testing.conf_type:
       return testing;
     default:
       return dev;
   }
 }
 
-export const config = getConfig(process.env.NODE_ENV || dev.type);
+export const config : Config = getConfig(process.env.NODE_ENV || dev.conf_type);

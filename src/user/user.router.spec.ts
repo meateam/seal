@@ -1,10 +1,14 @@
-import { IUser } from './user.interface';
+/**
+ * Tests on the user router.
+ */
+import { expect } from 'chai';
+import * as chaiHttp from 'chai-http';
+import { Request, Response, Router } from 'express';
 import { createJsonUsers } from '../helpers/functions';
 import server from '../server';
-import { expect } from 'chai';
-import { userModel } from './user.model';
 import { UserController } from './user.controller';
-import { deepEqual } from 'assert';
+import { IUser } from './user.interface';
+import { userModel } from './user.model';
 import { UserValidator as uv } from './user.validator';
 
 const chai = require('chai');
@@ -13,39 +17,40 @@ chai.use(require('chai-http'));
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
+const newUser: IUser[] = createJsonUsers(1);
 let tempUser: IUser;
 
 describe('User Router', () => {
 
   beforeEach(async () => {
-    userModel.remove({}, (err) => { });
-    await Promise.all(testUsers.map(user => UserController.add(user)));
+    await userModel.remove({}, (err: Error) => { });
+    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
   });
 
   describe(`GET user`, () => {
     it(`should get user by its id`, (done) => {
       chai.request(server)
         .get(`/api/user/${testUsers[0]._id}`)
-        .end((err, res) => {
+        .end((err: Error, res) => {
           expect(uv.compareUsers(testUsers[0], res.body)).to.be.true;
           done();
         });
     });
   });
 
-  describe(`POST new user`, () => {
+  describe.skip(`POST new user`, () => {
     it(`should add ${testUsers.length} users`, (done) => {
       for (let i = 0; i < testUsers.length; i++) {
         chai.request(server)
           .post('/api/user')
           .set('content-type', 'application/x-www-form-urlencoded')
-          .send(testUsers[i])
-          .end((err, res) => {
+          .send(newUser[0])
+          .end((err: Error, res: Response) => {
             if (i === testUsers.length - 1) {
               chai.request(server)
                 .get('/api/user')
-                .end((err, res) => {
-                  expect(res.body).to.have.length(testUsers.length);
+                .end((err2: Error, res2) => {
+                  expect(res2.body).to.have.length(testUsers.length);
                 });
               done();
             }
@@ -63,7 +68,7 @@ describe('User Router', () => {
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)
-            .end((err, res) => {
+            .end((err2: Error, res2: Response) => {
               expect(res.body.name).to.be.eql(newName);
               done();
             });
@@ -71,19 +76,19 @@ describe('User Router', () => {
     });
   });
 
-  describe(`DELETE one`, () => {
-    it('should delete a single user', (done) => {
+  describe('DELETE one', () => {
+    it('should delete a single user', (done: any) => {
       tempUser = testUsers[0];
       chai.request(server)
         .delete('/api/user/' + testUsers[0]._id)
-        .end((err, res) => {
+        .end((err: Error, res: Response) => {
           testUsers.shift();
           chai.request(server)
             .get('/api/user')
-            .end((err, res) => {
-              expect(res.body).to.have.length(testUsers.length);
-              for (let i = 0; i < testUsers.length; i++) {
-                expect(res.body[i]._id).to.not.be.equal(tempUser._id);
+            .end((err2: Error, res2) => {
+              expect(res2.body).to.have.length(testUsers.length);
+              for (let i: number = 0; i < testUsers.length; i++) {
+                expect(res2.body[i]._id).to.not.be.equal(tempUser._id);
               }
               done();
             });

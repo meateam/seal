@@ -13,7 +13,7 @@ export function createJsonUsers(numUsers: number): IUser[] {
       creationDate: new Date(),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
-      rootFolder: '/Path/To/Root/Folder' + i,
+      rootFolder: '/Path/To/Root/Folder' + i
     };
     testUsers.push(user);
   }
@@ -33,7 +33,7 @@ export function createUsers(numUsers: number): IUser[] {
       creationDate: new Date(),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
-      rootFolder: '/Path/To/Root/Folder' + i,
+      rootFolder: '/Path/To/Root/Folder' + i
     });
     testUsers.push(user);
   }
