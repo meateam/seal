@@ -9,29 +9,18 @@ import { initRouting } from './helpers/routing';
 
 class Server {
   public app: express.Application;
-// <<<<<<< HEAD
-//   public listener: any;
-// =======
 
-//   public static bootstrap(): Server {
-//     return new Server();
-//   }
-// >>>>>>> share
+  // public static bootstrap(): Server {
+  //   return new Server();
+  // }
 
   constructor() {
     this.createApplication();
-    console.log(process.env.NODE_ENV);
-    if (process.env.NODE_ENV !== 'test') {
-      this.connectDB();
-      this.log();
-    }
+    this.connectDB();
+    this.log();
     this.configApplication();
     this.initializeRoutes();
     this.listen();
-  }
-
-  public static bootstrap(): Server {
-    return new Server();
   }
 
   // public listen(): void {
@@ -59,9 +48,9 @@ class Server {
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
 
-  private connectDB() {
+  private async connectDB() {
     // Connect mongoose to our database
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+    await mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {

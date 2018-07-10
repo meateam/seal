@@ -111,10 +111,10 @@ describe(`User Logic`, () => {
     });
   });
 
-  after((done: any) => {
-    mongoose.disconnect();
-    done();
-  });
+  // after((done: any) => {
+  //   mongoose.disconnect();
+  //   done();
+  // });
 
 });
 
