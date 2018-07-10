@@ -47,12 +47,15 @@ export abstract class RepositoryBase<T extends mongoose.Document> implements IRe
   }
 
   update(item: T, populateOptions?: string | Object): Promise<mongoose.Document> {
-    item['updatedAt'] = new Date();
     let updateQuery = this._model.findByIdAndUpdate({ _id: item._id }, item, { new: true, runValidators: true });
     if (populateOptions) {
       updateQuery = updateQuery.populate(populateOptions);
     }
     return updateQuery.exec();
+  }
+
+  updatePartial(_id: string, change: any): Promise<mongoose.Document> {
+    return this._model.update({ _id }, { $set: change }).exec();
   }
 
   delete(_id: any): Promise<any> {

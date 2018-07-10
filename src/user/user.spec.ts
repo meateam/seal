@@ -17,17 +17,12 @@ const newName: string = 'shamanTheKing';
 
 let numberOfUsers = TOTAL_USERS;
 
-before(() => {
-  (<any>mongoose).Promise = global.Promise;
-  mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-});
+describe(`User Logic`, () => {
 
-beforeEach(async () => {
-  userModel.remove({}, (err) => { });
-  await Promise.all(testUsers.map(user => UserController.add(user)));
-});
-
-describe(`Test Users with ${TOTAL_USERS} users`, () => {
+  beforeEach(async () => {
+    await userModel.remove({}, (err) => { });
+    await Promise.all(testUsers.map(user => UserController.add(user)));
+  });
 
   describe('#getById', () => {
     it(`should return a user by its id`, async () => {

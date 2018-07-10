@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 
+process.env.NODE_ENV = 'test';
+
 dotenv.config({ path: '.env' });
 
 (<any>mongoose).Promise = Promise;
@@ -33,18 +35,7 @@ export const expectError = async (func: Function, params: any[]) => {
 };
 
 before(async () => {
-  mongoose.connect(process.env.MONGODB_TEST_URI);
-});
-
-beforeEach(async () => {
-
-  const removeCollectionPromises = [];
-
-  for (const i in mongoose.connection.collections) {
-    removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-  }
-
-  await Promise.all(removeCollectionPromises);
+  await mongoose.connect(process.env.MONGODB_TEST_URI);
 });
 
 after((done) => {
