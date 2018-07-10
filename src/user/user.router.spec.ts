@@ -1,6 +1,6 @@
 import { IUser } from './user.interface';
 import { createJsonUsers } from '../helpers/functions';
-import server from '../server';
+import { Server } from '../server';
 import { expect } from 'chai';
 import { userModel } from './user.model';
 import { UserController } from './user.controller';
@@ -10,6 +10,8 @@ import { UserValidator as uv } from './user.validator';
 const chai = require('chai');
 chai.use(require('chai-http'));
 
+const server = new Server(true).app;
+
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
@@ -17,8 +19,8 @@ let tempUser: IUser;
 
 describe('User Router', () => {
 
-  beforeEach(async () => {
-    userModel.remove({}, (err) => { });
+  beforeEach('Write Me', async () => {
+    await userModel.remove({}, (err) => { });
     await Promise.all(testUsers.map(user => UserController.add(user)));
   });
 

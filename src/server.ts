@@ -7,23 +7,27 @@ import * as path from 'path';
 import { config } from './config';
 import { initRouting } from './helpers/routing';
 
-class Server {
+export class Server {
   public app: express.Application;
 
   public static bootstrap(): Server {
     return new Server();
   }
 
-  constructor() {
+  constructor(testing = false) {
+
     this.createApplication();
     console.log(process.env.NODE_ENV);
-    if (process.env.NODE_ENV !== 'test') {
-      this.connectDB();
-      this.log();
-    }
     this.configApplication();
     this.initializeRoutes();
-    this.listen();
+    console.log('testing = ' + testing);
+    if (!testing) {
+
+      console.log('testing = ' + testing);
+      this.connectDB();
+      this.log();
+      this.listen();
+    }
   }
 
   private createApplication() {
@@ -65,5 +69,6 @@ class Server {
   }
 }
 
-export default new Server().app;
-// export let server = Server.bootstrap();
+if (!module.parent) {
+  new Server().app;
+}

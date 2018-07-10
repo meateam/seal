@@ -7,29 +7,29 @@ export interface IShareModel extends mongoose.Document, IShare {} // What to do 
 
 export const ShareSchema = new mongoose.Schema(
   {
-      file: {
-        type: ObjectId,
-        required: true,
+    file: {
+      type: ObjectId,
+      required: true,
+    },
+    from: {
+      type: ObjectId,
+      required: true,
+    },
+    to: {
+      type: ObjectId,
+      required: true,
+    },
+    permissions: {
+      read: {
+        type: Boolean,
+        default: false,
       },
-      from: {
-        type: ObjectId,
-        required: true,
+      edit: {
+        type: Boolean,
+        default: false,
       },
-      to: {
-        type: ObjectId,
-        required: true,
-      },
-      permissions: {
-        read: {
-          type: Boolean,
-          default: false,
-        },
-        edit: {
-          type: Boolean,
-          default: false,
-        },
-      },
-      updatedAt: Date,
+    },
+    updatedAt: Date,
   },
   {
     timestamps: true,
