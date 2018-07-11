@@ -5,6 +5,7 @@
     "no-increment-decrement" : false,
     "import-name": false, // 23.6,
     "max-line-length": false,  // 18.12
-    "variable-name": [true, "ban-keywords", "check-format", "allow-snake-case", "allow-leading-underscore", "allow-pascal-case"]
+    "variable-name": [true, "ban-keywords", "check-format", "allow-snake-case", "allow-leading-underscore", "allow-pascal-case"],
+    "trailing-comma" : false
   }
 }

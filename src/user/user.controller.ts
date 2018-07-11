@@ -1,51 +1,55 @@
-import { UserService } from './user.service';
+/**
+ * The middleware between the router and the DB querying.
+ * Handles the logic of the requests.
+ */
+import * as UserErrors from '../errors/user';
+import { ServerError } from '../errors/application';
 import { IUser } from './user.interface';
-import { UserValidator } from './user.validator';
 import { userModel } from './user.model';
-import { ERRORS } from '../helpers/enums';
-/*
-* UserService handles the logic of the requests
-* before calling the database
-*/
-const isValidUpdate = UserValidator.isValidUpdate;
+import { UserService } from './user.service';
+import { UserValidator } from './user.validator';
+
+const isValidUpdate: (id: string, partialUser: Partial<IUser>) => boolean = UserValidator.isValidUpdate;
 export class UserController {
-  static async getById(id: string) {
-    const user = await UserService.getById(id);
+  public static async getById(id: string): Promise<IUser> {
+    const user: IUser = await UserService.getById(id);
     if (user) {
       return user;
     }
-    throw new Error(ERRORS.NOT_EXIST);
+    throw new UserErrors.UserNotFoundError();
   }
 
-  static getByName(name: String) {
+  public static getByName(name: String): Promise<IUser[]> {
     return UserService.getByName(name);
   }
 
-  static async update(id: string, partialUser: Partial<IUser>) {
+  public static async update(id: string, partialUser: Partial<IUser>): Promise<IUser> {
     if (!isValidUpdate(id, partialUser)) {
-      throw new Error(ERRORS.BAD_ID);
+      throw new UserErrors.BadIdError();
     }
-    const updatedUser = await UserService.update(partialUser._id, partialUser);
+    const updatedUser: IUser = await UserService.update(partialUser._id, partialUser);
     if (updatedUser) {
       return updatedUser;
     }
-    throw new Error(ERRORS.NOT_EXIST);
+    throw new UserErrors.UserNotFoundError();
   }
 
-  static getAll() {
+  public static getAll(): Promise<IUser[]> {
     return UserService.getAll();
   }
 
-  static async add(reqUser) {
+  public static async add(reqUser: IUser): Promise<IUser> {
     const newUser: IUser = new userModel(reqUser);
-    try {
-      return await UserService.add(newUser);
-    } catch (error) {
-      throw new Error(ERRORS.USER_EXISTS);
-    }
+    return await UserService.add(newUser);
   }
 
-  static async deleteById(id: string) {
-    return UserService.deleteById(id);
+  public static async deleteById(id: string) {
+    const res = await UserService.deleteById(id);
+    if (!res.ok) {
+      throw new ServerError();
+    } else if (res.n < 1) {
+      throw new UserErrors.UserNotFoundError();
+    }
+    return res;
   }
 }

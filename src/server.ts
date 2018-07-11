@@ -9,10 +9,7 @@ import { initRouting } from './helpers/routing';
 
 export class Server {
   public app: express.Application;
-
-  public static bootstrap(): Server {
-    return new Server();
-  }
+  public listener: any;
 
   constructor(testing = false) {
 
@@ -26,15 +23,19 @@ export class Server {
     }
   }
 
-  private createApplication() {
+  public static bootstrap(): Server {
+    return new Server();
+  }
+
+  private createApplication(): void {
     this.app = express();
   }
 
-  private initializeRoutes() {
+  private initializeRoutes(): void {
     initRouting(this.app);
   }
 
-  private configApplication() {
+  private configApplication(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
   }
@@ -57,11 +58,12 @@ export class Server {
   private listen() {
     // Insures you don't run the server twice
     if (!module.parent) {
-      this.app.listen(config.port, () => {
+      this.listener = this.app.listen(config.port, () => {
         console.log(`Server running on port :${config.port}`);
       });
     }
   }
+
 }
 
 if (!module.parent) {
