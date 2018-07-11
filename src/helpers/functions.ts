@@ -6,11 +6,13 @@ import { userModel } from '../user/user.model';
 import { folderModel } from '../folder/folder.model';
 
 export function createJsonUsers(numUsers: number): IUser[] {
+  const rand1: string = Math.random().toString(36).substring(2, 7);
+  const rand2: string = Math.random().toString(36).substring(2, 7);
   const testUsers: IUser[] = [];
   for (let i: number = 0; i < numUsers; i++) {
     const user: any = {
-      _id: 'ID' + i,
-      uniqueID: 'uID' + i,
+      _id: rand1 + '_' + (numUsers * 10 + i),
+      uniqueID: rand2 + '_' + (numUsers * 10 + i),
       creationDate: new Date(),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,

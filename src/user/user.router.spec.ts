@@ -18,7 +18,7 @@ const server = new Server(true).app;
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
-const newUser: IUser[] = createJsonUsers(1);
+const newUser: IUser = createJsonUsers(1)[0];
 let tempUser: IUser;
 const controller = new UserController();
 
@@ -40,24 +40,20 @@ describe('User Router', () => {
     });
   });
 
-  describe.skip(`POST new user`, () => {
+  describe(`POST new user`, () => {
     it(`should add ${testUsers.length} users`, (done) => {
-      for (let i = 0; i < testUsers.length; i++) {
-        chai.request(server)
-          .post('/api/user')
-          .set('content-type', 'application/x-www-form-urlencoded')
-          .send(testUsers[i])
-          .end((err: Error, res) => {
-            if (i === testUsers.length - 1) {
-              chai.request(server)
-                .get('/api/user')
-                .end((err2: Error, res2) => {
-                  expect(res2.body).to.have.length(testUsers.length);
-                });
-              done();
-            }
-          });
-      }
+      chai.request(server)
+        .post('/api/user')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send(newUser)
+        .end((err: Error, res) => {
+          chai.request(server)
+            .get('/api/user')
+            .end((err2: Error, res2) => {
+              expect(res2.body).to.have.length(testUsers.length + 1);
+            });
+          done();
+        });
     });
   });
 

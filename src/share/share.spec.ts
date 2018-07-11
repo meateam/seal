@@ -22,11 +22,11 @@ const SHARE_BASIC = {
 
 // Clear DB before each test
 before(async () => {
-  ShareModel.remove({}, (err) => {});
+  await ShareModel.remove({}, (err) => {});
 });
 
 describe('Share', () => {
-  beforeEach('Cleans DB', async () => {
+  afterEach('Cleans DB', async () => {
     const removeCollectionPromises = [];
 
     for (const i in mongoose.connection.collections) {
