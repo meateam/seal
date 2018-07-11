@@ -111,11 +111,6 @@ describe(`User Logic`, () => {
     });
   });
 
-  // after((done: any) => {
-  //   mongoose.disconnect();
-  //   done();
-  // });
-
 });
 
 function sortUserBy_id(user1: IUser, user2: IUser): number {

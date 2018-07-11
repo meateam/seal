@@ -9,17 +9,13 @@ import { ServerError, ClientError } from '../errors/application';
 
 const expect: Chai.ExpectStatic = chai.expect;
 const TOTAL_ITEMS = 4;
-const ctr = new UserController();
-runTests(ctr);
 
-function runTests(controller: UserController) {
+export function runTests(controller: UserController) {
   let testItems;
   describe(`Test type ${controller.controllerType}`, () => {
 
     before(() => {
       testItems = controller.createItems(TOTAL_ITEMS);
-      (<any>mongoose).Promise = global.Promise;
-      mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     });
 
     beforeEach(async () => {
@@ -104,9 +100,5 @@ function runTests(controller: UserController) {
       });
     });
 
-    after((done: any) => {
-      mongoose.disconnect();
-      done();
-    });
   });
 }
