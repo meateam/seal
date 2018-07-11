@@ -7,35 +7,31 @@ import * as path from 'path';
 import { config } from './config';
 import { initRouting } from './helpers/routing';
 
-class Server {
+export class Server {
   public app: express.Application;
+  public listener: any;
 
-  // public static bootstrap(): Server {
-  //   return new Server();
-  // }
+  constructor(testing = false) {
 
-  constructor() {
     this.createApplication();
-    this.connectDB();
-    this.log();
     this.configApplication();
     this.initializeRoutes();
-    this.listen();
+    if (!testing) {
+      this.connectDB();
+      this.log();
+      this.listen();
+    }
   }
 
-  // public listen(): void {
-  //   this.listener = this.app.listen(config.port, () => {
-  //     const port : any = this.listener.address().port;
-  //     console.log(`Server running on port :${port}`);
-  //   });
-  // }
+  public static bootstrap(): Server {
+    return new Server();
+  }
 
   private createApplication(): void {
     this.app = express();
   }
 
-  private initializeRoutes() {
-    // initRouting(this.app);
+  private initializeRoutes(): void {
     initRouting(this.app);
   }
 
@@ -61,7 +57,7 @@ class Server {
   private listen() {
     // Insures you don't run the server twice
     if (!module.parent) {
-      this.app.listen(config.port, () => {
+      this.listener = this.app.listen(config.port, () => {
         console.log(`Server running on port :${config.port}`);
       });
     }
@@ -69,5 +65,6 @@ class Server {
 
 }
 
-export default new Server().app;
-// export let server = Server.bootstrap();
+if (!module.parent) {
+  new Server().app;
+}

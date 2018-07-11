@@ -2,17 +2,18 @@
  * Tests on the user router.
  */
 import { expect } from 'chai';
-import * as chaiHttp from 'chai-http';
-import { Request, Response, Router } from 'express';
 import { createJsonUsers } from '../helpers/functions';
-import server from '../server';
+import { Server } from '../server';
+import { userModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
-import { userModel } from './user.model';
 import { UserValidator as uv } from './user.validator';
+import { isBuffer } from 'util';
 
 const chai = require('chai');
 chai.use(require('chai-http'));
+
+const server = new Server(true).app;
 
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
@@ -29,7 +30,7 @@ describe('User Router', () => {
   });
 
   describe(`GET user`, () => {
-    it(`should get user by its id`, (done) => {
+    it(`should get user by its id`, (done: any) => {
       chai.request(server)
         .get(`/api/user/${testUsers[0]._id}`)
         .end((err: Error, res) => {

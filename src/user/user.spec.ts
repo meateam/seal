@@ -22,7 +22,7 @@ const controller = new UserController();
 
 describe(`User Logic`, () => {
 
-  beforeEach(async () => {
+  beforeEach('Write Me', async () => {
     await userModel.remove({}, (err) => { });
     await Promise.all(testUsers.map(user => controller.add(user)));
 
@@ -44,7 +44,7 @@ describe(`User Logic`, () => {
   });
 
   describe('#add', () => {
-    it('should add a new user to the collection', async () => {
+    it(`should add a new user to the collection`, async () => {
       const user: IUser = createUsers(1)[0];
       await controller.add(user);
       const usersReturned: IUser[] = await controller.getAll();
