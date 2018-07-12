@@ -1,5 +1,4 @@
 import { EntityTypes } from '../helpers/enums';
-import { IUser } from '../user/user.interface';
 import { UserController } from '../user/user.controller';
 import { createUsers } from '../helpers/functions';
 

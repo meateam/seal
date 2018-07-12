@@ -1,10 +1,4 @@
 import * as chai from 'chai';
-import * as chaiAsPromised from 'chai-as-promised';
-import * as mongoose from 'mongoose';
-import { config } from '../config';
-import { EntityTypes } from '../helpers/enums';
-import { EntityConfig, user_entity } from './entity_config';
-import { UserController } from '../user/user.controller';
 import { ServerError, ClientError } from '../errors/application';
 import { Controller } from '../helpers/generic.controller';
 

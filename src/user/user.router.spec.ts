@@ -8,7 +8,6 @@ import { userModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { UserValidator as uv } from './user.validator';
-import { isBuffer } from 'util';
 
 const chai = require('chai');
 chai.use(require('chai-http'));
