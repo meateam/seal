@@ -4,8 +4,6 @@
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as UserErrors from '../errors/user';
-import * as mongoose from 'mongoose';
-import { config } from '../config';
 import { createUsers } from '../helpers/functions';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
@@ -22,7 +20,7 @@ const controller = new UserController();
 
 describe(`User Logic`, () => {
 
-  beforeEach('Write Me', async () => {
+  beforeEach('User BeforeEach', async () => {
     await userModel.remove({}, (err) => { });
     await Promise.all(testUsers.map(user => controller.add(user)));
 

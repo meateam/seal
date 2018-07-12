@@ -8,6 +8,10 @@ export const folderSchema = new Schema(
       type: String,
       required: true,
     },
+    owner: {
+      type: String,
+      required: true,
+    },
     parent: {
       type: String,
       required: true,
