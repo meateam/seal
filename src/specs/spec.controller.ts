@@ -6,11 +6,12 @@ import { EntityTypes } from '../helpers/enums';
 import { EntityConfig, user_entity } from './entity_config';
 import { UserController } from '../user/user.controller';
 import { ServerError, ClientError } from '../errors/application';
+import { Controller } from '../helpers/generic.controller';
 
 const expect: Chai.ExpectStatic = chai.expect;
 const TOTAL_ITEMS = 4;
 
-export function runTests(controller: UserController) {
+export function runTests(controller: Controller<any>) {
   let testItems;
   describe(`Test type ${controller.controllerType}`, () => {
 

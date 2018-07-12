@@ -67,6 +67,8 @@ export class UserController extends Controller<IUser> {
     return res;
   }
 
-  public createItems = createUsers;
+  public createItems(num: number): IUser[] {
+    return createUsers(num);
+  }
 
 }

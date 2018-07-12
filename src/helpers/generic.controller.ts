@@ -5,6 +5,7 @@ export abstract class Controller<T> {
   public controllerType: EntityTypes;
   public model: Model<Document>;
   constructor() { }
+  public abstract createItems(num: number): any[];
   public abstract async getById(id: string): Promise<T>;
   public abstract async getAll(): Promise<T[]>;
   public abstract async getByName(name: string): Promise<T[]>;
