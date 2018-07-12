@@ -4,6 +4,7 @@
 import { IUser } from '../user/user.interface';
 import { userModel } from '../user/user.model';
 import { folderModel } from '../folder/folder.model';
+import { IFolder } from '../folder/folder.interface';
 
 export function createJsonUsers(numUsers: number): IUser[] {
   const rand1: string = Math.random().toString(36).substring(2, 7);
@@ -45,7 +46,7 @@ export function createUsers(numUsers: number): IUser[] {
 }
 
 export function createFolders(numFolders: number) {
-  const testFolders = [];
+  const testFolders: IFolder[] = [];
   for (let i = 0; i < numFolders; i++) {
     const folder = new folderModel({
       name: 'FN_' + (10 * numFolders + i),

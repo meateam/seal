@@ -1,3 +1,4 @@
+import { ServerError } from '../errors/application';
 import { Schema, model, Mongoose } from 'mongoose';
 import { IFolder } from './folder.interface';
 
@@ -27,6 +28,11 @@ export const folderSchema = new Schema(
       type: Date,
       required: true,
     },
-  });
+  }
+);
+
+folderSchema.post('save', (error, doc, next) => {
+  next(new ServerError(error.message));
+});
 
 export const folderModel = model<IFolder>('folder', folderSchema);

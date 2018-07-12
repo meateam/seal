@@ -5,6 +5,9 @@
 // import { folderModel } from './folder.model';
 // import { createFolders } from '../helpers/functions';
 // import * as mongoose from 'mongoose';
+// import { Controller } from '../helpers/generic.controller';
+
+// // const FolderController : Controller<IFolder>;
 
 // const expect = chai.expect;
 // const TOTAL_FOLDERS: number = 4;
