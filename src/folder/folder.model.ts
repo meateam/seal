@@ -24,14 +24,6 @@ export const folderSchema = new Schema(
       type: [String],
       required: true,
     },
-    createdAt: {
-      type: Date,
-      required: true,
-    },
-    updatedAt: {
-      type: Date,
-      required: true,
-    },
   }
 );
 
