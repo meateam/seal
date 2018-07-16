@@ -4,4 +4,4 @@
 
 --file ./src/helpers/spec.helper
 -r ts-node/register
---ui bdd
+--timeout 5000

@@ -20,20 +20,9 @@ const SHARE_BASIC = {
   to: DB_ID_EXAMPLE,
 };
 
-// Clear DB before each test
-before(async () => {
-  await ShareModel.remove({}, (err) => {});
-});
-
 describe('Share', () => {
-  afterEach('Cleans DB', async () => {
-    const removeCollectionPromises = [];
-
-    for (const i in mongoose.connection.collections) {
-      removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    }
-
-    await Promise.all(removeCollectionPromises);
+  beforeEach('Cleans DB', async () => {
+    await mongoose.connection.db.dropDatabase();
   });
   describe('#getAll()', () => {
     it('Should be empty if there are no shares', async () => {
