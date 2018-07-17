@@ -50,6 +50,7 @@ export function createFolders(numFolders: number) {
   for (let i = 0; i < numFolders; i++) {
     const folder = new folderModel({
       name: 'FN_' + (10 * numFolders + i),
+      owner: 'UserName',
       parent: 'FP_' + (10 * numFolders + i - 1),
       files: [],
       folders: [],

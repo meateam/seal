@@ -65,6 +65,7 @@ export function runTests(controller: Controller<any>) {
           await controller.deleteById('non-existent-item');
           expect(false).to.be.true;
         } catch (err) {
+          console.log(err.message);
           expect(err).to.be.instanceof(ClientError);
           expect(err.status).to.be.equal(404);
         }
