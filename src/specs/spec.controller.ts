@@ -42,11 +42,14 @@ export function runTests(controller: Controller<any>) {
         expect(itemsReturned).to.have.lengthOf(testItems.length + 1);
       });
       it('should throw exception when trying to add new item with existed id', async () => {
+        let failed = false;
         try {
           await controller.add(testItems[0]);
-          expect(false).to.be.true;
         } catch (err) {
+          failed = true;
           expect(err).to.be.instanceof(ServerError);
+        } finally {
+          expect(failed).to.be.true;
         }
       });
     });
