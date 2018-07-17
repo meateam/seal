@@ -5,7 +5,7 @@ import * as morgan from 'morgan';
 import * as path from 'path';
 
 import { config } from './config';
-import { initRouting } from './helpers/routing';
+import { initRouter } from './router';
 
 export class Server {
   public app: express.Application;
@@ -32,7 +32,7 @@ export class Server {
   }
 
   private initializeRoutes(): void {
-    initRouting(this.app);
+    initRouter(this.app);
   }
 
   private configApplication(): void {
