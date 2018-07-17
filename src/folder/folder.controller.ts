@@ -21,6 +21,7 @@ export class FolderController extends Controller<IFolder>{
   public createItems(num: number): IFolder[] {
     return createFolders(num);
   }
+
   public async getById(id: string): Promise<IFolder> {
     const folder = await FolderService.getById(id);
     if (folder) {
@@ -28,12 +29,15 @@ export class FolderController extends Controller<IFolder>{
     }
     throw new FolderNotFoundError();
   }
+
   public async getAll(): Promise<IFolder[]> {
     return FolderService.getAll();
   }
+
   public async getByName(name: string): Promise<IFolder[]> {
     return FolderService.getByName(name);
   }
+
   public async update(id: string, partial: Partial<IFolder>): Promise<IFolder> {
     if (!this.isValidUpdate(id, partial)) {
       throw new BadIdError();
@@ -44,10 +48,12 @@ export class FolderController extends Controller<IFolder>{
     }
     throw new FolderNotFoundError();
   }
+
   public async add(folder: IFolder): Promise<IFolder> {
     const newFolder: IFolder = new folderModel(folder);
     return FolderService.add(newFolder);
   }
+
   public async deleteById(id: string): Promise<any> {
     if (!this.idValid(id)) {
       throw new FolderNotFoundError();

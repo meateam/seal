@@ -23,6 +23,18 @@ export function runTests(controller: Controller<any>) {
         const item = await controller.getById(testItems[0]._id);
         expect(testItems[0].equals(item)).to.be.true;
       });
+      it('should throw error when id not found', async () => {
+        let failed = false;
+        try {
+          const item = await controller.getById('000000000000000000000000');
+        } catch (err) {
+          failed = true;
+          expect(err).to.be.instanceof(ClientError);
+          expect(err.status).to.be.equal(404);
+        } finally {
+          expect(failed).to.be.true;
+        }
+      });
     });
 
     describe('#getAll', () => {
@@ -61,13 +73,15 @@ export function runTests(controller: Controller<any>) {
         expect(itemsReturned).to.have.lengthOf(TOTAL_ITEMS - 1);
       });
       it('should throw NotFoundError for trying to delete non-existent item', async () => {
+        let failed = false;
         try {
           await controller.deleteById('non-existent-item');
-          expect(false).to.be.true;
         } catch (err) {
-          console.log(err.message);
+          failed = true;
           expect(err).to.be.instanceof(ClientError);
           expect(err.status).to.be.equal(404);
+        } finally {
+          expect(failed).to.be.true;
         }
       });
     });
@@ -79,24 +93,28 @@ export function runTests(controller: Controller<any>) {
         expect(updatedUser.name).to.be.equal('newName');
       });
       it('should throw exception when trying to update a non-existent item', async () => {
+        let failed = false;
         try {
           await controller.update('non_existent_id', { name: 'ErrorName' });
-          expect(false).to.be.true;
         } catch (err) {
+          failed = true;
           expect(err).to.be.instanceof(ClientError);
           expect(err.status).to.be.equal(404);
+        } finally {
+          expect(failed).to.be.true;
         }
       });
       it('should throw exception when trying to update a wrong item', async () => {
+        let failed = false;
         try {
           await controller.update('non_existent_id', { _id: 'badId', name: 'ErrorName' });
-          expect(false).to.be.true;
         } catch (err) {
-          // console.log(err);
+          failed = true;
           expect(err).to.be.instanceof(ClientError);
           expect(err.status).to.be.equal(422);
+        } finally {
+          expect(failed).to.be.true;
         }
-
       });
     });
 
