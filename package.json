@@ -23,7 +23,6 @@
   },
   "nyc": {
     "check-coverage": true,
-    "exclude": [],
     "include": [
       "src/**/*.ts"
     ],
