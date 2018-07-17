@@ -7,6 +7,7 @@ import { createFolders } from '../helpers/functions';
 import { FolderError, FolderNotFoundError, BadIdError } from '../errors/folder';
 import { FolderService } from './folder.service';
 import { ServerError } from '../errors/application';
+import { FolderValidator } from './folder.validator';
 
 export class FolderController extends Controller<IFolder>{
   public controllerType: EntityTypes;
@@ -23,6 +24,9 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async getById(id: string): Promise<IFolder> {
+    if (!FolderValidator.isValidMongoId) {
+      throw new BadIdError();
+    }
     const folder = await FolderService.getById(id);
     if (folder) {
       return <IFolder>folder;
@@ -39,7 +43,7 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async update(id: string, partial: Partial<IFolder>): Promise<IFolder> {
-    if (!this.isValidUpdate(id, partial)) {
+    if (!FolderValidator.isValidUpdate(id, partial)) {
       throw new BadIdError();
     }
     const updatedUser: IFolder = await FolderService.update(partial._id, partial);
@@ -55,7 +59,7 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async deleteById(id: string): Promise<any> {
-    if (!this.idValid(id)) {
+    if (!FolderValidator.isValidMongoId(id)) {
       throw new FolderNotFoundError();
     }
     const res = await FolderService.deleteById(id);
@@ -65,21 +69,6 @@ export class FolderController extends Controller<IFolder>{
       throw new FolderNotFoundError();
     }
     return res;
-  }
-
-  private idValid(id: string) {
-    const regEx = new RegExp('^[0-9a-fA-F]{24}$');
-    return regEx.test(id);
-  }
-
-  private isValidUpdate(id: string, partialFolder: Partial<IFolder>): boolean {
-    if (partialFolder._id) {
-      if (partialFolder._id === id) {
-        return true;
-      }
-      return false;
-    }
-    return true;
   }
 
 }

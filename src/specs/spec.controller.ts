@@ -4,6 +4,7 @@ import { Controller } from '../helpers/generic.controller';
 
 const expect: Chai.ExpectStatic = chai.expect;
 const TOTAL_ITEMS = 4;
+const validMongoId = '000000000000000000000000';
 
 export function runTests(controller: Controller<any>) {
   let testItems;
@@ -26,7 +27,7 @@ export function runTests(controller: Controller<any>) {
       it('should throw error when id not found', async () => {
         let failed = false;
         try {
-          const item = await controller.getById('000000000000000000000000');
+          const item = await controller.getById(validMongoId);
         } catch (err) {
           failed = true;
           expect(err).to.be.instanceof(ClientError);
@@ -103,14 +104,26 @@ export function runTests(controller: Controller<any>) {
         const updatedUser = await controller.getById(testItems[0]._id);
         expect(updatedUser.name).to.be.equal('newName');
       });
-      it('should throw exception when trying to update a non-existent item', async () => {
+      it('should throw exception when trying to update an item with a BAD_ID', async () => {
         let failed = false;
         try {
           await controller.update('non_existent_id', { name: 'ErrorName' });
         } catch (err) {
           failed = true;
           expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(404);
+          expect(err.status).to.be.equal(422);
+        } finally {
+          expect(failed).to.be.true;
+        }
+      });
+      it('should throw exception when trying to update a non-existent item', async () => {
+        let failed = false;
+        try {
+          await controller.update(validMongoId, { name: 'ErrorName' });
+        } catch (err) {
+          failed = true;
+          expect(err).to.be.instanceof(ClientError);
+          expect(err.status).to.be.equal(422);
         } finally {
           expect(failed).to.be.true;
         }

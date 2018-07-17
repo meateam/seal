@@ -13,8 +13,6 @@ import { EntityTypes } from '../helpers/enums';
 import { createUsers } from '../helpers/functions';
 import { Controller } from '../helpers/generic.controller';
 
-const isValidUpdate: (id: string, partialUser: Partial<IUser>) => boolean = UserValidator.isValidUpdate;
-
 export class UserController extends Controller<IUser> {
   public controllerType: EntityTypes;
   public model: Model<IUser>;
@@ -42,7 +40,7 @@ export class UserController extends Controller<IUser> {
   }
 
   public async update(id: string, partialUser: Partial<IUser>): Promise<IUser> {
-    if (!isValidUpdate(id, partialUser)) {
+    if (!UserValidator.isValidUpdate(id, partialUser)) {
       throw new UserErrors.BadIdError();
     }
     const updatedUser: IUser = await UserService.update(partialUser._id, partialUser);
