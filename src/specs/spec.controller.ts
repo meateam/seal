@@ -19,7 +19,7 @@ export function runTests(controller: Controller<any>) {
     });
 
     describe('#getById', () => {
-      it('should return a user by its id', async () => {
+      it('should return an item by its id', async () => {
         const item = await controller.getById(testItems[0]._id);
         expect(testItems[0].equals(item)).to.be.true;
       });
@@ -35,31 +35,34 @@ export function runTests(controller: Controller<any>) {
 
     describe('#add', () => {
       it('should add a new item to the collection', async () => {
-        const user = controller.createItems(1)[0];
-        await controller.add(user);
-        const usersReturned = await controller.getAll();
-        expect(usersReturned).to.not.be.empty;
-        expect(usersReturned).to.have.lengthOf(testItems.length + 1);
+        const item = controller.createItems(1)[0];
+        await controller.add(item);
+        const itemsReturned = await controller.getAll();
+        expect(itemsReturned).to.not.be.empty;
+        expect(itemsReturned).to.have.lengthOf(testItems.length + 1);
       });
       it('should throw exception when trying to add new item with existed id', async () => {
+        let failed = false;
         try {
           await controller.add(testItems[0]);
-          expect(false).to.be.true;
         } catch (err) {
+          failed = true;
           expect(err).to.be.instanceof(ServerError);
+        } finally {
+          expect(failed).to.be.true;
         }
       });
     });
 
     describe('#deleteById', () => {
-      it('should delete a single user', async () => {
+      it('should delete a single item', async () => {
         await controller.deleteById(testItems[0]._id);
-        const usersReturned = await controller.getAll();
-        expect(usersReturned).to.have.lengthOf(TOTAL_ITEMS - 1);
+        const itemsReturned = await controller.getAll();
+        expect(itemsReturned).to.have.lengthOf(TOTAL_ITEMS - 1);
       });
-      it('should throw UserNotFoundError for trying to delete non-existent user', async () => {
+      it('should throw NotFoundError for trying to delete non-existent item', async () => {
         try {
-          await controller.deleteById('non-existent user');
+          await controller.deleteById('non-existent-item');
           expect(false).to.be.true;
         } catch (err) {
           expect(err).to.be.instanceof(ClientError);
@@ -88,6 +91,7 @@ export function runTests(controller: Controller<any>) {
           await controller.update('non_existent_id', { _id: 'badId', name: 'ErrorName' });
           expect(false).to.be.true;
         } catch (err) {
+          // console.log(err);
           expect(err).to.be.instanceof(ClientError);
           expect(err.status).to.be.equal(422);
         }
