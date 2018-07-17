@@ -2,22 +2,32 @@ import { IFolder } from './folder.interface';
 import * as chai from 'chai';
 import { folderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
+import { FolderController } from './folder.controller';
+import { FolderValidator } from './folder.validator';
 
 const expect = chai.expect;
 const TOTAL_FOLDERS: number = 4;
 const testFolders: IFolder[] = createFolders(TOTAL_FOLDERS);
-
+const controller : FolderController = new FolderController();
 describe('Test Folder', () => {
 
   beforeEach('Folder BeforeEach', async () => {
     await folderModel.remove({}, (err) => { });
     await folderModel.collection.insert(testFolders, (err, docs) => {
       if (err) {
+        console.log('ERROR in beforeEach in folder');
         console.error(err);
         // throw new serverError
       } else {
         console.log('Multiple documents inserted to Collection');
       }
+    });
+  });
+  describe('#getByName', () => {
+    it('should return all folders with this name', async() => {
+      const folders = await controller.getByName(testFolders[0].name);
+      expect(folders).to.have.length(1);
+      expect(FolderValidator.compareFolders(testFolders[0], folders[0])).to.be.true;
     });
   });
   describe('#getOwner', () => {

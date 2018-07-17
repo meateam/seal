@@ -84,6 +84,17 @@ export function runTests(controller: Controller<any>) {
           expect(failed).to.be.true;
         }
       });
+      it.skip('should throw ServerError for trying to delete BAD_ID item', async () => {
+        let failed = false;
+        try {
+          await controller.deleteById('!@#% ~`#^$^*&^*( *).,/');
+        } catch (err) {
+          failed = true;
+          expect(err).to.be.instanceof(ServerError);
+        } finally {
+          expect(failed).to.be.true;
+        }
+      });
     });
 
     describe('#update', () => {
