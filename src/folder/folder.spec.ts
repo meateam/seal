@@ -30,6 +30,7 @@ describe('Test Folder', () => {
       expect(FolderValidator.compareFolders(testFolders[0], folders[0])).to.be.true;
     });
   });
+
   describe('#getOwner', () => {
     it('should return the owner of the folder');
   });
