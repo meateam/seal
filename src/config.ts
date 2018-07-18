@@ -44,7 +44,6 @@ const prod: Config = {
 };
 
 function getConfig(confType: string) : Config {
-  console.log('confType: ' + confType);
   switch (confType) {
     case dev.conf_type:
       return dev;

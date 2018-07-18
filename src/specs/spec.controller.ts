@@ -1,6 +1,7 @@
 import * as chai from 'chai';
 import { ServerError, ClientError } from '../errors/application';
 import { Controller } from '../helpers/generic.controller';
+import { expectError } from '../helpers/spec.helper';
 
 const expect: Chai.ExpectStatic = chai.expect;
 const TOTAL_ITEMS = 4;
@@ -23,31 +24,19 @@ export function runTests(controller: Controller<any>) {
     describe('#getById', () => {
       it('should return an item by its id', async () => {
         const item = await controller.getById(testItems[0]._id);
-        expect(testItems[0].equals(item)).to.be.true;
+        expect(testItems[0]._id + '').to.be.equal(item._id + '');
       });
       it('should throw 404 error when id not found', async () => {
-        let failed = false;
-        try {
-          const item = await controller.getById(validMongoId);
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(404);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.getById, [validMongoId]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(404);
       });
       it.skip('should throw 422 error when BAD_ID', async () => {
-        let failed = false;
-        try {
-          const item = await controller.getById(invalidMongoID);
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(422);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.getById, [invalidMongoID]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(422);
       });
     });
 

@@ -24,6 +24,16 @@ export const folderSchema = new Schema(
       type: [String],
       required: true,
     },
+  },
+  {
+    timestamps: true,
+    id: true,
+    toJSON: {
+      virtuals: true
+    },
+    toObject: {
+      virtuals: true
+    }
   }
 );
 

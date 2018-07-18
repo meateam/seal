@@ -1,6 +1,8 @@
 import * as mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
+import * as chai from 'chai';
 
+const expect: Chai.ExpectStatic = chai.expect;
 dotenv.config({ path: '.env' });
 
 (<any>mongoose).Promise = Promise;
@@ -23,13 +25,17 @@ const mochaAsync = (func: Function) => {
 
 export const expectError = async (func: Function, params: any[]) => {
   let isError = false;
+  let currError;
   try {
     await func(...params);
   } catch (err) {
+    currError = err;
     err.should.exist;
     isError = true;
+  } finally {
+    isError.should.be.true;
+    return currError;
   }
-  isError.should.be.true;
 };
 
 before(async () => {
