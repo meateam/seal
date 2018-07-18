@@ -56,16 +56,10 @@ export function runTests(controller: Controller<any>) {
         expect(itemsReturned).to.not.be.empty;
         expect(itemsReturned).to.have.lengthOf(testItems.length + 1);
       });
-      it('should throw exception when trying to add new item with existed id', async () => {
-        let failed = false;
-        try {
-          await controller.add(testItems[0]);
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ServerError);
-        } finally {
-          expect(failed).to.be.true;
-        }
+      it('should throw ServerError when trying to add new item with existed id', async () => {
+        const error = await expectError(controller.add, [testItems[0]]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ServerError);
       });
     });
 
@@ -76,27 +70,15 @@ export function runTests(controller: Controller<any>) {
         expect(itemsReturned).to.have.lengthOf(TOTAL_ITEMS - 1);
       });
       it('should throw NotFoundError for trying to delete non-existent item', async () => {
-        let failed = false;
-        try {
-          await controller.deleteById('non-existent-item');
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(404);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.deleteById, [validMongoId]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(404);
       });
       it.skip('should throw ServerError for trying to delete BAD_ID item', async () => {
-        let failed = false;
-        try {
-          await controller.deleteById('!@#% ~`#^$^*&^*( *).,/');
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ServerError);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.deleteById, ['!@#% ~`#^$^*&^*( *).,/']);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ServerError);
       });
     });
 
@@ -106,41 +88,23 @@ export function runTests(controller: Controller<any>) {
         const updatedUser = await controller.getById(testItems[0]._id);
         expect(updatedUser.name).to.be.equal('newName');
       });
-      it('should throw 422 error when trying to update an item with a BAD_ID', async () => {
-        let failed = false;
-        try {
-          await controller.update(invalidMongoID, { name: 'ErrorName' });
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(422);
-        } finally {
-          expect(failed).to.be.true;
-        }
-      });
       it('should throw 404 error when trying to update a non-existent item', async () => {
-        let failed = false;
-        try {
-          await controller.update(validMongoId, { name: 'ErrorName' });
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(404);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.update, [validMongoId, { name: 'ErrorName' }]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(404);
+      });
+      it('should throw 422 error when trying to update an item with a BAD_ID', async () => {
+        const error = await expectError(controller.update, [invalidMongoID, { name: 'ErrorName' }]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(422);
       });
       it('should throw exception when trying to update a wrong item', async () => {
-        let failed = false;
-        try {
-          await controller.update('non_existent_id', { _id: 'badId', name: 'ErrorName' });
-        } catch (err) {
-          failed = true;
-          expect(err).to.be.instanceof(ClientError);
-          expect(err.status).to.be.equal(422);
-        } finally {
-          expect(failed).to.be.true;
-        }
+        const error = await expectError(controller.update, [invalidMongoID, { _id: 'badId', name: 'ErrorName' }]);
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(ClientError);
+        expect(error.status).to.be.equal(422);
       });
     });
 
