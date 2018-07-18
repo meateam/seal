@@ -6,7 +6,6 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
-import * as multer from 'multer';
 import { config } from './config';
 import { initRouting } from './helpers/routing';
 
