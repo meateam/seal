@@ -1,0 +1,7 @@
+###
+### mocha.opts
+###
+
+--file ./src/helpers/spec.helper
+-r ts-node/register
+--timeout 5000

@@ -17,20 +17,13 @@ chai.use(chaiAsPromised);
 
 const TOTAL_USERS: number = 4;
 const newName: string = 'shamanTheKing';
-let testUsers: IUser[];
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
 
-describe(`Test Users with ${TOTAL_USERS} users`, () => {
+describe(`User Logic`, () => {
 
-  before(() => {
-
-    testUsers = createUsers(TOTAL_USERS);
-    (<any>mongoose).Promise = global.Promise;
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-  });
-
-  beforeEach(async () => {
-    await userModel.remove({}, (err: Error) => { });
-    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
+  beforeEach('Write Me', async () => {
+    await userModel.remove({}, (err) => { });
+    await Promise.all(testUsers.map(user => UserController.add(user)));
   });
 
   describe('#getById', () => {
@@ -48,8 +41,8 @@ describe(`Test Users with ${TOTAL_USERS} users`, () => {
     });
   });
 
-  describe('#add', () => {
-    it('should add a new user to the collection', async () => {
+  describe.skip('#add', () => {
+    it(`should add a new user to the collection`, async () => {
       const user: IUser = createUsers(1)[0];
       await UserController.add(user);
       const usersReturned: IUser[] = await UserController.getAll();

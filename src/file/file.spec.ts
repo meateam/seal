@@ -21,9 +21,9 @@ let testFiles: IFile[];
 
 describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
-  before(async () => {
-    (<any>mongoose).Promise = global.Promise;
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
+  // before(async () => {
+  //   (<any>mongoose).Promise = global.Promise;
+  //   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 
     // Remove uploadsTEST folder
     // const files = await readdir(config.storage);
@@ -50,7 +50,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     //     // console.log('Files added to Folder');
     //   }
     // });
-  });
+  // });
 
   beforeEach(async () => {
     // Remove uploadsTEST folder
@@ -159,7 +159,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
   after((done: any) => {
     fs.remove(`${config.storage}`);
-    mongoose.disconnect();
+    // mongoose.disconnect();
     done();
   });
 
