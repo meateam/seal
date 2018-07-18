@@ -1,7 +1,7 @@
-import { userRouter } from '../user/user.router';
-import { folderRouter } from '../folder/folder.router';
+import { userRouter } from './user/user.router';
+import { folderRouter } from './folder/folder.router';
 
-export function initRouting(app) {
+export function initRouter(app) {
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
   app.get('/', (req, res) => {

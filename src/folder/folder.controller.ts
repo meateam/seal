@@ -24,7 +24,7 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async getById(id: string): Promise<IFolder> {
-    if (!FolderValidator.isValidMongoId) {
+    if (!FolderValidator.isValidMongoId(id)) {
       throw new BadIdError();
     }
     const folder = await FolderService.getById(id);
