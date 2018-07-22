@@ -18,8 +18,6 @@ describe('Test Folder', () => {
         console.log('ERROR in beforeEach in folder');
         console.error(err);
         // throw new serverError
-      } else {
-        console.log('Multiple documents inserted to Collection');
       }
     });
   });

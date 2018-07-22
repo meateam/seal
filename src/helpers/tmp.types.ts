@@ -10,6 +10,7 @@ export type IFile = {
   id: string;
   fileName: string;
   fileSize: number;
+  folderId: string;
   path: string;
   fileType: string;
   creationDate: number;

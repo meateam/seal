@@ -37,6 +37,15 @@ export const folderSchema = new Schema(
   }
 );
 
+// folderSchema.virtual('files', {
+//   ref: 'file', // The model to use
+//   localField: '_id', // Find files where `localField`
+//   foreignField: 'folderId', // is equal to `foreignField`
+//   // If `justOne` is true, 'members' will be a single doc as opposed to
+//   // an array. `justOne` is false by default.
+//   justOne: false
+// });
+
 folderSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
