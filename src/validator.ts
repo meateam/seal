@@ -1,6 +1,6 @@
 import * as validator from 'validator';
 
-export class Validator {
+export default class Validator {
 
   // check if the string contains only letters (a-zA-Z).
   static isAlpha(str): boolean {
