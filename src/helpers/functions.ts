@@ -14,7 +14,6 @@ export function createJsonUsers(numUsers: number): IUser[] {
     const user: any = {
       _id: rand1 + '_' + (numUsers * 10 + i),
       uniqueID: rand2 + '_' + (numUsers * 10 + i),
-      creationDate: new Date(),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
       rootFolder: '/Path/To/Root/Folder' + i
@@ -34,7 +33,6 @@ export function createUsers(numUsers: number): IUser[] {
     const user: IUser = new userModel({
       _id: rand1 + '_' + (numUsers * 10 + i),
       uniqueID: rand2 + '_' + (numUsers * 10 + i),
-      creationDate: new Date(),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
       rootFolder: '/Path/To/Root/Folder' + i
