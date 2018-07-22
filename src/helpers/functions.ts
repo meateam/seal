@@ -40,3 +40,12 @@ export function createUsers(numUsers: number): IUser[] {
 
   return testUsers;
 }
+
+export async function doesntThrowAsync(func, args): Promise<boolean> {
+  try {
+    await func(...args);
+    return true;
+  } catch {
+    return false;
+  }
+}
