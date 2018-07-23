@@ -5,7 +5,7 @@ import { fileModel } from './file.model';
 import { IFile } from './file.interface';
 import * as mongoose from 'mongoose';
 import { expect } from 'chai';
-import { server } from '../server';
+import { Server } from '../server';
 import { config } from '../config';
 import { createFiles } from '../helpers/functions';
 import { fileController } from './file.controller';
@@ -13,6 +13,7 @@ import * as express from 'express';
 
 const chai = require('chai');
 chai.use(chaiHttp);
+const server = new Server(true).app;
 
 const NUM_FILES = 3;
 const newName = 'changed.txt';
@@ -61,7 +62,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   describe(`POST new file`, () => {
     it(`Should add 3 new files`, (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .post('/api/file/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
         .attach('file', `${config.storage}/test-0.txt`)
@@ -76,7 +77,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   describe('Get all Files', () => {
     it(`Should return all files`, (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .get('/api/file')
         .end((err, res) => {
           expect(res.body.return).to.have.length(NUM_FILES);
@@ -87,7 +88,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   describe('Get Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .get('/api/file/test-2.txt?fieldType=fileName')
         .end((err, res) => {
           console.log(res.body);
@@ -98,7 +99,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
         });
     });
     it(`Should return file with specific ID (test2.txt)`, (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .get(`/api/file/${fileID}`)
         .end((err, res) => {
           // console.log(res.body);
@@ -108,7 +109,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
     });
     it(`Should return all files created before NOW`, (done) => {
       const toDate = new Date(Date.now());
-      chai.request(server.app)
+      chai.request(server)
         .get(`/api/file/Date?toDate=` + toDate.toISOString())
         .end((err, res) => {
           // console.log(res.body);
@@ -120,12 +121,12 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   describe('Update file', () => {
     it('should change a single file name', (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .put(`/api/file/${fileID}`)
         .set('content-type', 'application/x-www-form-urlencoded')
         .send({ id: fileID, fileName: newName })
         .end((err, res) => {
-          chai.request(server.app)
+          chai.request(server)
             .get(`/api/file/${fileID}`)
             .end((err2, res2) => {
               expect(res2.body.return.fileName).equal(newName);
@@ -137,10 +138,10 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   describe('Delete file by ID', () => {
     it('should delete a single file', (done) => {
-      chai.request(server.app)
+      chai.request(server)
         .delete(`/api/file/${fileID}`)
         .end((err, res) => {
-          chai.request(server.app)
+          chai.request(server)
             .get('/api/file')
             .end((err2, res2) => {
               expect(res2.body.return).to.have.length(NUM_FILES - 1);
@@ -155,7 +156,6 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
 
   after((done: any) => {
     fs.remove(`${config.storage}`);
-    server.listener.close();
     done();
   });
 });
