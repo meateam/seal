@@ -1,3 +1,6 @@
+/**
+ * Tests on the user router.
+ */
 import { expect } from 'chai';
 import { createJsonUsers } from '../helpers/functions';
 import { Server } from '../server';
@@ -5,7 +8,6 @@ import { userModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { UserValidator as uv } from './user.validator';
-import { isBuffer } from 'util';
 
 const chai = require('chai');
 chai.use(require('chai-http'));
@@ -15,13 +17,15 @@ const server = new Server(true).app;
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
+const newUser: IUser = createJsonUsers(1)[0];
 let tempUser: IUser;
+const controller = new UserController();
 
 describe('User Router', () => {
 
-  beforeEach('Write Me', async () => {
-    await userModel.remove({}, (err) => { });
-    await Promise.all(testUsers.map((user: IUser) => UserController.add(user)));
+  beforeEach(async () => {
+    await userModel.remove({}, (err: Error) => { });
+    await Promise.all(testUsers.map((user: IUser) => controller.add(user)));
   });
 
   describe(`GET user`, () => {
@@ -37,22 +41,18 @@ describe('User Router', () => {
 
   describe(`POST new user`, () => {
     it(`should add ${testUsers.length} users`, (done) => {
-      for (let i = 0; i < testUsers.length; i++) {
-        chai.request(server)
-          .post('/api/user')
-          .set('content-type', 'application/x-www-form-urlencoded')
-          .send(testUsers[i])
-          .end((err: Error, res: Response) => {
-            if (i === testUsers.length - 1) {
-              chai.request(server)
-                .get('/api/user')
-                .end((err2: Error, res2: Response) => {
-                  expect(res2.body).to.have.length(testUsers.length);
-                });
-              done();
-            }
-          });
-      }
+      chai.request(server)
+        .post('/api/user')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send(newUser)
+        .end((err: Error, res) => {
+          chai.request(server)
+            .get('/api/user')
+            .end((err2: Error, res2) => {
+              expect(res2.body).to.have.length(testUsers.length + 1);
+            });
+          done();
+        });
     });
   });
 
@@ -65,8 +65,8 @@ describe('User Router', () => {
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)
-            .end((err2: Error, res2: Response) => {
-              expect(res.body.name).to.be.eql(newName);
+            .end((err2: Error, res2) => {
+              expect(res2.body.name).to.be.eql(newName);
               done();
             });
         });
@@ -82,7 +82,7 @@ describe('User Router', () => {
           testUsers.shift();
           chai.request(server)
             .get('/api/user')
-            .end((err2: Error, res2: Response) => {
+            .end((err2: Error, res2) => {
               expect(res2.body).to.have.length(testUsers.length);
               for (let i: number = 0; i < testUsers.length; i++) {
                 expect(res2.body[i]._id).to.not.be.equal(tempUser._id);

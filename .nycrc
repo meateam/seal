@@ -1,0 +1,19 @@
+{
+  "check-coverage": true,
+  "include": [
+    "src/**/*.ts"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "exclude": [
+    "src/**/*.spec.ts",
+    "src/specs/spec.runner.ts"
+  ],
+  "reporter": [
+    "text",
+    "html"
+  ],
+  "sourceMap": true,
+  "instrument": true
+}

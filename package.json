@@ -8,7 +8,7 @@
     "release": "standard-version",
     "start": "tsc && cross-env NODE_ENV=dev node dist/server.js",
     "test": "npm run tslint&& npm run run_tests",
-    "run_tests": "cross-env NODE_ENV=testing mocha --opts ./mocha.opts src/**/*.spec.ts",
+    "run_tests": "cross-env NODE_ENV=testing mocha --opts ./mocha.opts src/**/*.spec.ts src/specs/spec.runner.ts",
     "prod": "tsc && cross-env NODE_ENV=prod node dist/server.js",
     "tslint": "tslint -c tslint.json -p tsconfig.json"
   },
@@ -36,6 +36,7 @@
     "chai-http": "^4.0.0",
     "cross-env": "^5.2.0",
     "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
     "supertest": "^3.1.0",
     "ts-node": "^6.2.0",
     "tslint": "^5.10.0",
