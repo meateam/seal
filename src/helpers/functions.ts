@@ -57,3 +57,13 @@ export function createFolders(numFolders: number) {
   }
   return testFolders;
 }
+
+export async function doesntThrowAsync(func, args): Promise<boolean> {
+  try {
+    await func(...args);
+    return true;
+  } catch {
+    return false;
+  }
+
+}
