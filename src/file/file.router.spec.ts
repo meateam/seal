@@ -21,7 +21,7 @@ const newName = 'changed.txt';
 let fileID;
 let testFiles: IFile[];
 
-describe(`Test Router Files with ${NUM_FILES} files`, () => {
+describe(`File Router`, () => {
 
   before(async () => {
     // Create files in Folder
@@ -75,7 +75,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
     });
   });
 
-  describe('Get all Files', () => {
+  describe('GET all Files', () => {
     it(`Should return all files`, (done) => {
       chai.request(server)
         .get('/api/file')
@@ -86,12 +86,12 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
     });
   });
 
-  describe('Get Specific Files', () => {
+  describe('GET Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
       chai.request(server)
         .get('/api/file/test-2.txt?fieldType=fileName')
         .end((err, res) => {
-          console.log(res.body);
+          // console.log(res.body);
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
           // console.log(fileID);
@@ -119,7 +119,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
     });
   });
 
-  describe('Update file', () => {
+  describe('PUT file', () => {
     it('should change a single file name', (done) => {
       chai.request(server)
         .put(`/api/file/${fileID}`)
@@ -136,7 +136,7 @@ describe(`Test Router Files with ${NUM_FILES} files`, () => {
     });
   });
 
-  describe('Delete file by ID', () => {
+  describe('Delete one', () => {
     it('should delete a single file', (done) => {
       chai.request(server)
         .delete(`/api/file/${fileID}`)

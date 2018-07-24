@@ -19,7 +19,7 @@ const TOTAL_FILES: number = 3;
 const newName: string = 'changeName';
 let testFiles: IFile[];
 
-describe(`Test Files with ${TOTAL_FILES} files`, () => {
+describe(`File Logic`, () => {
 
   beforeEach(async () => {
     // Remove uploadsTEST folder
@@ -105,7 +105,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
       const file: IFile[] = [new fileModel({
         fileName: 'newFile.txt',
         fileSize: 1,
-        path: `${config.storage}` + '//' + 'newFile.txt',
+        path: `${config.storage}` + '/' + 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
         Owner: 'Owner',
