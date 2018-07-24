@@ -19,38 +19,7 @@ const TOTAL_FILES: number = 3;
 const newName: string = 'changeName';
 let testFiles: IFile[];
 
-describe(`Test Files with ${TOTAL_FILES} files`, () => {
-
-  // before(async () => {
-  //   (<any>mongoose).Promise = global.Promise;
-  //   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
-    // Remove uploadsTEST folder
-    // const files = await readdir(config.storage);
-    // const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
-    // await Promise.all(unlinkPromises);
-    // await fs.remove(`${config.storage}`);
-
-    // // Remove files from DB
-    // const removeCollectionPromises = [];
-    // for (const i in mongoose.connection.collections) {
-    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    // }
-    // await Promise.all(removeCollectionPromises);
-
-    // // Create files in Folder and DB
-    // testFiles = createFiles(TOTAL_FILES);
-    // await fileController.create(testFiles);
-
-    // TODO: Add all files to uploadsTEST folder
-    // fs.copy('./test', './uploadsTEST', (err) => {
-    //   if (err) {
-    //     console.error(err);
-    //   } else {
-    //     // console.log('Files added to Folder');
-    //   }
-    // });
-  // });
+describe(`File Logic`, () => {
 
   beforeEach(async () => {
     // Remove uploadsTEST folder
