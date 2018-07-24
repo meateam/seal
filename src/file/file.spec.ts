@@ -148,7 +148,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     });
   });
 
-  describe('#deleteById', () => {
+  describe.skip('#deleteById', () => {
     it('Should delete a single file', async () => {
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
