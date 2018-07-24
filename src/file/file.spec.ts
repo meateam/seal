@@ -21,37 +21,6 @@ let testFiles: IFile[];
 
 describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
-  // before(async () => {
-  //   (<any>mongoose).Promise = global.Promise;
-  //   mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
-    // Remove uploadsTEST folder
-    // const files = await readdir(config.storage);
-    // const unlinkPromises = files.map(filename => unlink(`${config.storage}/${filename}`));
-    // await Promise.all(unlinkPromises);
-    // await fs.remove(`${config.storage}`);
-
-    // // Remove files from DB
-    // const removeCollectionPromises = [];
-    // for (const i in mongoose.connection.collections) {
-    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    // }
-    // await Promise.all(removeCollectionPromises);
-
-    // // Create files in Folder and DB
-    // testFiles = createFiles(TOTAL_FILES);
-    // await fileController.create(testFiles);
-
-    // TODO: Add all files to uploadsTEST folder
-    // fs.copy('./test', './uploadsTEST', (err) => {
-    //   if (err) {
-    //     console.error(err);
-    //   } else {
-    //     // console.log('Files added to Folder');
-    //   }
-    // });
-  // });
-
   beforeEach(async () => {
     // Remove uploadsTEST folder
     await fs.remove(`${config.storage}`);
@@ -136,7 +105,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
       const file: IFile[] = [new fileModel({
         fileName: 'newFile.txt',
         fileSize: 1,
-        path: 'uploadsTEST\\' + 'newFile.txt',
+        path: `${config.storage}` + '//' + 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
         Owner: 'Owner',
@@ -148,7 +117,7 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     });
   });
 
-  describe.skip('#deleteById', () => {
+  describe('#deleteById', () => {
     it('Should delete a single file', async () => {
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
@@ -159,8 +128,6 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
 
   after((done: any) => {
     fs.remove(`${config.storage}`);
-    // mongoose.disconnect();
     done();
   });
-
 });
