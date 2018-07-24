@@ -24,7 +24,7 @@ describe('Share logic', () => {
   beforeEach('Cleans DB', async () => {
     await mongoose.connection.db.dropDatabase();
   });
-  describe('#getAll()', () => {
+  describe('#getAll', () => {
     it('Should be empty if there are no shares', async () => {
       const shares = await Share.getAll();
       shares.should.be.an('array');
