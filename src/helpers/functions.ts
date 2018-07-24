@@ -45,7 +45,8 @@ export function createUsers(numUsers: number): IUser[] {
 }
 
 export function createFiles(numFiles: number) {
-  fs.ensureDir(`${config.storage}`, (err) => {
+  const folderName = `${config.storage}`;
+  fs.ensureDir(folderName, (err) => {
     if (err) throw err;
   });
   const testFiles = [];
@@ -54,7 +55,7 @@ export function createFiles(numFiles: number) {
     const file = new fileModel({
       fileName: currName,
       fileSize: 10 * i,
-      path: 'uploadsTEST\\' + currName,
+      path: folderName + '//' + currName,
       fileType: 'txt',
       createdAt: Date.now(),
       Owner: 'Owner',
@@ -71,7 +72,7 @@ function createFile(fileName: string) {
   const fileContent = 'Hello World!';
 
   // The absolute path of the new file with its name
-  const filepath = 'uploadsTEST/' + fileName;
+  const filepath = `${config.storage}/` + fileName;
 
   fs.writeFile(filepath, fileContent, (err) => {
     if (err) throw err;
