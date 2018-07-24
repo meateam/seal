@@ -66,6 +66,8 @@ describe(`Test Files with ${TOTAL_FILES} files`, () => {
     // Create files in Folder and DB
     testFiles = createFiles(TOTAL_FILES);
     await fileController.create(testFiles);
+    // console.log('Check');
+    // console.log(ret);
   });
 
   describe('#getById', () => {
