@@ -57,7 +57,7 @@ export function createFiles(numFiles: number) {
     const file = new fileModel({
       fileName: currName,
       fileSize: 10 * i,
-      path: folderName + '/' + currName,
+      path: folderName + '//' + currName,
       fileType: 'txt',
       createdAt: Date.now(),
       Owner: 'Owner',
