@@ -105,7 +105,7 @@ describe(`File Logic`, () => {
       const file: IFile[] = [new fileModel({
         fileName: 'newFile.txt',
         fileSize: 1,
-        path: 'uploadsTEST\\' + 'newFile.txt',
+        path: `${config.storage}` + '/' + 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
         Owner: 'Owner',
@@ -117,7 +117,7 @@ describe(`File Logic`, () => {
     });
   });
 
-  describe.skip('#deleteById', () => {
+  describe('#deleteById', () => {
     it('Should delete a single file', async () => {
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
