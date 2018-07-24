@@ -20,7 +20,7 @@ const SHARE_BASIC = {
   to: DB_ID_EXAMPLE,
 };
 
-describe('Share', () => {
+describe('Share logic', () => {
   beforeEach('Cleans DB', async () => {
     await mongoose.connection.db.dropDatabase();
   });
