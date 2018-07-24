@@ -18,7 +18,7 @@ const newName: string = 'shamanTheKing';
 const testUsers: IUser[] = createUsers(TOTAL_USERS);
 const controller = new UserController();
 
-describe(`User Logic`, () => {
+describe(`User logic`, () => {
 
   beforeEach('User BeforeEach', async () => {
     await userModel.remove({}, (err) => { });

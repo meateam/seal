@@ -10,7 +10,7 @@ const invalidMongoID = 'BAD_ID';
 
 export function runTests(controller: Controller<any>) {
   let testItems;
-  describe(`Test type ${controller.controllerType}`, () => {
+  describe(`Generic test type ${controller.controllerType}`, () => {
 
     before(() => {
       testItems = controller.createItems(TOTAL_ITEMS);

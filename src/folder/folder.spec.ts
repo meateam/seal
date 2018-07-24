@@ -9,7 +9,7 @@ const expect = chai.expect;
 const TOTAL_FOLDERS: number = 4;
 const testFolders: IFolder[] = createFolders(TOTAL_FOLDERS);
 const controller : FolderController = new FolderController();
-describe('Test Folder', () => {
+describe('Folder logic', () => {
 
   beforeEach('Folder BeforeEach', async () => {
     await folderModel.remove({}, (err) => { });
