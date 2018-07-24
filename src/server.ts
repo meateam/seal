@@ -48,10 +48,9 @@ export class Server {
     this.app.use(morgan('tiny'));  // 'combined' for more info
   }
 
-  private connectDB() {
+  private async connectDB() {
     // Connect mongoose to our database
-    mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
-
+    await mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
     const db = mongoose.connection;
     db.on('error', console.error.bind(console, 'connection error:'));
     db.once('open', () => {

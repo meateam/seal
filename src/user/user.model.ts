@@ -17,10 +17,6 @@ export const userSchema: Schema = new Schema(
       type: String,
       required: true
     },
-    creationDate: {
-      type: Date,
-      required: true
-    },
     hierarchy: {
       type: String,
       required: true

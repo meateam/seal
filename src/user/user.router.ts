@@ -6,23 +6,24 @@ import { controllerHandler } from '../helpers/controller.helper';
 import { UserController } from './user.controller';
 
 export const userRouter: Router = Router();
+const controller = new UserController();
 
 userRouter.get('/:id', async (req: Request, res: Response) => {
-  controllerHandler(UserController.getById, () => [req.params.id])(req, res, null);
+  controllerHandler(controller.getById, () => [req.params.id])(req, res, null);
 });
 
 userRouter.get('/', async (req: Request, res: Response) => {
-  controllerHandler(UserController.getAll, null)(req, res, null);
+  controllerHandler(controller.getAll, null)(req, res, null);
 });
 
 userRouter.post('/', async (req: Request, res: Response) => {
-  controllerHandler(UserController.add, () => [req.body])(req, res, null);
+  controllerHandler(controller.add, () => [req.body])(req, res, null);
 });
 
 userRouter.put('/:id', async (req: Request, res: Response) => {
-  controllerHandler(UserController.update, () => [req.params.id, req.body])(req, res, null);
+  controllerHandler(controller.update, () => [req.params.id, req.body])(req, res, null);
 });
 
 userRouter.delete('/:id', async (req: Request, res: Response) => {
-  controllerHandler(UserController.deleteById, () => [req.params.id])(req, res, null);
+  controllerHandler(controller.deleteById, () => [req.params.id])(req, res, null);
 });
