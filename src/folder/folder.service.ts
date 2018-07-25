@@ -1,9 +1,15 @@
 /**
  * FolderService handles the calls to the database
  */
-
+import { RepositoryBase } from '../helpers/repository';
 import { IFolder } from './folder.interface';
-import { FolderModel } from './folder.model';
+import { FolderModel, IFolderModel } from './folder.model';
+
+export default class FolderRepository extends RepositoryBase<IFolderModel> {
+  constructor() {
+    super(FolderModel);
+  }
+}
 
 export class FolderService {
 

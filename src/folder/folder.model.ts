@@ -1,6 +1,8 @@
 import { ServerError } from '../errors/application';
-import { Schema, model, Mongoose } from 'mongoose';
+import { Schema, model, Mongoose, Document } from 'mongoose';
 import { IFolder } from './folder.interface';
+
+export interface IFolderModel extends Document, IFolder {}
 
 export const FolderSchema = new Schema(
   {
