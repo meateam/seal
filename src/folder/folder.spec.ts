@@ -1,6 +1,6 @@
 import { IFolder } from './folder.interface';
 import * as chai from 'chai';
-import { folderModel } from './folder.model';
+import { FolderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
 import { FolderController } from './folder.controller';
 import { FolderValidator } from './folder.validator';
@@ -12,8 +12,8 @@ const controller : FolderController = new FolderController();
 describe('Folder logic', () => {
 
   beforeEach('Folder BeforeEach', async () => {
-    await folderModel.remove({}, (err) => { });
-    await folderModel.collection.insert(testFolders, (err, docs) => {
+    await FolderModel.remove({}, (err) => { });
+    await FolderModel.collection.insert(testFolders, (err, docs) => {
       if (err) {
         console.log('ERROR in beforeEach in folder');
         console.error(err);

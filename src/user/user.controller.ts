@@ -5,7 +5,7 @@
 import * as UserErrors from '../errors/user';
 import { ServerError } from '../errors/application';
 import { IUser } from './user.interface';
-import { userModel } from './user.model';
+import { UserModel } from './user.model';
 import { Model } from 'mongoose';
 import { UserService } from './user.service';
 import { UserValidator } from './user.validator';
@@ -20,7 +20,7 @@ export class UserController extends Controller<IUser> {
   constructor() {
     super();
     this.controllerType = EntityTypes.USER;
-    this.model = userModel;
+    this.model = UserModel;
   }
 
   public async getById(id: string): Promise<IUser> {
@@ -51,7 +51,7 @@ export class UserController extends Controller<IUser> {
   }
 
   public async add(reqUser: IUser): Promise<IUser> {
-    const newUser: IUser = new userModel(reqUser);
+    const newUser: IUser = new UserModel(reqUser);
     return await UserService.add(newUser);
   }
 

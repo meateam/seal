@@ -2,7 +2,7 @@ import { ServerError } from '../errors/application';
 import { Schema, model, Mongoose } from 'mongoose';
 import { IFolder } from './folder.interface';
 
-export const folderSchema = new Schema(
+export const FolderSchema = new Schema(
   {
     owner: {
       type: String,
@@ -37,8 +37,8 @@ export const folderSchema = new Schema(
   }
 );
 
-folderSchema.post('save', (error, doc, next) => {
+FolderSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const folderModel = model<IFolder>('folder', folderSchema);
+export const FolderModel = model<IFolder>('folder', FolderSchema);

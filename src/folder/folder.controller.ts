@@ -2,7 +2,7 @@ import { Controller } from '../helpers/generic.controller';
 import { IFolder } from './folder.interface';
 import { EntityTypes } from '../helpers/enums';
 import { Model } from 'mongoose';
-import { folderModel } from './folder.model';
+import { FolderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
 import { FolderError, FolderNotFoundError, BadIdError } from '../errors/folder';
 import { FolderService } from './folder.service';
@@ -16,7 +16,7 @@ export class FolderController extends Controller<IFolder>{
   constructor() {
     super();
     this.controllerType = EntityTypes.FOLDER;
-    this.model = folderModel;
+    this.model = FolderModel;
   }
 
   public createItems(num: number): IFolder[] {
@@ -54,7 +54,7 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async add(folder: IFolder): Promise<IFolder> {
-    const newFolder: IFolder = new folderModel(folder);
+    const newFolder: IFolder = new FolderModel(folder);
     return FolderService.add(newFolder);
   }
 

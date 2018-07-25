@@ -4,7 +4,7 @@
 import { expect } from 'chai';
 import { createJsonUsers } from '../helpers/functions';
 import { Server } from '../server';
-import { userModel } from './user.model';
+import { UserModel } from './user.model';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
 import { UserValidator as uv } from './user.validator';
@@ -24,7 +24,7 @@ const controller = new UserController();
 describe('User Router', () => {
 
   beforeEach(async () => {
-    await userModel.remove({}, (err: Error) => { });
+    await UserModel.remove({}, (err: Error) => { });
     await Promise.all(testUsers.map((user: IUser) => controller.add(user)));
   });
 
