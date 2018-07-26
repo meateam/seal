@@ -5,6 +5,7 @@ import { IUser } from '../user/user.interface';
 import { UserModel } from '../user/user.model';
 import { FolderModel } from '../folder/folder.model';
 import { IFolder } from '../folder/folder.interface';
+import * as mongoose from 'mongoose';
 
 export function createJsonUsers(numUsers: number): IUser[] {
   const rand1: string = Math.random().toString(36).substring(2, 7);
@@ -48,8 +49,8 @@ export function createFolders(numFolders: number) {
   for (let i = 0; i < numFolders; i++) {
     const folder = new FolderModel({
       name: 'FN_' + (10 * numFolders + i),
-      owner: 'UserName',
-      parent: 'FP_' + (10 * numFolders + i - 1),
+      owner: mongoose.Types.ObjectId(),
+      parent: mongoose.Types.ObjectId(),
       files: [],
       folders: [],
     });
