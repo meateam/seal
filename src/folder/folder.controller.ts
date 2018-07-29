@@ -2,10 +2,10 @@ import { Controller } from '../helpers/generic.controller';
 import { IFolder } from './folder.interface';
 import { EntityTypes } from '../helpers/enums';
 import { Model } from 'mongoose';
-import { FolderModel } from './folder.model';
+import { FolderModel, IFolderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
 import { FolderError, FolderNotFoundError, BadIdError } from '../errors/folder';
-import { FolderService } from './folder.service';
+import FolderRepository, { FolderService } from './folder.service';
 import { ServerError } from '../errors/application';
 import { FolderValidator } from './folder.validator';
 
@@ -27,9 +27,10 @@ export class FolderController extends Controller<IFolder>{
     if (!FolderValidator.isValidMongoId(id)) {
       throw new BadIdError();
     }
-    const folder = await FolderService.getById(id);
+    // const folder = await FolderService.getById(id);
+    const folder = await (new FolderRepository).findById(id);
     if (folder) {
-      return <IFolder>folder;
+      return <IFolderModel>folder;
     }
     throw new FolderNotFoundError();
   }

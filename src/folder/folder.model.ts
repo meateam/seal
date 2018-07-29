@@ -3,7 +3,7 @@ import * as mongoose from 'mongoose';
 import { IFolder } from './folder.interface';
 
 const ObjectId = mongoose.Schema.Types.ObjectId;
-export interface IFolderModel extends Document, IFolder {}
+export interface IFolderModel extends mongoose.Document, IFolder {}
 
 export const FolderSchema = new mongoose.Schema(
   {
@@ -44,4 +44,4 @@ FolderSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const FolderModel = mongoose.model<IFolder>('folder', FolderSchema);
+export const FolderModel = mongoose.model<IFolderModel>('folder', FolderSchema);

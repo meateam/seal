@@ -4,6 +4,7 @@
 import {  Request, Response, Router } from 'express';
 import { controllerHandler } from '../helpers/controller.helper';
 import { UserController } from './user.controller';
+import warpAsync from '../helpers/warpAsync';
 
 export const userRouter: Router = Router();
 const controller = new UserController();
