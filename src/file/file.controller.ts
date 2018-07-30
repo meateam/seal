@@ -6,25 +6,22 @@ import { storageService } from './storage/storage.service';
 
 export class fileController {
 
-  public static async create(files: IFile[]) {
+  public static async create(files: IFile[]): Promise<IFile[]> {
     const services: Promise<IFile>[] = files.map((val) => {
       return fileService.create(val);
     });
-    const ret = await Promise.all(services);
-    // console.log('ret promise all:');
-    // console.log(ret);
-    return ret;
+    return await Promise.all(services);
   }
 
-  public static getFiles(fieldType?: string, fieldName?: string) {
+  public static getFiles(fieldType?: string, fieldName?: string): Promise<IFile[]> {
     return fileService.findFiles(fieldType, fieldName);
   }
 
-  public static findById(fileId: string) {
+  public static findById(fileId: string): Promise<IFile> {
     return fileService.findById(fileId);
   }
 
-  public static findByDate(from?: string, to?: string) {
+  public static findByDate(from?: string, to?: string): Promise<IFile[]> {
     let fromDate;
     let toDate;
     if (from) fromDate = new Date(from);

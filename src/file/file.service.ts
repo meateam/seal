@@ -5,42 +5,37 @@ import { fileModel } from './file.model';
 
 export class fileService {
 
-  public static create(file: IFile) {
-    // console.log('file to save:');
-    // console.log(file);
+  public static create(file: IFile): Promise<IFile> {
     return file.save();
   }
 
-  public static delete(fileId: string) {
-    return fileModel.remove({ _id: fileId });
+  public static delete(fileId: string): Promise<IFile> {
+    return fileModel.deleteOne({ _id: fileId }).exec();
   }
 
-  public static update(fileId: string, file: Partial<IFile>) {
-    return fileModel.findByIdAndUpdate(fileId, file);
+  public static update(fileId: string, file: Partial<IFile>): Promise<IFile> {
+    return fileModel.findByIdAndUpdate(fileId, file, { new : true }).exec();
   }
 
-  public static findById(fileId: string) {
-    return fileModel.findById(fileId);
+  public static findById(fileId: string): Promise<IFile> {
+    return fileModel.findById(fileId).exec();
   }
 
-  public static findFiles(fieldType?: string, fieldValue?: string) {
+  public static findFiles(fieldType?: string, fieldValue?: string): Promise<IFile[]> {
     const condition: {[key: string]: any } = {};
     condition[fieldType] = fieldValue;
     if (fieldType) {
-      return fileModel.find(condition);
+      return fileModel.find(condition).exec();
     }
-    return fileModel.find();
+    return fileModel.find({}).exec();
   }
 
-  public static findByDate (from: Date, to: Date) {
-    // if (from.toString() === 'Invalid Date' || to.toString() === 'Invalid Date') {
-    //   throw new TypeError('Invalid Date');
-    // }
+  public static findByDate (from: Date, to: Date): Promise<IFile[]> {
     return fileModel.find({
       createdAt : {
         $gte: from,
         $lte: to,
       },
-    });
+    }).exec();
   }
 }
