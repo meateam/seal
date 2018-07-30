@@ -39,8 +39,7 @@ export class fileController {
   }
 
   public static async update(fileId: string, file: Partial<IFile>) {
-    const ret = await fileService.update(fileId, file);
-    const currFile: IFile = await fileController.findById(fileId);
+    const currFile = await fileService.update(fileId, file);
     // TODO: Add if not updated in storage
     return storageService.update(currFile.path);
   }

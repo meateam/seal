@@ -1,17 +1,13 @@
 import * as chai from 'chai';
 import * as mongoose from 'mongoose';
 import * as chaiAsPromised from 'chai-as-promised';
-// import * as fs from 'fs';
 import * as fs from 'node-fs-extra';
-// import * as util from 'util';
 import { config } from '../config';
 import { createFiles } from '../helpers/functions';
 import { fileController } from './file.controller';
 import { IFile } from './file.interface';
 import { fileModel } from './file.model';
 
-// const readdir = util.promisify(fs.readdir);
-// const unlink = util.promisify(fs.unlink);
 const expect: Chai.ExpectStatic = chai.expect;
 chai.use(chaiAsPromised);
 
