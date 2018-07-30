@@ -76,10 +76,6 @@ describe(`File Logic`, () => {
       const updatedFile: IFile = await fileController.findById(testFiles[0]._id);
       expect(updatedFile.fileName).to.be.equal(newName);
     });
-    // it('Should throw exception when trying to update a non-existent file', async () => {
-    //   await expect(fileController.update('non_existent_id', { fileName: 'ErrorName' }))
-    //     .to.eventually.be.rejectedWith('File doesnt exist');
-    // });
   });
 
   describe('#getByName', () => {

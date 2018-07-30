@@ -14,7 +14,7 @@ export class fileService {
   }
 
   public static update(fileId: string, file: Partial<IFile>): Promise<IFile> {
-    return fileModel.findByIdAndUpdate(fileId, file, { new : true }).exec();
+    return fileModel.findByIdAndUpdate(fileId, file, { runValidators: true, new : true }).exec();
   }
 
   public static findById(fileId: string): Promise<IFile> {
@@ -30,7 +30,7 @@ export class fileService {
     return fileModel.find({}).exec();
   }
 
-  public static findByDate (from: Date, to: Date): Promise<IFile[]> {
+  public static findByCreationDate (from: Date, to: Date): Promise<IFile[]> {
     return fileModel.find({
       createdAt : {
         $gte: from,

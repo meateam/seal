@@ -1,16 +1,10 @@
 import * as express from 'express';
-// import * as multer from 'multer';
-// import * as multerS3 from 'multer-s3';
 import { IFile } from './file.interface';
 import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import { upload } from './storage/storage.manager';
 
 export let fileRouter: express.Router = express.Router();
-
-// fileRouter.post('/upload', multer({ dest: './uploads/' }).any(), (req, res) => {
-//   console.log(req.body);
-// });
 
 fileRouter.post('/upload', upload, async (req: express.Request, res: express.Response) => {
   if (!req.files) {

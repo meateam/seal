@@ -37,10 +37,6 @@ export class Server {
   private configApplication(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-    this.app.use(morgan('tiny'));  // 'combined for more info'
-
-		/*express.static is a built i"n middleware function to serve static files.
-		We are telling express server public folder is the place to look for the static files */
     this.app.use(express.static(path.join(__dirname, '../public')));
   }
 

@@ -28,7 +28,7 @@ export class fileController {
     else fromDate = new Date('0000000000000');
     if (to) toDate = new Date(to);
     else toDate = Date.now();
-    return fileService.findByDate(fromDate, toDate);
+    return fileService.findByCreationDate(fromDate, toDate);
   }
 
   public static async delete(fileId: string) {

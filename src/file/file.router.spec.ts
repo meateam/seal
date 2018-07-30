@@ -17,7 +17,6 @@ const server = new Server(true).app;
 
 const NUM_FILES = 3;
 const newName = 'changed.txt';
-// "test": "set NODE_ENV=testing&& mocha -r ts-node/register src/**/spec.helper.ts src/**/*.spec.ts src/**/**/*.spec.ts",
 let fileID;
 let testFiles: IFile[];
 
@@ -34,12 +33,6 @@ describe(`File Router`, () => {
     }
     await Promise.all(removeCollectionPromises);
     // await fileModel.remove({}, (err: Error) => {});
-
-    // Create files in DB
-    // const files = await fileController.create(testFiles);
-    // console.log('ret:');
-    // console.log(files);
-    // fileID = files[0]._id;
   });
 
   beforeEach(async () => {
@@ -53,10 +46,6 @@ describe(`File Router`, () => {
 
     // Create files in DB
     // const files = await fileController.create(testFiles);
-    // console.log('ret:');
-    // console.log(await fileController.getFiles());
-    // console.log('ret:');
-    // console.log(files);
     // fileID = files[0]._id;
   });
 
@@ -91,10 +80,8 @@ describe(`File Router`, () => {
       chai.request(server)
         .get('/api/file/test-2.txt?fieldType=fileName')
         .end((err, res) => {
-          // console.log(res.body);
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
-          // console.log(fileID);
           done();
         });
     });
@@ -102,7 +89,6 @@ describe(`File Router`, () => {
       chai.request(server)
         .get(`/api/file/${fileID}`)
         .end((err, res) => {
-          // console.log(res.body);
           expect(res.body.return.fileName).equal('test-2.txt');
           done();
         });
@@ -112,7 +98,6 @@ describe(`File Router`, () => {
       chai.request(server)
         .get(`/api/file/Date?toDate=` + toDate.toISOString())
         .end((err, res) => {
-          // console.log(res.body);
           expect(res.body.return).to.have.length(NUM_FILES);
           done();
         });
