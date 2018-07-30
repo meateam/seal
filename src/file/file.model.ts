@@ -28,7 +28,6 @@ const fileSchema: mongoose.Schema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    updatedAt: Date,
   },
   {
     timestamps: true,

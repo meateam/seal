@@ -5,8 +5,8 @@ export interface IFile extends Document {
   fileSize: number;
   path: string;
   fileType: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
   Owner: string;
   Parent: string;
 }
