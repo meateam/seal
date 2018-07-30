@@ -4,8 +4,8 @@ import { EntityTypes } from '../helpers/enums';
 import { Model } from 'mongoose';
 import { FolderModel, IFolderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
-import { FolderError, FolderNotFoundError, BadIdError } from '../errors/folder';
-import FolderRepository, { FolderService } from './folder.service';
+import { FolderNotFoundError, BadIdError } from '../errors/folder';
+import FolderRepository from './folder.repository';
 import { ServerError } from '../errors/application';
 import { FolderValidator } from './folder.validator';
 
@@ -41,16 +41,16 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async getByName(name: string): Promise<IFolder[]> {
-    return FolderService.getByName(name);
+    return FolderController._repository.getByName(name);
   }
 
   public async update(id: string, partial: Partial<IFolder>): Promise<IFolder> {
     if (!FolderValidator.isValidUpdate(id, partial)) {
       throw new BadIdError();
     }
-    const updatedUser: IFolder = await FolderService.update(partial._id, partial);
+    const updatedUser = await FolderController._repository.updateFolder(partial._id, partial);
     if (updatedUser) {
-      return updatedUser;
+      return <IFolderModel>updatedUser;
     }
     throw new FolderNotFoundError();
   }
