@@ -12,6 +12,7 @@ import { FolderValidator } from './folder.validator';
 export class FolderController extends Controller<IFolder>{
   public controllerType: EntityTypes;
   public model: Model<IFolder>;
+  static _repository: FolderRepository = new FolderRepository();
 
   constructor() {
     super();
@@ -27,8 +28,7 @@ export class FolderController extends Controller<IFolder>{
     if (!FolderValidator.isValidMongoId(id)) {
       throw new BadIdError();
     }
-    // const folder = await FolderService.getById(id);
-    const folder = await (new FolderRepository).findById(id);
+    const folder = await FolderController._repository.findById(id);
     if (folder) {
       return <IFolderModel>folder;
     }
@@ -36,7 +36,8 @@ export class FolderController extends Controller<IFolder>{
   }
 
   public async getAll(): Promise<IFolder[]> {
-    return FolderService.getAll();
+    const folders = await FolderController._repository.find({});
+    return <IFolderModel[]>folders;
   }
 
   public async getByName(name: string): Promise<IFolder[]> {
@@ -56,14 +57,14 @@ export class FolderController extends Controller<IFolder>{
 
   public async add(folder: IFolder): Promise<IFolder> {
     const newFolder: IFolder = new FolderModel(folder);
-    return FolderService.add(newFolder);
+    return <IFolderModel>await FolderController._repository.create(newFolder);
   }
 
   public async deleteById(id: string): Promise<any> {
     if (!FolderValidator.isValidMongoId(id)) {
       throw new FolderNotFoundError();
     }
-    const res = await FolderService.deleteById(id);
+    const res = await FolderController._repository.delete(id);
     if (!res.ok) {
       throw new ServerError();
     } else if (res.n < 1) {

@@ -9,6 +9,10 @@ export default class FolderRepository extends RepositoryBase<IFolderModel> {
   constructor() {
     super(FolderModel);
   }
+
+  public static update2(id: String, newFolder: Partial<IFolder>): Promise<IFolder> {
+    return FolderModel.findByIdAndUpdate(id, newFolder, { new: true }).exec();
+  }
 }
 
 export class FolderService {
