@@ -24,6 +24,7 @@ export class UserController extends Controller<IUser> {
   }
 
   public async getById(id: string): Promise<IUser> {
+    console.log('In User Controller!' + id);
     const user: IUser = await UserService.getById(id);
     if (user) {
       return user;
