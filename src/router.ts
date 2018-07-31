@@ -17,10 +17,9 @@ export function initRouter(app) {
   });
 
   app.use((error, req, res, next) => {
-    return res.status(600).json({
-      type: 'GENERAL ERROR',
+    return res.status(500).json({
+      type: 'Unknown Application Error',
       message: error.message
     });
-
   });
 }
