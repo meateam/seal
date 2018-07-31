@@ -2,6 +2,7 @@ import * as express from 'express';
 import { IFile } from './file.interface';
 import { fileController } from './file.controller';
 import { fileModel } from './file.model';
+import * as FileErrors from '../errors/file';
 import { upload } from './storage/storage.manager';
 
 export class FileResponder {
@@ -53,25 +54,20 @@ export class FileResponder {
   }
 
   static async get(req: express.Request, res: express.Response) {
-    try {
-      let ret;
-      if (req.query.fromDate || req.query.toDate) {
-        ret = await fileController.findByDate(req.query.fromDate,
-                                              req.query.toDate);
-      } else if (req.query.fieldType) {
-        ret = await fileController.getFiles(req.query.fieldType,
-                                            req.params.fieldValue);
-      } else {
-        ret = await fileController.findById(req.params.fieldValue);
-      }
-      if (ret) {
-        return res.json({ success: true, return: ret });
-      }
-      return res.status(404).send({ message: 'No files found' });
-    } catch (err) {
-      return res.status(500).send({
-        message: 'Could not retrieve files - ' + err.message });
+    let ret;
+    if (req.query.fromDate || req.query.toDate) {
+      ret = await fileController.findByDate(req.query.fromDate,
+                                            req.query.toDate);
+    } else if (req.query.fieldType) {
+      ret = await fileController.getFiles(req.query.fieldType,
+                                          req.params.fieldValue);
+    } else {
+      ret = await fileController.findById(req.params.fieldValue);
     }
+    if (ret) {
+      return res.json({ success: true, return: ret });
+    }
+    throw new FileErrors.NoFilesFoundError();
   }
 
   static async update(req: express.Request, res: express.Response) {

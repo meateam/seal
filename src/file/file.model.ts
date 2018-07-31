@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { ServerError } from '../errors/application';
 import { IFile } from './file.interface';
 
 const fileSchema: mongoose.Schema = new mongoose.Schema(
@@ -32,5 +33,9 @@ const fileSchema: mongoose.Schema = new mongoose.Schema(
   {
     timestamps: true,
   });
+
+fileSchema.post('save', (error, doc, next) => {
+  next(new ServerError(error.message));
+});
 
 export let fileModel = mongoose.model<IFile>('File', fileSchema);
