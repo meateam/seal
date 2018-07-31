@@ -4,17 +4,13 @@
 import {  Request, Response, Router } from 'express';
 import { controllerHandler } from '../helpers/controller.helper';
 import { UserController } from './user.controller';
-import warpAsync from '../helpers/warpAsync';
-import { UserResponder } from './user.responder';
 
 export const userRouter: Router = Router();
 const controller = new UserController();
 
-userRouter.get('/:id', warpAsync(UserResponder.getById));
-
-// userRouter.get('/:id', async (req: Request, res: Response) => {
-//   controllerHandler(controller.getById, () => [req.params.id])(req, res, null);
-// });
+userRouter.get('/:id', async (req: Request, res: Response) => {
+  controllerHandler(controller.getById, () => [req.params.id])(req, res, null);
+});
 
 userRouter.get('/', async (req: Request, res: Response) => {
   controllerHandler(controller.getAll, null)(req, res, null);
