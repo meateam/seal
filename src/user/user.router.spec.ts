@@ -17,7 +17,7 @@ const server = new Server(true).app;
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
 const testUsers: IUser[] = createUsers(TOTAL_USERS);
-const newUser: IUser = createUsers(1)[0];
+const newUser: IUser = createJsonUsers(1)[0];
 let tempUser: IUser;
 const controller = new UserController();
 
@@ -41,12 +41,10 @@ describe('User Router', () => {
 
   describe(`POST new user`, () => {
     it(`should add a user`, (done) => {
-      console.log('POSTING!!!!');
-      console.log(newUser.toJSON());
       chai.request(server)
         .post('/api/user/')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send(newUser.toJSON())
+        .send(newUser)
         .end((err: Error, res) => {
           chai.request(server)
             .get('/api/user')
@@ -63,7 +61,7 @@ describe('User Router', () => {
       chai.request(server)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send(newUser)
+        .send({ name: newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)

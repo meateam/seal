@@ -4,10 +4,6 @@ import { IUser } from './user.interface';
 
 export const userSchema: Schema = new Schema(
   {
-    // _id: {
-    //   type: String,
-    //   required: true
-    // },
     uniqueID: {
       type: String,
       unique: true,
@@ -38,8 +34,8 @@ export const userSchema: Schema = new Schema(
   }
 );
 
-// userSchema.post('save', (error, doc, next) => {
-//   next(new ServerError(error.message));
-// });
+userSchema.post('save', (error, doc, next) => {
+  next(new ServerError(error.message));
+});
 
 export const userModel: Model<IUser> = model<IUser>('User', userSchema);

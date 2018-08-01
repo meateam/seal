@@ -41,12 +41,8 @@ export class UserController extends Controller<IUser> {
 
   public async update(id: string, partialUser: Partial<IUser>): Promise<IUser> {
     if (!UserValidator.isValidUpdate(id, partialUser)) {
-      console.log('BAD ID ' + id);
-      console.log(partialUser);
       throw new UserErrors.BadIdError();
     }
-    console.log('updating! ' + id);
-    console.log(partialUser);
     const updatedUser: IUser = await UserService.update(id, partialUser);
     if (updatedUser) {
       return updatedUser;

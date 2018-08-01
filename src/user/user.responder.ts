@@ -24,8 +24,6 @@ export class UserResponder {
   }
 
   public static async add(req, res) {
-    console.log('*******************************Add in responder*****************************************');
-    console.log(req.body._id);
     return res.json(await controller.add(req.body));
   }
 }
