@@ -2,7 +2,7 @@
  * Tests on the user router.
  */
 import { expect } from 'chai';
-import { createJsonUsers } from '../helpers/functions';
+import { createJsonUsers, createUsers } from '../helpers/functions';
 import { Server } from '../server';
 import { userModel } from './user.model';
 import { UserController } from './user.controller';
@@ -16,8 +16,8 @@ const server = new Server(true).app;
 
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
-const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
-const newUser: IUser = createJsonUsers(1)[0];
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
+const newUser: IUser = createUsers(1)[0];
 let tempUser: IUser;
 const controller = new UserController();
 
@@ -39,8 +39,8 @@ describe('User Router', () => {
     });
   });
 
-  describe(`POST new user`, () => {
-    it(`should add ${testUsers.length} users`, (done) => {
+  describe.skip(`POST new user`, () => {
+    it(`should add a user`, (done) => {
       chai.request(server)
         .post('/api/user')
         .set('content-type', 'application/x-www-form-urlencoded')
@@ -58,6 +58,7 @@ describe('User Router', () => {
 
   describe(`PUT`, () => {
     it(`should change a single user name`, (done) => {
+      console.log(`${testUsers[0]._id} , ${newName}`);
       chai.request(server)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')

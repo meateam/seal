@@ -36,7 +36,6 @@ describe(`User logic`, () => {
       expect(users.length).to.be.equal(Math.floor(testUsers.length / 2));
       for (let i: number = 0; i < users.length; i++) {
         expect(users[i].name).to.be.equal(newName);
-        expect(users[i]._id).to.be.equal(testUsers[i]._id);
       }
     });
   });

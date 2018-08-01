@@ -4,10 +4,10 @@ import { IUser } from './user.interface';
 
 export const userSchema: Schema = new Schema(
   {
-    _id: {
-      type: String,
-      required: true
-    },
+    // _id: {
+    //   type: String,
+    //   required: true
+    // },
     uniqueID: {
       type: String,
       unique: true,

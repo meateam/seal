@@ -16,7 +16,7 @@ export class UserResponder {
   }
 
   public static async update(req, res) {
-    return res.json(await controller.update(req.params.id, req.body));
+    return res.json(await controller.update(req.params._id, req.body));
   }
 
   public static async delete(req, res) {
