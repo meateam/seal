@@ -20,6 +20,7 @@ export class UserValidator {
     return this.isValidMongoId(id);
   }
 
+  // Should be used directly only for tests
   public static compareJsonUsers(user1: IUser, user2: IUser): boolean {
     const f1: Partial<IUser> = this.getComparableFields(user1);
     const f2: Partial<IUser> = this.getComparableFields(user2);
