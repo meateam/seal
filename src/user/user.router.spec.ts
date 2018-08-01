@@ -39,12 +39,14 @@ describe('User Router', () => {
     });
   });
 
-  describe.skip(`POST new user`, () => {
+  describe(`POST new user`, () => {
     it(`should add a user`, (done) => {
+      console.log('POSTING!!!!');
+      console.log(newUser.toJSON());
       chai.request(server)
-        .post('/api/user')
+        .post('/api/user/')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send(newUser)
+        .send(newUser.toJSON())
         .end((err: Error, res) => {
           chai.request(server)
             .get('/api/user')
@@ -58,11 +60,10 @@ describe('User Router', () => {
 
   describe(`PUT`, () => {
     it(`should change a single user name`, (done) => {
-      console.log(`${testUsers[0]._id} , ${newName}`);
       chai.request(server)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ _id: testUsers[0]._id, name: newName })
+        .send(newUser)
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)

@@ -46,7 +46,7 @@ export class FolderController extends Controller<IFolder>{
     if (!FolderValidator.isValidUpdate(id, partial)) {
       throw new BadIdError();
     }
-    const updatedUser: IFolder = await FolderService.update(partial._id, partial);
+    const updatedUser: IFolder = await FolderService.update(id, partial);
     if (updatedUser) {
       return updatedUser;
     }

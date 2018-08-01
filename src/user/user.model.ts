@@ -38,8 +38,8 @@ export const userSchema: Schema = new Schema(
   }
 );
 
-userSchema.post('save', (error, doc, next) => {
-  next(new ServerError(error.message));
-});
+// userSchema.post('save', (error, doc, next) => {
+//   next(new ServerError(error.message));
+// });
 
 export const userModel: Model<IUser> = model<IUser>('User', userSchema);

@@ -17,6 +17,7 @@ export class UserValidator {
       }
       return false;
     }
+    // return true;
     return this.isValidMongoId(id);
   }
 
@@ -25,10 +26,10 @@ export class UserValidator {
     const f2: Partial<IUser> = this.getComparableFields(user2);
 
     return (
-      f1.name + '' === f2.name + '' &&
-      f1.uniqueID + '' === f2.uniqueID + '' &&
-      f1.hierarchy + '' === f2.hierarchy + '' &&
-      f1.rootFolder + '' === f2.rootFolder + ''
+      f1.name === f2.name &&
+      f1.uniqueID === f2.uniqueID &&
+      f1.hierarchy === f2.hierarchy &&
+      f1.rootFolder === f2.rootFolder
     );
   }
   private static getComparableFields(user: IUser): Partial<IUser> {
