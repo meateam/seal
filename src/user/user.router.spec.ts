@@ -33,7 +33,7 @@ describe('User Router', () => {
       chai.request(server)
         .get(`/api/user/${testUsers[0]._id}`)
         .end((err: Error, res) => {
-          expect(uv.compareUsers(testUsers[0], res.body)).to.be.true;
+          expect(uv.compareJsonUsers(testUsers[0], res.body)).to.be.true;
           done();
         });
     });
@@ -42,7 +42,7 @@ describe('User Router', () => {
   describe(`POST new user`, () => {
     it(`should add a user`, (done) => {
       chai.request(server)
-        .post('/api/user/')
+        .post('/api/user')
         .set('content-type', 'application/x-www-form-urlencoded')
         .send(newUser)
         .end((err: Error, res) => {
@@ -61,7 +61,7 @@ describe('User Router', () => {
       chai.request(server)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ name: newName })
+        .send({ id: testUsers[0]._id, name: newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)

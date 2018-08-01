@@ -17,11 +17,10 @@ export class UserValidator {
       }
       return false;
     }
-    // return true;
     return this.isValidMongoId(id);
   }
 
-  public static compareUsers(user1: IUser, user2: IUser): boolean {
+  public static compareJsonUsers(user1: IUser, user2: IUser): boolean {
     const f1: Partial<IUser> = this.getComparableFields(user1);
     const f2: Partial<IUser> = this.getComparableFields(user2);
 
@@ -32,6 +31,11 @@ export class UserValidator {
       f1.rootFolder === f2.rootFolder
     );
   }
+
+  public static compareUsers(user1: IUser, user2: IUser): boolean {
+    return (user1._id === user2._id && this.compareJsonUsers(user1, user2));
+  }
+
   private static getComparableFields(user: IUser): Partial<IUser> {
     return {
       _id: user._id,
