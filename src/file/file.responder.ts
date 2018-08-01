@@ -9,7 +9,7 @@ export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
     if (!req.files) {
-      res.status(400).send({ message: 'Files cannot be empty' });
+      throw new FileErrors.FilesEmpty();
     } else {
       const files = (<Express.Multer.File[]>req.files).map((val) => {
         const file: IFile = new fileModel({
@@ -24,24 +24,17 @@ export class FileResponder {
         });
         return file;
       });
-
-      try {
-        const ret = await fileController.create(files);
-        return res.send({ message: 'File saved successfully' });
-      } catch (err) {
-        console.log(err.message);
-        return res.status(500).send({ message: 'Could not save file - ' + err.message });
-      }
+      const ret = await fileController.create(files);
+      return res.send({ message: 'File saved successfully' });
     }
   }
 
   static async getAll(req: express.Request, res: express.Response) {
-    try {
-      const ret = await fileController.getFiles();
+    const ret = await fileController.getFiles();
+    if (ret) {
       return res.json({ success: true, return: ret });
-    } catch (err) {
-      return res.status(500).send({ message: 'Could not retrieve files - ' + err.message });
     }
+    throw new FileErrors.NoFilesFoundError();
   }
 
   static async delete(req: express.Request, res: express.Response) {
@@ -71,13 +64,11 @@ export class FileResponder {
   }
 
   static async update(req: express.Request, res: express.Response) {
-    try {
-      const file: Partial<IFile> = req.body;
-      const ret = await fileController.update(req.params.id, file);
-      return res.send({ message: 'File updated successfully' });
-    } catch (err) {
-      console.log(err.message);
-      return res.status(500).send({ message: 'Could not update file - ' + err.message });
+    const file: Partial<IFile> = req.body;
+    const ret = await fileController.update(req.params.id, file);
+    if (ret) {
+      return res.json({ success: true, return: ret });
     }
+    throw new FileErrors.NoFilesFoundError();
   }
 }

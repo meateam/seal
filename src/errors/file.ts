@@ -5,7 +5,13 @@ import { ClientError } from './application';
 
 export class FileError extends ClientError {
   constructor(message?: string, status?: number) {
-    super(message || 'Bad user error', status || 400);
+    super(message || 'Bad file error', status || 400);
+  }
+}
+
+export class FilesEmpty extends ClientError {
+  constructor(message?: string, status?: number) {
+    super(message || 'Files cannot be empty', status || 400);
   }
 }
 
@@ -21,9 +27,9 @@ export class NoFilesFoundError extends FileError {
   }
 }
 
-export class UserExistsError extends FileError {
+export class FileExitsError extends FileError {
   constructor(message?: string) {
-    super(message || 'User already exists', 409);
+    super(message || 'File already exists', 409);
   }
 }
 
