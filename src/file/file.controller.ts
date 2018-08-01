@@ -31,16 +31,22 @@ export class fileController {
     return fileService.findByCreationDate(fromDate, toDate);
   }
 
-  public static async delete(fileId: string) {
+  public static async delete(fileId: string): Promise<IFile> {
     const currFile: IFile = await fileController.findById(fileId);
     const ret = await fileService.delete(fileId);
+    if (ret) {
+      storageService.delete(currFile.path);
+    }
     // TODO: Add if not deleted from storage
-    return storageService.delete(currFile.path);
+    return ret;
   }
 
-  public static async update(fileId: string, file: Partial<IFile>) {
+  public static async update(fileId: string, file: Partial<IFile>): Promise<IFile> {
     const currFile = await fileService.update(fileId, file);
+    if (currFile) {
+      storageService.update(currFile.path);
+    }
     // TODO: Add if not updated in storage
-    return storageService.update(currFile.path);
+    return currFile;
   }
 }

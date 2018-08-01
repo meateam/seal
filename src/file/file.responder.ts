@@ -38,12 +38,11 @@ export class FileResponder {
   }
 
   static async delete(req: express.Request, res: express.Response) {
-    try {
-      const ret = await fileController.delete(req.params.id);
-      return res.send({ message: 'File deleted successfully' });
-    } catch (err) {
-      return res.status(500).send({ message: 'Could not delete file - ' + err.message });
+    const ret = await fileController.delete(req.params.id);
+    if (ret) {
+      return res.json({ success: true, return: ret });
     }
+    throw new FileErrors.FileNotFoundError();
   }
 
   static async get(req: express.Request, res: express.Response) {
