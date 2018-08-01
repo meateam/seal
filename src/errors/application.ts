@@ -3,7 +3,7 @@
  */
 
 export class ApplicationError extends Error {
-  private status: number;
+  public status: number;
 
   constructor(message?: string, status?: number) {
     super();
