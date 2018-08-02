@@ -7,10 +7,6 @@ import { IUser } from './user.interface';
 
 export const UserSchema: mongoose.Schema = new mongoose.Schema(
   {
-    _id: {
-      type: String,
-      required: true
-    },
     uniqueID: {
       type: String,
       unique: true,
