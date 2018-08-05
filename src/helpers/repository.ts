@@ -54,7 +54,7 @@ export abstract class RepositoryBase<T extends mongoose.Document> implements IRe
     return updateQuery.exec();
   }
 
-  updatePartial(_id: string, change: any): Promise<mongoose.Document> {
+  updatePartial(_id: string, change: Partial<T>): Promise<mongoose.Document> {
     return this._model.update({ _id }, { $set: change }).exec();
   }
 
