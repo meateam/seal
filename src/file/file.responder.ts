@@ -34,7 +34,7 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    throw new FileErrors.NoFilesFoundError();
+    return res.send({ message: 'No Files Found' });
   }
 
   static async delete(req: express.Request, res: express.Response) {
@@ -59,7 +59,7 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    throw new FileErrors.NoFilesFoundError();
+    return res.send({ message: 'No Files Found' });
   }
 
   static async update(req: express.Request, res: express.Response) {
@@ -68,6 +68,6 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    throw new FileErrors.NoFilesFoundError();
+    throw new FileErrors.FileNotFoundError();
   }
 }

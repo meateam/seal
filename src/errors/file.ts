@@ -21,13 +21,7 @@ export class FileNotFoundError extends FileError {
   }
 }
 
-export class NoFilesFoundError extends FileError {
-  constructor(message?: string) {
-    super(message || 'No Files Found', 404);
-  }
-}
-
-export class FileExitsError extends FileError {
+export class FileExistsError extends FileError {
   constructor(message?: string) {
     super(message || 'File already exists', 409);
   }
