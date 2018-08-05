@@ -46,7 +46,7 @@ export class UserController extends Controller<IUser> {
     if (!UserValidator.isValidUpdate(id, partialUser)) {
       throw new UserErrors.BadIdError();
     }
-    const updatedUser: IUser = await  UserController._repository.updatePartial(id, partialUser);
+    const updatedUser: IUser = await  UserController._repository.updatePartialUser(id, partialUser);
     if (updatedUser) {
       return updatedUser;
     }
