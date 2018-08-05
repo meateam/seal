@@ -1,10 +1,10 @@
 import { ServerError } from '../errors/application';
-import { model, Model, Schema, Document } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { IUser } from './user.interface';
 
-export interface IUserModel extends Document, IUser {}
+export interface IUserModel extends mongoose.Document, IUser {}
 
-export const UserSchema: Schema = new Schema(
+export const UserSchema: mongoose.Schema = new mongoose.Schema(
   {
     uniqueID: {
       type: String,
@@ -40,4 +40,4 @@ UserSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const UserModel: Model<IUser> = model<IUserModel>('User', UserSchema);
+export const UserModel: mongoose.Model<IUser> = mongoose.model<IUserModel>('User', UserSchema);
