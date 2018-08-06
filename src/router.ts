@@ -1,10 +1,8 @@
 import { userRouter } from './user/user.router';
-import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
 import { ClientError, ServerError } from './errors/application';
 
 export function initRouter(app) {
-  app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
   app.get('/', (req, res) => {

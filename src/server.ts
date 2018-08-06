@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as morgan from 'morgan';
 import * as path from 'path';
+
 import { config } from './config';
 import { initRouter } from './router';
 
@@ -37,7 +38,6 @@ export class Server {
   private configApplication(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-    this.app.use(express.static(path.join(__dirname, '../public')));
   }
 
   private log() {
