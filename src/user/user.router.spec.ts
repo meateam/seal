@@ -78,7 +78,7 @@ describe('User Router', () => {
       tempUser = testUsers[0];
       chai.request(server)
         .delete('/api/user/' + testUsers[0]._id)
-        .end((err: Error, res) => {
+        .end((err: Error, res: Response) => {
           testUsers.shift();
           chai.request(server)
             .get('/api/user')
