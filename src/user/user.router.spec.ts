@@ -2,7 +2,7 @@
  * Tests on the user router.
  */
 import { expect } from 'chai';
-import { createJsonUsers } from '../helpers/functions';
+import { createJsonUsers, createUsers } from '../helpers/functions';
 import { Server } from '../server';
 import { userModel } from './user.model';
 import { UserController } from './user.controller';
@@ -16,7 +16,7 @@ const server = new Server(true).app;
 
 const newName: string = 'Mr. Nobody';
 const TOTAL_USERS: number = 4;
-const testUsers: IUser[] = createJsonUsers(TOTAL_USERS);
+const testUsers: IUser[] = createUsers(TOTAL_USERS);
 const newUser: IUser = createJsonUsers(1)[0];
 let tempUser: IUser;
 const controller = new UserController();
@@ -33,14 +33,14 @@ describe('User Router', () => {
       chai.request(server)
         .get(`/api/user/${testUsers[0]._id}`)
         .end((err: Error, res) => {
-          expect(uv.compareUsers(testUsers[0], res.body)).to.be.true;
+          expect(uv.compareJsonUsers(testUsers[0], res.body)).to.be.true;
           done();
         });
     });
   });
 
   describe(`POST new user`, () => {
-    it(`should add ${testUsers.length} users`, (done) => {
+    it(`should add a user`, (done) => {
       chai.request(server)
         .post('/api/user')
         .set('content-type', 'application/x-www-form-urlencoded')
@@ -61,7 +61,7 @@ describe('User Router', () => {
       chai.request(server)
         .put(`/api/user/${testUsers[0]._id}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ _id: testUsers[0]._id, name: newName })
+        .send({ id: testUsers[0]._id, name: newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/user/${testUsers[0]._id}`)
