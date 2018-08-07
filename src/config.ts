@@ -6,10 +6,11 @@ type Config = {
   conf_type: string;
   port: number;
   db: {
-    host: string;
-    port: string;
-    name: string;
-  };
+    host: string,
+    port: string,
+    name: string,
+  },
+  storage : string,
 };
 
 const testing: Config = {
@@ -18,8 +19,9 @@ const testing: Config = {
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'testingDB'
-  }
+    name: 'testingDB',
+  },
+  storage : './uploadsTEST',
 };
 
 const dev: Config = {
@@ -28,8 +30,9 @@ const dev: Config = {
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'devDB'
-  }
+    name: 'devDB',
+  },
+  storage : './uploads',
 };
 
 // Change to Production Environment
@@ -39,8 +42,9 @@ const prod: Config = {
   db: {
     host: 'localhost',
     port: '27017',
-    name: 'prodDB'
-  }
+    name: 'prodDB',
+  },
+  storage : './uploads-prod',
 };
 
 function getConfig(confType: string) : Config {
