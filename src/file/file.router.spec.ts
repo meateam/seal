@@ -32,21 +32,10 @@ describe(`File Router`, () => {
       removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
     }
     await Promise.all(removeCollectionPromises);
-    // await fileModel.remove({}, (err: Error) => {});
   });
 
   beforeEach(async () => {
     // Remove files from DB
-    // const removeCollectionPromises = [];
-    // for (const i in mongoose.connection.collections) {
-    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    // }
-    // await Promise.all(removeCollectionPromises);
-    // await fileModel.remove({}, (err: Error) => {});
-
-    // Create files in DB
-    // const files = await fileController.create(testFiles);
-    // fileID = files[0]._id;
   });
 
   describe(`POST new file`, () => {

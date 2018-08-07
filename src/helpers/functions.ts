@@ -74,7 +74,6 @@ function createFile(fileName: string) {
 
   fs.writeFile(filepath, fileContent, (err) => {
     if (err) throw err;
-    // console.log('The file was succesfully saved!');
   });
 }
 
