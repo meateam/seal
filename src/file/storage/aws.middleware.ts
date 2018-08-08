@@ -4,7 +4,7 @@ import * as multerS3 from 'multer-s3';
 
 const ep = new AWS.Endpoint('STRING HERE');
 const s3 = new AWS.S3({ endpoint: ep });
-AWSError.config.cretentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+AWSError.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
 
 const storageS3 = multerS3({
   s3,
