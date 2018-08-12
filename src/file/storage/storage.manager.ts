@@ -1,3 +1,8 @@
+/**
+ * Should be deprecated in the end.
+ * Replaced by aws.middleware.ts.
+ */
+
 import * as multer from 'multer';
 import { config } from '../../config';
 

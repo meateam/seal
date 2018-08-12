@@ -1,15 +1,17 @@
 import * as AWS from 'aws-sdk';
 import * as multer from 'multer';
 import * as multerS3 from 'multer-s3';
+import { storageURL, bucketName } from './storage.config';
 
-const ep = new AWS.Endpoint('STRING HERE');
-const s3 = new AWS.S3({ endpoint: ep });
-AWSError.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
+const ep = new AWS.Endpoint(storageURL);
+// TODO: check if 'toString' is O.K
+const s3 = new AWS.S3({ endpoint: ep.toString() });
+AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
 
 const storageS3 = multerS3({
   s3,
-  bucket: 'seal_bucket',
-  key: (req, res, cb) => {
+  bucket: bucketName,
+  key: (req, res, ConfigBase) => {
     ConfigBase(null, Date.now().toString());
   }
 });
