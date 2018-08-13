@@ -1,7 +1,4 @@
 import * as express from 'express';
-import { IFile } from './file.interface';
-import { fileController } from './file.controller';
-import { fileModel } from './file.model';
 import { upload } from './storage/storage.manager';
 import warpAsync from '../helpers/warpAsync';
 import { FileResponder } from './file.responder';
