@@ -2,7 +2,7 @@
 import * as AWS from 'aws-sdk';
 import * as multer from 'multer';
 import * as multerS3 from 'multer-s3';
-import { storageURL, bucketName } from './storage.config';
+import { storageURL, bucketName, accessKey, secretKey } from './storage.config';
 
 const ep = new AWS.Endpoint(storageURL);
 // TODO: check if 'endpoint' is O.K
@@ -24,10 +24,10 @@ export const upload = multer({ storage: storageS3 }).any();
 import * as Minio from 'minio';
 
 const minioClient = new Minio.Client({
+  secretKey,
+  accessKey,
   endPoint: 'play.minio.io',
   port: 9000,
-  accessKey: 'Q3AM3UQ867SPQQA43P2F',
-  secretKey: 'zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG'
 });
 
 // File that needs to be uploaded.
