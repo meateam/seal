@@ -4,8 +4,8 @@ import * as multerS3 from 'multer-s3';
 import { storageURL, bucketName } from './storage.config';
 
 const ep = new AWS.Endpoint(storageURL);
-// TODO: check if 'toString' is O.K
-const s3 = new AWS.S3({ endpoint: ep.toString() });
+// TODO: check if 'endpoint' is O.K
+const s3 = new AWS.S3({ endpoint: ep.href });
 AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
 
 const storageS3 = multerS3({
@@ -16,4 +16,4 @@ const storageS3 = multerS3({
   }
 });
 
-export let upload = multer({ storage: storageS3 }).any();
+export const upload = multer({ storage: storageS3 }).any();

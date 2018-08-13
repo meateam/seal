@@ -7,12 +7,12 @@ import * as multer from 'multer';
 import { config } from '../../config';
 
 const configStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, config.storage);
+  destination: (req, file, ConfigBase) => {
+    ConfigBase(null, config.storage);
   },
-  filename: (req, file, cb) => {
+  filename: (req, file, ConfigBase) => {
     // Choose how to save filename in Storage
-    cb(null, file.originalname + '-' + Date.now());
+    ConfigBase(null, file.originalname + '-' + Date.now());
   },
 });
 
