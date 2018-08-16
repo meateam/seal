@@ -7,7 +7,7 @@ import * as UserErrors from '../errors/user';
 import { createUsers } from '../helpers/functions';
 import { UserController } from './user.controller';
 import { IUser } from './user.interface';
-import { userModel } from './user.model';
+import { UserModel } from './user.model';
 import { ServerError } from '../errors/application';
 
 const expect: Chai.ExpectStatic = chai.expect;
@@ -21,7 +21,7 @@ const controller = new UserController();
 describe(`User logic`, () => {
 
   beforeEach('User BeforeEach', async () => {
-    await userModel.remove({}, (err) => { });
+    await UserModel.remove({}, (err) => { });
     await Promise.all(testUsers.map(user => controller.add(user)));
 
   });

@@ -2,7 +2,7 @@
  * Helper functions for the tests
  */
 import { IUser } from '../user/user.interface';
-import { userModel } from '../user/user.model';
+import { UserModel } from '../user/user.model';
 import { fileModel } from '../file/file.model';
 import * as fs from 'fs-extra';
 import { config } from '../config';
@@ -30,7 +30,7 @@ export function createUsers(numUsers: number): IUser[] {
   const rand2: string = Math.random().toString(36).substring(2, 7);
   const testUsers: IUser[] = [];
   for (let i: number = 0; i < numUsers; i++) {
-    const user: IUser = new userModel({
+    const user: IUser = new UserModel({
       uniqueID: rand2 + '_' + (numUsers * 10 + i),
       hierarchy: 'Aman/Sapir/MadorHaim/' + i,
       name: 'User' + i,
