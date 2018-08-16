@@ -6,11 +6,13 @@ import { storageURL, bucketName, accessKey, secretKey } from './storage.config';
 
 const ep = new AWS.Endpoint(storageURL);
 // TODO: check if 'endpoint' is O.K
-const s3 = new AWS.S3({ endpoint: ep.href });
+const s3bucket = new AWS.S3({
+  endpoint: ep.href,
+});
 AWS.config.credentials = new AWS.SharedIniFileCredentials({ profile: 'default' });
 
 const storageS3 = multerS3({
-  s3,
+  s3: s3bucket,
   bucket: bucketName,
   key: (req: Express.Request, file: Express.Multer.File, ConfigBase) => {
     ConfigBase(null, Date.now().toString());
@@ -31,17 +33,34 @@ const minioClient = new Minio.Client({
 });
 
 // File that needs to be uploaded.
+// TODO: change file path.
 const file = '/tmp/photos-europe.tar';
 
-// Make a bucket called europetrip.
-minioClient.makeBucket('europetrip', 'us-east-1', (err) => {
+// Make a bucket called bucketName.
+minioClient.makeBucket(bucketName, 'us-east-1', (err) => {
   if (err) return console.log(err);
 
   console.log('Bucket created successfully in "us-east-1".');
 
-  // Using fPutObject API upload your file to the bucket europetrip.
-  minioClient.fPutObject('europetrip', 'photos-europe.tar', file, ['application/octet-stream'], (err, etag) => {
+  // Using fPutObject API upload your file to the bucket bucketName.
+  minioClient.fPutObject(bucketName, 'photos-europe.tar', file, ['application/octet-stream'], (err, eTag) => {
     if (err) return console.log(err);
     console.log('File uploaded successfully.');
+  });
+
+  // ANOTHER METHOD FOR UPLOADING A FILE
+  const Fs = require('fs');
+  const fileStream = Fs.createReadStream(file);
+  const fileStat = Fs.stat(file, (err, stats) => {
+    if (err) {
+      return console.log(err);
+    }
+    minioClient.putObject(bucketName, 'fsFileName', fileStream, stats.size, (err, eTag) => {
+      if (err) {
+        console.log('An error occurred while uploading a file');
+        return console.log(err, eTag); // err should be null
+      }
+      console.log('file uploaded successfully!');
+    });
   });
 });
