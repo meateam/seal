@@ -2,8 +2,7 @@ import { ServerError } from '../errors/application';
 import * as mongoose from 'mongoose';
 import { IUser } from './user.interface';
 
-// const ObjectId = mongoose.Schema.Types.ObjectId;
-// export interface IUserModel extends mongoose.Document, IUser {}
+export interface IUserModel extends mongoose.Document, IUser {}
 
 export const UserSchema: mongoose.Schema = new mongoose.Schema(
   {
@@ -41,4 +40,4 @@ UserSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const UserModel = mongoose.model<IUser>('User', UserSchema);
+export const UserModel: mongoose.Model<IUser> = mongoose.model<IUserModel>('User', UserSchema);
