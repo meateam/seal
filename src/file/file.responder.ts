@@ -8,6 +8,7 @@ import { upload } from './storage/storage.manager';
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
+    console.log('file.responder ********************************************************');
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {
