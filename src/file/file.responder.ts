@@ -9,6 +9,7 @@ export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
     console.log('file.responder ********************************************************');
+    console.log(req.files);
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {
@@ -16,7 +17,7 @@ export class FileResponder {
         const file: IFile = new fileModel({
           fileName: val.originalname,
           fileSize: val.size,
-          path: val.path,
+          path: 'val.path',
           fileType: val.originalname,
           creationDate: Date.now(),
           modifyDate: null,
