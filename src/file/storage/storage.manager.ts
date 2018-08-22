@@ -35,7 +35,7 @@ export const upload = multer({ storage: storageS3 }).any();
 // getObject operation.
 
 const params = { Bucket: bucketName, Key: '1.jpg' };
-const writePath = '../../hi/sup.jpg';
+const writePath = '/';
 const file = FS.createWriteStream(writePath);
 
 export const download = (req: Express.Request, res: Express.Response, next: NextFunction) => {
