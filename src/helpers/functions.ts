@@ -70,9 +70,9 @@ function createFile(fileName: string) {
   const fileContent = 'Hello World!';
 
   // The absolute path of the new file with its name
-  const filepath = `${config.storage}/` + fileName;
+  const filePath = `${config.storage}/` + fileName;
 
-  fs.writeFile(filepath, fileContent, (err) => {
+  fs.writeFile(filePath, fileContent, (err) => {
     if (err) throw err;
   });
 }
