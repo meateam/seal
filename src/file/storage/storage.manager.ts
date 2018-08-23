@@ -9,6 +9,7 @@ import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import * as FS from 'fs';
 import { NextFunction } from '../../../node_modules/@types/express';
+import { config } from '../../config';
 
 const bucketName = 'sealbucket';
 const AK = 'sealminio';
@@ -33,12 +34,12 @@ const storageS3 = multerS3({
 export const upload = multer({ storage: storageS3 }).any();
 
 // getObject operation.
-
-const params = { Bucket: bucketName, Key: '1.jpg' };
-const writePath = '../../hi/sup.jpg';
-const file = FS.createWriteStream(writePath);
+// TODO: decide what to do with path
+const writePath = './tempStorage/xxx.jpg';
 
 export const download = (req: Express.Request, res: Express.Response, next: NextFunction) => {
+  const params = { Bucket: bucketName, Key: '1.jpg' };
+  const file = FS.createWriteStream(writePath);
   s3.getObject(params).
     on('httpData', (chunk) => {
       file.write(chunk);
