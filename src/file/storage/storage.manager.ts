@@ -34,7 +34,8 @@ const storageS3 = multerS3({
 export const upload = multer({ storage: storageS3 }).any();
 
 // getObject operation.
-// TODO: decide what to do with path
+// TODO: decide what to do with path, need to use the original filename
+// ./tempStorage sits with src in the same directory
 const writePath = './tempStorage/xxx.jpg';
 
 export const download = (req: Express.Request, res: Express.Response, next: NextFunction) => {
