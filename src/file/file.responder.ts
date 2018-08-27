@@ -8,8 +8,6 @@ import { upload } from './storage/storage.manager';
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
-    // console.log('file.responder ********************************************************');
-    // console.log(req.files);
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {
@@ -19,7 +17,7 @@ export class FileResponder {
           fileSize: val.size,
           // TODO: Change file path.
           path: 'User/root/' + val.originalname,
-          // TODO: change it
+          // TODO: change the fileType
           fileType: val.originalname,
           creationDate: Date.now(),
           modifyDate: null,

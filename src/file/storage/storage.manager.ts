@@ -9,16 +9,12 @@ import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import * as FS from 'fs';
 import { NextFunction } from '../../../node_modules/@types/express';
-import { config } from '../../config';
-
-const bucketName = 'sealbucket';
-const AK = 'sealminio';
-const SK = '/QixUY2oU6YY0f+LSjbVsmlFxfUqSn5LA7x26nSVUDKJcU7kn9kxNRY+wdLNDHBWfxnOdR8SO1XmQ2A5NRr2Uw==';
+import { accessKey, secretKey, bucketName, storageURL } from './storage.config';
 
 const s3 = new AWS.S3({
-  accessKeyId: AK,
-  secretAccessKey: SK,
-  endpoint: 'http://40.113.65.101:9000',
+  accessKeyId: accessKey,
+  secretAccessKey: secretKey,
+  endpoint: storageURL,
   s3ForcePathStyle: true, // needed with minio?
   signatureVersion: 'v4',
 });
