@@ -28,6 +28,7 @@ export class FileResponder {
       });
       const ret = await fileController.create(files);
       return res.send({ message: 'File saved successfully' });
+      // return res.json({id: 12312321321});
     }
   }
 
@@ -40,8 +41,10 @@ export class FileResponder {
   }
 
   static async delete(req: express.Request, res: express.Response) {
+    // will be changed to req.body instead of params
     const ret = await fileController.delete(req.params.id);
     if (ret) {
+       // return res.json({id: 12312321321}); same here
       return res.json({ success: true, return: ret });
     }
     throw new FileErrors.FileNotFoundError();
