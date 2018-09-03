@@ -27,7 +27,7 @@
 | GET      | `/api/user`             | Get all of the users in the collection                                          |
 | POST     | `/api/user`             | upload a new user                                                               |
 | DELETE   | `/api/user/:id`         | delete a user by id                                                             |
-| PUT      | `/api/file/:id`         | update a user metadata by its id.                                               |
+| PUT      | `/api/user/:id`         | update a user metadata by its id.                                               |
 
 ### Folder
 |  Type    |       Path              |                                   Description                                   |
@@ -36,7 +36,7 @@
 | GET      | `/api/folder`           | Get all of the folders in the collection                                        |
 | POST     | `/api/folder`           | upload a new folder                                                             |
 | DELETE   | `/api/folder/:id`       | delete a folder by id                                                           |
-| PUT      | `/api/file/:id`         | update a folder metadata by its id.                                             |
+| PUT      | `/api/folder/:id`       | update a folder metadata by its id.                                             |
 
 
 
