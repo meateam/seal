@@ -6,8 +6,9 @@ import { UserModel } from '../user/user.model';
 import { fileModel } from '../file/file.model';
 import * as fs from 'fs-extra';
 import { config } from '../config';
-import { folderModel } from '../folder/folder.model';
+import { FolderModel } from '../folder/folder.model';
 import { IFolder } from '../folder/folder.interface';
+import * as mongoose from 'mongoose';
 
 export function createJsonUsers(numUsers: number): IUser[] {
   const rand2: string = Math.random().toString(36).substring(2, 7);
@@ -89,10 +90,10 @@ async function createFolder(directory) {
 export function createFolders(numFolders: number) {
   const testFolders: IFolder[] = [];
   for (let i = 0; i < numFolders; i++) {
-    const folder = new folderModel({
+    const folder = new FolderModel({
       name: 'FN_' + (10 * numFolders + i),
-      owner: 'UserName',
-      parent: 'FP_' + (10 * numFolders + i - 1),
+      owner: mongoose.Types.ObjectId(),
+      parent: mongoose.Types.ObjectId(),
       files: [],
       folders: [],
     });
