@@ -2,21 +2,22 @@ import { Controller } from '../helpers/generic.controller';
 import { IFolder } from './folder.interface';
 import { EntityTypes } from '../helpers/enums';
 import { Model } from 'mongoose';
-import { folderModel } from './folder.model';
+import { FolderModel, IFolderModel } from './folder.model';
 import { createFolders } from '../helpers/functions';
-import { FolderError, FolderNotFoundError, BadIdError } from '../errors/folder';
-import { FolderService } from './folder.service';
+import { FolderNotFoundError, BadIdError } from '../errors/folder';
+import FolderRepository from './folder.repository';
 import { ServerError } from '../errors/application';
 import { FolderValidator } from './folder.validator';
 
 export class FolderController extends Controller<IFolder>{
   public controllerType: EntityTypes;
   public model: Model<IFolder>;
+  static _repository: FolderRepository = new FolderRepository();
 
   constructor() {
     super();
     this.controllerType = EntityTypes.FOLDER;
-    this.model = folderModel;
+    this.model = FolderModel;
   }
 
   public createItems(num: number): IFolder[] {
@@ -27,42 +28,43 @@ export class FolderController extends Controller<IFolder>{
     if (!FolderValidator.isValidMongoId(id)) {
       throw new BadIdError();
     }
-    const folder = await FolderService.getById(id);
+    const folder = await FolderController._repository.findById(id);
     if (folder) {
-      return <IFolder>folder;
+      return <IFolderModel>folder;
     }
     throw new FolderNotFoundError();
   }
 
   public async getAll(): Promise<IFolder[]> {
-    return FolderService.getAll();
+    const folders = await FolderController._repository.find({});
+    return <IFolderModel[]>folders;
   }
 
   public async getByName(name: string): Promise<IFolder[]> {
-    return FolderService.getByName(name);
+    return FolderController._repository.getByName(name);
   }
 
   public async update(id: string, partial: Partial<IFolder>): Promise<IFolder> {
     if (!FolderValidator.isValidUpdate(id, partial)) {
       throw new BadIdError();
     }
-    const updatedUser: IFolder = await FolderService.update(id, partial);
+    const updatedUser: IFolder = await FolderController._repository.updatePartial(id, partial);
     if (updatedUser) {
-      return updatedUser;
+      return <IFolderModel>updatedUser;
     }
     throw new FolderNotFoundError();
   }
 
   public async add(folder: IFolder): Promise<IFolder> {
-    const newFolder: IFolder = new folderModel(folder);
-    return FolderService.add(newFolder);
+    const newFolder: IFolder = new FolderModel(folder);
+    return <IFolderModel>await FolderController._repository.create(newFolder);
   }
 
   public async deleteById(id: string): Promise<any> {
     if (!FolderValidator.isValidMongoId(id)) {
       throw new FolderNotFoundError();
     }
-    const res = await FolderService.deleteById(id);
+    const res = await FolderController._repository.delete(id);
     if (!res.ok) {
       throw new ServerError();
     } else if (res.n < 1) {

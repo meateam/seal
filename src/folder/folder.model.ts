@@ -1,11 +1,14 @@
 import { ServerError } from '../errors/application';
-import { Schema, model, Mongoose } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { IFolder } from './folder.interface';
 
-export const folderSchema = new Schema(
+const ObjectId = mongoose.Schema.Types.ObjectId;
+export interface IFolderModel extends mongoose.Document, IFolder {}
+
+export const FolderSchema = new mongoose.Schema(
   {
     owner: {
-      type: String,
+      type: ObjectId,
       required: true,
     },
     name: {
@@ -13,15 +16,15 @@ export const folderSchema = new Schema(
       required: true,
     },
     parent: {
-      type: String,
+      type: ObjectId,
       required: true,
     },
     files: {
-      type: [String],
+      type: [ObjectId],
       required: true,
     },
     folders: {
-      type: [String],
+      type: [ObjectId],
       required: true,
     },
   },
@@ -37,8 +40,8 @@ export const folderSchema = new Schema(
   }
 );
 
-folderSchema.post('save', (error, doc, next) => {
+FolderSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const folderModel = model<IFolder>('folder', folderSchema);
+export const FolderModel = mongoose.model<IFolderModel>('folder', FolderSchema);
