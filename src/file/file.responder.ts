@@ -4,6 +4,7 @@ import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import * as FileErrors from '../errors/file';
 import { upload } from './storage/storage.manager';
+import * as path from 'path';
 
 export class FileResponder {
 
@@ -17,8 +18,7 @@ export class FileResponder {
           fileSize: val.size,
           // TODO: Change file path.
           path: 'User/root/' + val.originalname,
-          // TODO: change the fileType
-          fileType: val.originalname,
+          fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),
           modifyDate: null,
           Owner: 'User',
