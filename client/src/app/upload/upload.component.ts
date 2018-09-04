@@ -42,7 +42,8 @@ export class UploadComponent implements OnInit, OnDestroy {
     dropOnPage: true,
     imagePreviewHeight: 250,
     required: true,
-    allowImagePreview: true
+    allowImagePreview: true,
+    allowRevert: false
   };
 
   ngOnInit() {
