@@ -3,7 +3,6 @@ import { IFile } from './file.interface';
 import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import * as FileErrors from '../errors/file';
-import { upload } from './storage/storage.manager';
 import * as path from 'path';
 
 export class FileResponder {
@@ -17,7 +16,7 @@ export class FileResponder {
           fileName: val.originalname,
           fileSize: val.size,
           // TODO: Change file path.
-          path: 'User/root/' + val.originalname,
+          path: val.originalname,
           fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),
           modifyDate: null,
@@ -28,7 +27,6 @@ export class FileResponder {
       });
       const ret = await fileController.create(files);
       return res.send({ message: 'File saved successfully' });
-      // return res.json({id: 12312321321});
     }
   }
 
@@ -41,13 +39,19 @@ export class FileResponder {
   }
 
   static async delete(req: express.Request, res: express.Response) {
-    // will be changed to req.body instead of params
     const ret = await fileController.delete(req.params.id);
     if (ret) {
-       // return res.json({id: 12312321321}); same here
       return res.json({ success: true, return: ret });
     }
     throw new FileErrors.FileNotFoundError();
+  }
+
+  static async download(req: express.Request, res: express.Response) {
+    const ret = await fileController.findById(req.params.id);
+    if (ret) {
+      fileController.download(ret.path);
+    }
+    return res.send({ message: 'No Files Found' });
   }
 
   static async get(req: express.Request, res: express.Response) {

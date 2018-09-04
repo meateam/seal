@@ -1,0 +1,17 @@
+<div class="upload">
+    <div class="controls">
+        <div class="buttons">
+            <button mat-icon-button matTooltip="Clear List" (click)="removeAll()">
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <mat-hint class="filesCount">{{filePond && filePond.getFiles ? filePond.getFiles().length : 0}}/{{pondOptions.maxFiles}}</mat-hint>
+            <button mat-icon-button matTooltip="Upload All" (click)="processAll()">
+                <mat-icon>cloud_upload</mat-icon>
+            </button>
+        </div>
+    </div>
+    <file-pond #filePond
+        [options]="pondOptions"
+        (onaddfile)="pondHandleAddFile($event)">
+    </file-pond>
+</div>

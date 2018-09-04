@@ -2,6 +2,7 @@ import * as express from 'express';
 import { IFile } from './file.interface';
 import { fileModel } from './file.model';
 import { fileService } from './file.service';
+// import { storageService } from './storage/storage.service';
 import { storageService } from './storage/storage.service';
 
 export class fileController {
@@ -19,6 +20,10 @@ export class fileController {
 
   public static findById(fileId: string): Promise<IFile> {
     return fileService.findById(fileId);
+  }
+
+  public static download(filePath: string) {
+    return storageService.download(filePath);
   }
 
   public static findByDate(from?: string, to?: string): Promise<IFile[]> {
@@ -44,7 +49,7 @@ export class fileController {
   public static async update(fileId: string, file: Partial<IFile>): Promise<IFile> {
     const currFile = await fileService.update(fileId, file);
     if (currFile) {
-      storageService.update(currFile.path);
+      // storageService.update(currFile.path);
     }
     // TODO: Add if not updated in storage
     return currFile;
