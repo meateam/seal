@@ -15,7 +15,7 @@ type Config = {
 
 const testing: Config = {
   conf_type: 'testing',
-  port: 3000,
+  port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
@@ -26,7 +26,7 @@ const testing: Config = {
 
 const dev: Config = {
   conf_type: 'dev',
-  port: 3000,
+  port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
@@ -38,7 +38,7 @@ const dev: Config = {
 // Change to Production Environment
 const prod: Config = {
   conf_type: 'prod',
-  port: 3000,
+  port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
