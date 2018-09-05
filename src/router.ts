@@ -2,8 +2,10 @@ import { userRouter } from './user/user.router';
 import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
 import { ClientError, ServerError } from './errors/application';
+import { authRouter } from './auth/aouth.router';
 
 export function initRouter(app) {
+  app.use('/auth', authRouter);
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
