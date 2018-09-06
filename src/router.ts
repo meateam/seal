@@ -2,7 +2,7 @@ import { userRouter } from './user/user.router';
 import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
 import { ClientError, ServerError } from './errors/application';
-import { authRouter } from './auth/aouth.router';
+import { authRouter } from './auth/auth.router';
 
 export function initRouter(app) {
   app.use('/auth', authRouter);

@@ -5,6 +5,7 @@ import * as morgan from 'morgan';
 import * as path from 'path';
 import { config } from './config';
 import { initRouter } from './router';
+import * as session from 'express-session';
 
 export class Server {
   public app: express.Application;
@@ -38,6 +39,11 @@ export class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(express.static(path.join(__dirname, '../public')));
+    this.app.use(session({
+      secret: 'mySecret',
+      resave: true,
+      saveUninitialized: false
+    }));
   }
 
   private log() {
