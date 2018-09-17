@@ -5,7 +5,12 @@ import * as morgan from 'morgan';
 import * as path from 'path';
 import { config } from './config';
 import { initRouter } from './router';
-import * as session from 'express-session';
+import * as fs from 'fs';
+import * as https from 'https';
+
+const privateKey  = fs.readFileSync('../wildcard.key', 'utf8');
+const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 export class Server {
   public app: express.Application;
@@ -39,11 +44,6 @@ export class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(express.static(path.join(__dirname, '../public')));
-    this.app.use(session({
-      secret: 'mySecret',
-      resave: true,
-      saveUninitialized: false
-    }));
   }
 
   private log() {
@@ -61,9 +61,10 @@ export class Server {
   }
 
   private listen() {
+    const httpsServer = https.createServer(credentials, this.app);
     // Insures you don't run the server twice
     if (!module.parent) {
-      this.listener = this.app.listen(config.port, () => {
+      this.listener = httpsServer.listen(config.port, () => {
         console.log(`Server running on port :${config.port}`);
       });
     }
