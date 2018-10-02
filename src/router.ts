@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { userRouter } from './user/user.router';
 import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
@@ -5,6 +6,9 @@ import { ClientError, ServerError } from './errors/application';
 import { authRouter } from './auth/auth.router';
 
 export function initRouter(app) {
+  app.get('/metadata.xml', (req, res) => {
+    res.sendFile(path.join(__dirname, 'metadata.xml'));
+  });
   app.use('/auth', authRouter);
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);

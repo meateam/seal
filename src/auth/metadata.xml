@@ -1,9 +1,9 @@
-<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityId="https://URL1/metadata.xml">
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" entityId="https://seal.blue.com/metadata.xml">
 	<SPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:1.1:protocol urn:oasis:names:tc:SAML:2.0:protocol">
-		<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://URL1/echo/sam12-logout/1/logout" />
+		<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://seal.blue.com/echo/sam12-logout/1/logout" />
 		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
-		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://URL1/echo/sam12-logout/1/postResponce" index="0" />
-		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://URL1/metadata.xml" index="1" />
+		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://seal.blue.com/echo/sam12-logout/1/postResponce" index="0" />
+		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://seal.blue.com/metadata.xml" index="1" />
 		</SPSSODescriptor>
 	<ContactPerson contactType="technical">
 		<GivenName>Administrator</GivenName>
