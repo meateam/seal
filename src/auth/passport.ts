@@ -23,10 +23,11 @@ export function init(app: express.Application) {
 
   passport.use(new SamlStrategy(<SamlConfig>options, (profile, done) => {
     const data = {
-      id: profile[''],
-      firstname: profile[''],
-      lastname: profile[''],
-      mail: profile['']
+      id: profile['http://sts.blue.com/claims/UniqueID'],
+      firstname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+      lastname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'],
+      mail: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+      hierarchy: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname']
     };
     return done(null, data);
   }));
@@ -35,12 +36,13 @@ export function init(app: express.Application) {
     res.send(200);
   });
 
-  app.get('/metadata.xml', (req, res) => {
-    // res.sendFile(path.resolve(__dirname + '/' + config.config.adfsxml));
-  });
+  // app.get('/metadata.xml', (req, res) => {
+  //   // res.sendFile(path.resolve(__dirname + '/' + config.config.adfsxml));
+  // });
 
   function authCallback(req, res) {
-    // update user
+    console.log(req.user);
+    console.log(req.body);
   }
 
   app.all(
