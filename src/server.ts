@@ -7,6 +7,7 @@ import { config } from './config';
 import { initRouter } from './router';
 import * as fs from 'fs';
 import * as https from 'https';
+import * as session from 'express-session';
 
 const privateKey  = fs.readFileSync('../wildcard.key', 'utf8');
 const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
@@ -44,6 +45,11 @@ export class Server {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
     this.app.use(express.static(path.join(__dirname, '../public')));
+    this.app.use(session({
+      secret: 'seal',
+      resave: true,
+      saveUninitialized: false
+    }));
   }
 
   private log() {
