@@ -7,9 +7,9 @@ import { authRouter } from './auth/auth.router';
 
 export function initRouter(app) {
   app.get('/metadata.xml', (req, res) => {
-    res.sendFile(path.join(__dirname, 'metadata.xml'));
+    res.sendFile(path.join(__dirname, 'auth/metadata.xml'));
   });
-  app.use('', authRouter);
+  // app.use('', authRouter);
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
