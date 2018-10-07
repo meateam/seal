@@ -46,7 +46,7 @@ export function init(app: express.Application) {
   }
 
   app.all(
-    'metadata.xml/callback',
+    '/metadata.xml/callback',
     (req, res, next) => {
       passport.authenticate('saml', {
         failureRedirect: '/login/failed'
@@ -55,17 +55,19 @@ export function init(app: express.Application) {
     authCallback);
 
   app.all(
-    'login',
+    '/login',
     (req, res, next) => {
       passport.authenticate('saml', {
         failureRedirect: '/login/failed'
       })(req, res, next);
     });
 
-  module.exports.authenticate = (req, res, next) => {
-    req.query.RelayState = req.originalUrl; // URL with query string
-    passport.authenticate('saml', {
-      failureRedirect: '/login/failed'
-    })(req, res, next);
-  };
+}
+
+export function authenticate(req, res, next) {
+  console.log('authenticating in passport!');
+  req.query.RelayState = req.originalUrl; // URL with query string
+  passport.authenticate('saml', {
+    failureRedirect: '/login/failed'
+  })(req, res, next);
 }

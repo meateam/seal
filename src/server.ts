@@ -16,10 +16,10 @@ const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
 
 const credentials = { key: privateKey, cert: certificate };
 
-for (let i = 0; i < 4; i++) {
-  console.log(process.argv[i]);
-}
-console.log(process.argv);
+// for (let i = 0; i < 4; i++) {
+//   console.log(process.argv[i]);
+// }
+// console.log(process.argv);
 
 export class Server {
   public app: express.Application;

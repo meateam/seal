@@ -3,13 +3,22 @@ import { userRouter } from './user/user.router';
 import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
 import { ClientError, ServerError } from './errors/application';
-import { authRouter } from './auth/auth.router';
+import { authenticate } from './auth/passport';
 
 export function initRouter(app) {
   app.get('/metadata.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
-  // app.use('', authRouter);
+
+  app.use('/x', (req, res, next) => {
+    console.log('in check auth');
+    if (req.user) {
+      console.log('have req.user: ' + req.user);
+      next();
+    }
+    authenticate(req, res, next);
+  });
+
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
