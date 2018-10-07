@@ -8,6 +8,7 @@ import { initRouter } from './router';
 import * as fs from 'fs';
 import * as https from 'https';
 import * as session from 'express-session';
+import { initPassport } from './auth/passport';
 
 const privateKey = fs.readFileSync('../wildcard.key', 'utf8');
 const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
@@ -30,6 +31,7 @@ export class Server {
     this.createApplication();
     this.configApplication();
     this.initializeRoutes();
+    initPassport(this.app);
     if (!testing) {
       this.connectDB();
       this.log();

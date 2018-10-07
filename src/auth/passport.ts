@@ -4,7 +4,7 @@ import * as express from 'express';
 import * as path from 'path';
 import { UserController } from '../user/user.controller';
 
-export function init(app: express.Application) {
+export function initPassport(app: express.Application) {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.serializeUser((user, done) => done(null, user));
