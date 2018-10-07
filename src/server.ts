@@ -54,7 +54,6 @@ export class Server {
   private configApplication(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json());
-    this.app.use(express.static(path.join(__dirname, '../public')));
     this.app.use(session({
       secret: 'seal',
       resave: true,

@@ -1,4 +1,5 @@
 import * as path from 'path';
+import * as express from 'express';
 import { userRouter } from './user/user.router';
 import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
@@ -19,12 +20,14 @@ export function initRouter(app) {
     return authenticate(req, res, next);
   });
 
+  app.use(express.static(path.join(__dirname, '../public')));
+
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
-  app.get('/', (req, res) => {
-    res.send('Main page of the application');
-  });
+  // app.get('/', (req, res) => {
+  //   res.send('Main page of the application');
+  // });
 
   app.get('/login/failed', (req, res) => {
     res.send('login to the application failed :(');
