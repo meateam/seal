@@ -10,13 +10,13 @@ export function initRouter(app) {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
-  app.use('/x', (req, res, next) => {
+  app.use('/', (req, res, next) => {
     console.log('in check auth');
     if (req.user) {
       console.log('have req.user: ' + req.user);
-      next();
+      return next();
     }
-    authenticate(req, res, next);
+    return authenticate(req, res, next);
   });
 
   app.use('/api/file', fileRouter);
