@@ -17,6 +17,10 @@ export function initRouter(app) {
     res.send('Main page of the application');
   });
 
+  app.get('/login/failed', (req, res) => {
+    res.send('login to the application failed :(');
+  });
+
   app.use((error, req, res, next) => {
     if (error instanceof ClientError || error instanceof ServerError) {
       return res.status(error.status).send(error.message + '');

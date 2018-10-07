@@ -9,9 +9,17 @@ import * as fs from 'fs';
 import * as https from 'https';
 import * as session from 'express-session';
 
-const privateKey  = fs.readFileSync('../wildcard.key', 'utf8');
+const privateKey = fs.readFileSync('../wildcard.key', 'utf8');
 const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
+// const privateKey = process.argv[2];    // first argument (after node and filepath) is wildcard.key
+// const certificate = process.argv[3];   // second argument is wildcard.pem
+
 const credentials = { key: privateKey, cert: certificate };
+
+for (let i = 0; i < 4; i++) {
+  console.log(process.argv[i]);
+}
+console.log(process.argv);
 
 export class Server {
   public app: express.Application;
