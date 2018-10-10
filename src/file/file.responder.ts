@@ -35,7 +35,7 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    return res.send({ message: 'No Files Found' });
+    return res.send({ message: 'No Files Found - getALL' });
   }
 
   static async delete(req: express.Request, res: express.Response) {
@@ -51,7 +51,7 @@ export class FileResponder {
     if (ret) {
       fileController.download(ret.path);
     }
-    return res.send({ message: 'No Files Found' });
+    return res.send({ message: 'No Files Found - download' });
   }
 
   static async get(req: express.Request, res: express.Response) {
@@ -68,7 +68,7 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    return res.send({ message: 'No Files Found' });
+    return res.send({ message: 'No Files Found - specific' });
   }
 
   static async update(req: express.Request, res: express.Response) {

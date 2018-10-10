@@ -67,7 +67,7 @@ describe(`File Router`, () => {
   describe('GET Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
       chai.request(server)
-        .get('/api/file/test-2.txt?fieldType=fileName')
+        .get('/api/file/test-2.txt/metadata?fieldType=fileName')
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
@@ -76,7 +76,7 @@ describe(`File Router`, () => {
     });
     it(`Should return file with specific ID (test2.txt)`, (done) => {
       chai.request(server)
-        .get(`/api/file/${fileID}`)
+        .get(`/api/file/${fileID}/metadata`)
         .end((err, res) => {
           expect(res.body.return.fileName).equal('test-2.txt');
           done();
@@ -85,7 +85,7 @@ describe(`File Router`, () => {
     it(`Should return all files created before NOW`, (done) => {
       const toDate = new Date(Date.now());
       chai.request(server)
-        .get(`/api/file/Date?toDate=` + toDate.toISOString())
+        .get(`/api/file/Date/metadata?toDate=` + toDate.toISOString())
         .end((err, res) => {
           expect(res.body.return).to.have.length(NUM_FILES);
           done();
@@ -129,7 +129,7 @@ describe(`File Router`, () => {
   });
 
   after((done: any) => {
-    fs.remove(`${config.storage}`);
+    // fs.remove(`${config.storage}`);
     done();
   });
 });
