@@ -3,7 +3,7 @@
 		<SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://seal.blue.com:9000/echo/sam12-logout/1/logout" />
 		<NameIDFormat>urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified</NameIDFormat>
 		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://seal.blue.com:9000/echo/sam12-logout/1/postResponce" index="0" />
-		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://seal.blue.com:9000/metadata.xml" index="1" />
+		<AssertionConsumerService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://seal.blue.com:9000/metadata.xml/callback" index="1" />
 		</SPSSODescriptor>
 	<ContactPerson contactType="technical">
 		<GivenName>Administrator</GivenName>

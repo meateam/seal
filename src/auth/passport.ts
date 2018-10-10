@@ -12,8 +12,8 @@ export function initPassport(app: express.Application) {
 
   const options = {
     entryPoint: 'https://sts.blue.com/adfs/ls',
-    issuer: 'https://seal.blue.com/metadata.xml',
-    callbackUrl: 'https://seal.blue.com/metadata.xml/callback',
+    issuer: 'https://seal.blue.com:9000/metadata.xml',
+    callbackUrl: 'https://seal.blue.com:9000/metadata.xml/callback',
     authnConnect: 'http://schemas.microsoft.com/ws/2008/06/identity/authenticationmethod/windows',
     identifierFormat: null,
     signatureAlgorithm: 'sha1',
@@ -45,9 +45,11 @@ export function initPassport(app: express.Application) {
     console.log(req.body);
   }
 
+  console.log('init passport routes');
   app.all(
     '/metadata.xml/callback',
     (req, res, next) => {
+      console.log('hello2');
       passport.authenticate('saml', {
         failureRedirect: '/login/failed'
       })(req, res, next);

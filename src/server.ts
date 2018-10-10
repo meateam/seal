@@ -30,8 +30,8 @@ export class Server {
 
     this.createApplication();
     this.configApplication();
-    this.initializeRoutes();
     initPassport(this.app);
+    this.initializeRoutes();
     if (!testing) {
       this.connectDB();
       this.log();

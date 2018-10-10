@@ -7,11 +7,12 @@ import { ClientError, ServerError } from './errors/application';
 import { authenticate } from './auth/passport';
 
 export function initRouter(app) {
+  console.log('init router');
   app.get('/metadata.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
-  app.use('/', (req, res, next) => {
+  app.use('/route', (req, res, next) => {
     console.log('in check auth');
     if (req.user) {
       console.log('have req.user: ' + req.user);
