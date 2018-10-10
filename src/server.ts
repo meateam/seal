@@ -57,7 +57,7 @@ export class Server {
     this.app.use(session({
       secret: 'seal',
       resave: true,
-      saveUninitialized: false
+      saveUninitialized: true
     }));
   }
 

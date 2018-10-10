@@ -13,7 +13,7 @@ export function initRouter(app) {
   });
 
   app.use('/route', (req, res, next) => {
-    console.log('in check auth' + req.user);
+    console.log('in check auth. user:' + req.user);
     if (req.user) {
       console.log('have req.user: ' + req.user);
       return next();
