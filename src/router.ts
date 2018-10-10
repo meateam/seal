@@ -12,7 +12,7 @@ export function initRouter(app) {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
-  app.use('/route', (req, res, next) => {
+  app.use('/', (req, res, next) => {
     console.log('in check auth. user:' + req.user);
     if (req.user) {
       console.log('have req.user: ' + req.user);
