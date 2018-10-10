@@ -101,7 +101,7 @@ describe(`File Router`, () => {
         .send({ id: fileID, fileName: newName })
         .end((err, res) => {
           chai.request(server)
-            .get(`/api/file/${fileID}`)
+            .get(`/api/file/${fileID}/metadata`)
             .end((err2, res2) => {
               expect(res2.body.return.fileName).equal(newName);
               done();
@@ -129,7 +129,7 @@ describe(`File Router`, () => {
   });
 
   after((done: any) => {
-    // fs.remove(`${config.storage}`);
+    fs.remove(`${config.storage}`);
     done();
   });
 });
