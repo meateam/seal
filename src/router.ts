@@ -13,11 +13,11 @@ export function initRouter(app) {
   });
 
   app.use('/', (req, res, next) => {
-    console.log('in check auth. user:' + req.user);
     if (req.user) {
-      console.log('have req.user: ' + req.user);
+      console.log('user ' + req.user.firstname + ' ' + req.user.surname + ' verified');
       return next();
     }
+    console.log('User unknown. Authenticating');
     return authenticate(req, res, next);
   });
 
@@ -26,9 +26,6 @@ export function initRouter(app) {
   app.use('/api/file', fileRouter);
   app.use('/api/user', userRouter);
   app.use('/api/folder', folderRouter);
-  // app.get('/', (req, res) => {
-  //   res.send('Main page of the application');
-  // });
 
   app.get('/login/failed', (req, res) => {
     res.send('login to the application failed :(');
