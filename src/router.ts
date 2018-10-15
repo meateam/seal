@@ -5,6 +5,7 @@ import { fileRouter } from './file/file.router';
 import { folderRouter } from './folder/folder.router';
 import { ClientError, ServerError } from './errors/application';
 import { authenticate } from './auth/passport';
+import { config } from './config';
 
 export function initRouter(app) {
   console.log('init router');
@@ -13,6 +14,10 @@ export function initRouter(app) {
   });
 
   app.use('/', (req, res, next) => {
+    if (config.conf_type === 'testing') {
+      console.log('in testing. no auth required.');
+      return next();
+    }
     if (req.user) {
       console.log('user ' + req.user.firstname + ' ' + req.user.lastname + ' verified');
       return next();
