@@ -14,7 +14,7 @@ export function initRouter(app) {
 
   app.use('/', (req, res, next) => {
     if (req.user) {
-      console.log('user ' + req.user.firstname + ' ' + req.user.surname + ' verified');
+      console.log('user ' + req.user.firstname + ' ' + req.user.lastname + ' verified');
       return next();
     }
     console.log('User unknown. Authenticating');
