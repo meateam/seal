@@ -24,10 +24,10 @@ export function initPassport(app: express.Application) {
   passport.use('saml', new SamlStrategy(<SamlConfig>options, (profile, done) => {
     const data = {
       id: profile['http://sts.blue.com/claims/UniqueID'],
-      firstname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-      lastname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'],
+      firstname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'],
+      lastname: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'],
       mail: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
-      hierarchy: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname']
+      hierarchy: profile['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name']
     };
     return done(null, data);
   }));
