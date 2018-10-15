@@ -26,7 +26,6 @@ describe(`File Logic`, () => {
     for (const i in mongoose.connection.collections) {
       removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
     }
-    // TODO: Is it necessary?
     await Promise.all(removeCollectionPromises);
 
     // Create files in Folder and DB
