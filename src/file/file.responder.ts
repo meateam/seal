@@ -15,7 +15,6 @@ export class FileResponder {
         const file: IFile = new fileModel({
           fileName: val.originalname,
           fileSize: val.size,
-          // TODO: Change file path.
           path: val.originalname,
           fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),

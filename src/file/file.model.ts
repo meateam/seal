@@ -14,9 +14,8 @@ const fileSchema: mongoose.Schema = new mongoose.Schema(
     },
     path: {
       type: String,
-      // TODO: change required and unique?
       required: true,
-      unique: false,
+      unique: true,
     },
     fileType: {
       type: String,
