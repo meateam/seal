@@ -26,9 +26,30 @@ export class storageService {
     });
   }
 
-  public static update(filePath: String) {
-    // TODO: Change filePath in S3 (fileName) (Necessary?)
-    return filePath;
+  public static update(newPath: string, oldPath: string) {
+    const copyParams = {
+      Bucket: bucketName,
+      CopySource: `${bucketName}${oldPath}`,
+      Key: newPath };
+    const deleteParams = {
+      Bucket: bucketName,
+      Delete: {
+        Objects: [
+          {
+            Key: oldPath
+          },
+        ],
+      },
+    };
+    // Copy the object to a new location
+    s3.copyObject(copyParams)
+      .promise()
+      .then(() =>
+        // Delete the old object
+        s3.deleteObjects(deleteParams, (err, data) => {
+          if (err) console.log(err, err.stack); // an error occurred
+          else     console.log(data);           // successful response
+        }));
   }
 
   public static download(filePath: string) {
