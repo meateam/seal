@@ -17,6 +17,7 @@ const server = new Server(true).app;
 
 const NUM_FILES = 3;
 const newName = 'changed.txt';
+const folderName = './uploadsTEST';
 let fileID;
 let testFiles: IFile[];
 
@@ -43,9 +44,9 @@ describe(`File Router`, () => {
       chai.request(server)
         .post('/api/file/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('file', `${config.storage}/test-0.txt`)
-        .attach('file', `${config.storage}/test-1.txt`)
-        .attach('file', `${config.storage}/test-2.txt`)
+        .attach('file', `${folderName}/test-0.txt`)
+        .attach('file', `${folderName}/test-1.txt`)
+        .attach('file', `${folderName}/test-2.txt`)
         .end((err, res: express.Response) => {
           expect(res.status).to.equal(200); // 'success' status
           done();
@@ -129,7 +130,7 @@ describe(`File Router`, () => {
   });
 
   after((done: any) => {
-    fs.remove(`${config.storage}`);
+    fs.remove(`${folderName}`);
     done();
   });
 });

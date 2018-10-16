@@ -23,7 +23,7 @@ const testing: Config = {
     port: '27017',
     name: 'testingDB',
   },
-  storage : './uploadsTEST',
+  storage : 'testbucket',
 };
 
 const dev: Config = {
@@ -36,7 +36,7 @@ const dev: Config = {
     port: '27017',
     name: 'devDB',
   },
-  storage : './uploads',
+  storage : 'devbucket',
 };
 
 // Change to Production Environment
@@ -49,7 +49,7 @@ const prod: Config = {
     port: '27017',
     name: 'prodDB',
   },
-  storage : './uploads-prod',
+  storage : 'sealbucket',
 };
 
 function getConfig(confType: string) : Config {

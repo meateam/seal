@@ -13,13 +13,14 @@ chai.use(chaiAsPromised);
 
 const TOTAL_FILES: number = 3;
 const newName: string = 'changeName';
+const folderName = './uploadsTEST';
 let testFiles: IFile[];
 
 describe(`File Logic`, () => {
 
   beforeEach(async () => {
     // Remove uploadsTEST folder
-    await fs.remove(`${config.storage}`);
+    await fs.remove(`${folderName}`);
 
     // Remove files from DB
     const removeCollectionPromises = [];
@@ -97,7 +98,7 @@ describe(`File Logic`, () => {
       const file: IFile[] = [new fileModel({
         fileName: 'newFile.txt',
         fileSize: 1,
-        path: `${config.storage}` + '/' + 'newFile.txt',
+        path: 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
         Owner: 'Owner',
@@ -119,7 +120,7 @@ describe(`File Logic`, () => {
   });
 
   after((done: any) => {
-    fs.remove(`${config.storage}`);
+    fs.remove(`${folderName}`);
     done();
   });
 });
