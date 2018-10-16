@@ -12,6 +12,7 @@
     </div>
     <file-pond #filePond
         [options]="pondOptions"
-        (onaddfile)="pondHandleAddFile($event)">
+        (onaddfile)="pondHandleAddFile($event)"
+        (onprocessfile)="emitUpload($event)">
     </file-pond>
 </div>

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy, OnInit } from '@angular/core';
+import { Component, ViewChild, OnDestroy, OnInit, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -11,6 +11,7 @@ import { map } from 'rxjs/operators';
 export class UploadComponent implements OnInit, OnDestroy {
   @ViewChild('filePond') filePond: any;
   filesCount: Observable<number>;
+  upload: EventEmitter<void> = new EventEmitter();
 
   FileStatus = {
     INIT: 1,
@@ -47,11 +48,15 @@ export class UploadComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    console.log(this.filePond);
+    // console.log(this.filePond);
   }
 
   ngOnDestroy() {
     this.filePond.destroy();
+  }
+
+  emitUpload(event: Event) {
+    this.upload.emit();
   }
 
   removeAll() {
