@@ -28,8 +28,8 @@ const testing: Config = {
 
 const dev: Config = {
   conf_type: 'dev',
-  // server: 'http://40.115.124.214',
-  server: 'http://localhost',
+  server: 'http://40.115.124.214',
+  // server: 'http://localhost',
   port: 9000,
   db: {
     host: 'localhost',
