@@ -18,7 +18,7 @@ let testFiles: IFile[];
 
 describe(`File Logic`, () => {
 
-  beforeEach(async () => {
+  before(async () => {
     // Remove uploadsTEST folder
     await fs.remove(`${folderName}`);
 
