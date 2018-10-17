@@ -13,7 +13,11 @@ export function initRouter(app) {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
+<<<<<<< HEAD
     app.use('/', (req, res, next) => {
+=======
+  app.use('/', (req, res, next) => {
+>>>>>>> c653d43d7733fbaf850152bd942e9f7c5bec3934
     if (config.conf_type === 'testing') {
       console.log('in testing. no auth required.');
       return next();

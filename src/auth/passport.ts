@@ -42,7 +42,7 @@ export function initPassport(app: express.Application) {
 
   function authCallback(req, res) {
     // update user
-    console.log('Welcome, ' + req.user.firstname + ' ' + req.user.surname + '!');
+    console.log('Welcome, ' + req.user.firstname + ' ' + req.user.lastname + '!');
     console.log('user data:');
     console.log(req.user);
     const redirectTo = req.body && req.body.RelayState ? req.body.RelayState : '/';
