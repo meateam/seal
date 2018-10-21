@@ -10,8 +10,8 @@ import * as https from 'https';
 import * as session from 'express-session';
 import { initPassport } from './auth/passport';
 
-const privateKey = fs.readFileSync('../wildcard.key', 'utf8');
-const certificate = fs.readFileSync('../wildcard.pem', 'utf8');
+const privateKey = fs.readFileSync('wildcard.key', 'utf8');
+const certificate = fs.readFileSync('wildcard.pem', 'utf8');
 // const privateKey = process.argv[2];    // first argument (after node and filepath) is wildcard.key
 // const certificate = process.argv[3];   // second argument is wildcard.pem
 

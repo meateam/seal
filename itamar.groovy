@@ -11,10 +11,8 @@ pipeline {
             steps {
                 sh 'sudo service mongod start'
                 sh 'npm install'
-                sh 'cd ..'
                 sh 'wget 23.100.60.0:3000/wildcard.key'
                 sh 'wget 23.100.60.0:3000/wildcard.pem'
-                sh 'cd -'
                 sh 'npm test'
             }
         }
