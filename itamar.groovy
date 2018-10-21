@@ -14,7 +14,7 @@ pipeline {
                 sh 'cd ..'
                 sh 'wget 23.100.60.0/wildcard.key'
                 sh 'wget 23.100.60.0/wildcard.key'
-                sh 'cd seal'
+                sh 'cd -'
                 sh 'npm test'
             }
         }
