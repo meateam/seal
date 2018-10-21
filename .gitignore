@@ -4,4 +4,8 @@
 /coverage
 /.vscode
 /uploads
+<<<<<<< HEAD
 /tempStorage/
+=======
+/tempStorage
+>>>>>>> 6cbe11287fa0a41838d1ef1a71f365184c29fda5
