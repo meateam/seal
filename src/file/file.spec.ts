@@ -85,7 +85,7 @@ describe(`File Logic`, () => {
       for (let i: number = 0; i < testFiles.length; i++) {
         await fileController.update(testFiles[i]._id, { _id: testFiles[i]._id, fileName: newName });
       }
-      const files: IFile[] = await fileController.getFiles(newName);
+      const files: IFile[] = await fileController.getFiles({ fileName: newName });
       expect(files.length).to.be.equal(testFiles.length);
       for (let i: number = 0; i < files.length; i++) {
         expect(files[i].fileName).to.be.equal(newName);

@@ -34,7 +34,7 @@ export class FileResponder {
     if (ret) {
       return res.json({ success: true, return: ret });
     }
-    return res.send({ message: 'No Files Found - getALL' });
+    return res.send({ message: 'No Files Found' });
   }
 
   static async delete(req: express.Request, res: express.Response) {
@@ -58,16 +58,12 @@ export class FileResponder {
     if (req.query.fromDate || req.query.toDate) {
       ret = await fileController.findByDate(req.query.fromDate,
                                             req.query.toDate);
-    } else if (req.query.fieldType) {
-      ret = await fileController.getFiles(req.query.fieldType,
-                                          req.params.fieldValue);
-    } else {
-      ret = await fileController.findById(req.params.fieldValue);
     }
-    if (ret) {
+    else ret = await fileController.getFiles(req.query);
+    if (ret.length > 0) {
       return res.json({ success: true, return: ret });
     }
-    return res.send({ message: 'No Files Found - specific' });
+    return res.send({ message: 'No Files Found with specific conditions' });
   }
 
   static async update(req: express.Request, res: express.Response) {
