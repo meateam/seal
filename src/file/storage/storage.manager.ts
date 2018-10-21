@@ -1,9 +1,3 @@
-/**
- * Should be deprecated in the end.
- * Replaced by aws.middleware.ts.
- * simulates filesystem uploads instead of s3.
- */
-
 import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';

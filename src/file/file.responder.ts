@@ -48,9 +48,9 @@ export class FileResponder {
   static async download(req: express.Request, res: express.Response) {
     const ret = await fileController.findById(req.params.id);
     if (ret) {
-      fileController.download(ret.path);
+      return fileController.download(ret.path);
     }
-    return res.send({ message: 'No Files Found - download' });
+    throw new FileErrors.FileNotFoundError();
   }
 
   static async get(req: express.Request, res: express.Response) {

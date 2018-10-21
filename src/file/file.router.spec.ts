@@ -111,7 +111,7 @@ describe(`File Router`, () => {
     });
   });
 
-  describe.skip('Delete one', () => {
+  describe('Delete one', () => {
     it('should delete a single file', (done) => {
       chai.request(server)
         .delete(`/api/file/${fileID}`)

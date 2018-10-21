@@ -110,12 +110,13 @@ describe(`File Logic`, () => {
     });
   });
 
-  describe.skip('#deleteById', () => {
+  describe('#deleteById', () => {
     it('Should delete a single file', async () => {
+      const total: IFile[] = await fileController.getFiles();
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
       const filesReturned: IFile[] = await fileController.getFiles();
-      expect(filesReturned).to.have.lengthOf(TOTAL_FILES - 1);
+      expect(filesReturned).to.have.lengthOf(total.length - 1);
     });
   });
 

@@ -48,7 +48,6 @@ export class UploadComponent implements OnInit, OnDestroy {
   };
 
   ngOnInit() {
-    // console.log(this.filePond);
   }
 
   ngOnDestroy() {
