@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  server: 'https://seal.blue.com:9000/',
-  api: 'https://seal.blue.com:9000/api'
+  server: 'http://40.115.124.214:9000/',
+  api: 'http://40.115.124.214:9000/api'
 };
