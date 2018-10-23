@@ -19,7 +19,7 @@ type Config = {
 const testing: Config = {
   conf_type: 'testing',
   server: process.env.TESTING_SERVER,
-  port: 9000,
+  port: Number(process.env.PORT),
   db: {
     host: 'localhost',
     port: '27017',
@@ -31,7 +31,7 @@ const testing: Config = {
 const dev: Config = {
   conf_type: 'dev',
   server: process.env.DEV_SERVER,
-  port: 9000,
+  port: Number(process.env.PORT),
   db: {
     host: 'localhost',
     port: '27017',
@@ -40,11 +40,35 @@ const dev: Config = {
   storage : 'devbucket',
 };
 
+// TODO: change storage!
+const devSh: Config = {
+  conf_type: 'dev-sh',
+  server: process.env.DEV_SERVER,
+  port: Number(process.env.PORT),
+  db: {
+    host: 'localhost',
+    port: '27017',
+    name: 'devDB',
+  },
+  storage : 'devbucket',
+};
+
+const devTal: Config = {
+  conf_type: 'dev-tal',
+  server: process.env.DEV_SERVER,
+  port: Number(process.env.PORT),
+  db: {
+    host: 'localhost',
+    port: '27017',
+    name: 'devDB',
+  },
+  storage : 'devbucket',
+};
 // Change to Production Environment
 const prod: Config = {
   conf_type: 'prod',
   server: process.env.PROD_SERVER,
-  port: 9000,
+  port: Number(process.env.PORT),
   db: {
     host: 'localhost',
     port: '27017',
@@ -57,16 +81,22 @@ function getConfig(confType: string) : Config {
   switch (confType) {
     case dev.conf_type:
       return dev;
+    case devSh.conf_type:
+      return devSh;
+    case devTal.conf_type:
+      return devTal;
     case prod.conf_type:
       return prod;
     case testing.conf_type:
       return testing;
     default:
+      console.log('default');
       return dev;
   }
 }
 
-console.log('**********************************');
-console.log(process.env.PROD_SERVER + ' ' + process.env.DEV_SERVER + ' ' + process.env.TESTING_SERVER + ' ' + process.env.APP_SERVER);
-console.log('**********************************');
 export const config : Config = getConfig(process.env.NODE_ENV || dev.conf_type);
+console.log('**********************************');
+console.log(process.env.PROD_SERVER + ' ' + process.env.DEV_SERVER + ' ' + process.env.TESTING_SERVER + ' ' + process.env.NODE_ENV);
+console.log(config);
+console.log('**********************************');
