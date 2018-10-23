@@ -4,6 +4,8 @@ import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import * as FileErrors from '../errors/file';
 import * as path from 'path';
+import * as fs from 'fs';
+import * as http from 'http';
 
 export class FileResponder {
 
@@ -48,7 +50,8 @@ export class FileResponder {
   static async download(req: express.Request, res: express.Response) {
     const ret = await fileController.findById(req.params.id);
     if (ret) {
-      return fileController.download(ret.path);
+      const url = fileController.download(ret.path);
+      return res.send({ s3url: url, fileName: ret.fileName });
     }
     throw new FileErrors.FileNotFoundError();
   }

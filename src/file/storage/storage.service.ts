@@ -53,16 +53,23 @@ export class storageService {
   }
 
   public static download(filePath: string) {
-    const writePath = './tempStorage/' + filePath;
-    const params = { Bucket: bucketName, Key: filePath };
-    const file = FS.createWriteStream(writePath);
-    s3.getObject(params).
-      on('httpData', (chunk) => {
-        file.write(chunk);
-      }).
-      on('httpDone', () => {
-        file.end();
-      }).
-      send();
+
+    const url = s3.getSignedUrl('getObject', {
+      Bucket: bucketName,
+      Key: filePath,
+      Expires: 60 * 5
+    });
+    return url;
+    // const writePath = './tempStorage/' + filePath;
+    // const params = { Bucket: bucketName, Key: filePath };
+    // const file = FS.createWriteStream(writePath);
+    // s3.getObject(params).
+    //   on('httpData', (chunk) => {
+    //     file.write(chunk);
+    //   }).
+    //   on('httpDone', () => {
+    //     file.end();
+    //   }).
+    //   send();
   }
 }
