@@ -1,6 +1,8 @@
 /**
- *
+ *  configuration file for running the application.
  */
+import * as dotenv from 'dotenv';
+dotenv.config();
 
 type Config = {
   conf_type: string;
@@ -16,7 +18,7 @@ type Config = {
 
 const testing: Config = {
   conf_type: 'testing',
-  server: 'http://localhost',
+  server: process.env.TESTING_SERVER,
   port: 9000,
   db: {
     host: 'localhost',
@@ -28,7 +30,7 @@ const testing: Config = {
 
 const dev: Config = {
   conf_type: 'dev',
-  server: 'http://40.115.124.214',
+  server: process.env.DEV_SERVER,
   port: 9000,
   db: {
     host: 'localhost',
@@ -41,7 +43,7 @@ const dev: Config = {
 // Change to Production Environment
 const prod: Config = {
   conf_type: 'prod',
-  server: 'https://seal.blue.com',
+  server: process.env.PROD_SERVER,
   port: 9000,
   db: {
     host: 'localhost',
@@ -64,4 +66,7 @@ function getConfig(confType: string) : Config {
   }
 }
 
+console.log('**********************************');
+console.log(process.env.PROD_SERVER + ' ' + process.env.DEV_SERVER + ' ' + process.env.TESTING_SERVER + ' ' + process.env.APP_SERVER);
+console.log('**********************************');
 export const config : Config = getConfig(process.env.NODE_ENV || dev.conf_type);

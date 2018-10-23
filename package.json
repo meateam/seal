@@ -7,6 +7,8 @@
     "build": "npm run tslint&& npm run build-ts",
     "release": "standard-version",
     "start": "tsc && cross-env NODE_ENV=dev node dist/server.js",
+    "start-sh": "tsc && cross-env NODE_ENV=dev node dist/server.js",
+    "start-tal": "tsc && cross-env NODE_ENV=dev node dist/server.js",
     "test": "npm run tslint&& npm run run_tests",
     "run_tests": "cross-env NODE_ENV=testing mocha --opts ./mocha.opts src/**/*.spec.ts src/specs/spec.runner.ts",
     "prod": "tsc && cross-env NODE_ENV=prod node dist/server.js",
