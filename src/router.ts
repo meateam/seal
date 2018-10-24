@@ -8,14 +8,12 @@ import { authenticate } from './auth/passport';
 import { config } from './config';
 
 export function initRouter(app) {
-  console.log('init router');
   app.get('/metadata.xml', (req, res) => {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
   app.use('/', (req, res, next) => {
     if (config.conf_type === 'testing') {
-      console.log('in testing. no auth required.');
       return next();
     }
     if (req.user) {

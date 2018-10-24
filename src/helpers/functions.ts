@@ -81,7 +81,6 @@ function createFile(fileName: string) {
 async function createFolder(directory) {
   try {
     await fs.ensureDir(directory);
-    console.log('success!');
   } catch (err) {
     console.error(err);
   }

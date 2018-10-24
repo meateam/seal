@@ -42,15 +42,10 @@ export function initPassport(app: express.Application) {
 
   function authCallback(req, res) {
     // update user
-    console.log('Welcome, ' + req.user.firstname + ' ' + req.user.lastname + '!');
-    console.log('user data:');
-    console.log(req.user);
     const redirectTo = req.body && req.body.RelayState ? req.body.RelayState : '/';
-    console.log('redirect : ' + redirectTo);
     res.redirect(redirectTo);
   }
 
-  console.log('init passport routes');
   app.all(
     '/metadata.xml/callback',
     (req, res, next) => {
@@ -71,7 +66,6 @@ export function initPassport(app: express.Application) {
 }
 
 export function authenticate(req, res, next) {
-  console.log('authenticating in passport!');
   req.query.RelayState = req.originalUrl; // URL with query string
   passport.authenticate('saml', {
     failureRedirect: '/login/failed'
