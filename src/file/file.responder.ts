@@ -40,11 +40,7 @@ export class FileResponder {
   }
 
   static async delete(req: express.Request, res: express.Response) {
-    const ret = await fileController.delete(req.params.id);
-    if (ret) {
-      return res.json({ success: true, return: ret });
-    }
-    throw new FileErrors.FileNotFoundError();
+    return res.json(await fileController.delete(req.params.id));
   }
 
   static async download(req: express.Request, res: express.Response) {
@@ -71,10 +67,15 @@ export class FileResponder {
 
   static async update(req: express.Request, res: express.Response) {
     const file: Partial<IFile> = req.body;
-    const ret = await fileController.update(req.params.id, file);
-    if (ret) {
-      return res.json({ success: true, return: ret });
-    }
-    throw new FileErrors.FileNotFoundError();
+    return res.json(await fileController.update(req.params.id, file));
+
+    // if (ret.error) {
+    //   // throw new FileErrors.DeleteFileError(ret.error);
+    //   throw new FileErrors.DeleteFileError(ret.error);
+    // }
+    // if (ret) {
+    //   return res.json({ success: true, return: ret });
+    // }
+    // throw new FileErrors.FileNotFoundError();
   }
 }

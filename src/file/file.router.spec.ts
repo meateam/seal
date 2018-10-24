@@ -72,14 +72,10 @@ describe(`File Router`, () => {
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
-          console.log('-------------');
-          console.log(fileID);
           done();
         });
     });
     it(`Should return file with specific ID (test2.txt)`, (done) => {
-      console.log('-------------');
-      console.log(fileID);
       chai.request(server)
         .get(`/api/file/metadata?_id=${fileID}`)
         .end((err, res) => {
@@ -103,7 +99,7 @@ describe(`File Router`, () => {
       chai.request(server)
         .put(`/api/file/${fileID}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ id: fileID, fileName: newName })
+        .send({ id: fileID, fileName: newName, path: newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/file/metadata?_id=${fileID}`)
