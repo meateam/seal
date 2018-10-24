@@ -36,7 +36,7 @@ export function initRouter(app) {
 
   app.use((error, req, res, next) => {
     if (error instanceof ClientError || error instanceof ServerError) {
-      return res.status(error.status).send(error.message + '');
+      return res.status(error.status).send(error.message + ' stack: ' + error.stack);
     }
     next(error);
   });
@@ -44,7 +44,8 @@ export function initRouter(app) {
   app.use((error, req, res, next) => {
     return res.status(500).json({
       type: 'Unknown Application Error',
-      message: error.message
+      message: error.message,
+      stack: error.stack
     });
   });
 }

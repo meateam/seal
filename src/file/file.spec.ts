@@ -13,13 +13,14 @@ chai.use(chaiAsPromised);
 
 const TOTAL_FILES: number = 3;
 const newName: string = 'changeName';
+const folderName = './uploadsTEST';
 let testFiles: IFile[];
 
 describe(`File Logic`, () => {
 
-  beforeEach(async () => {
+  before(async () => {
     // Remove uploadsTEST folder
-    await fs.remove(`${config.storage}`);
+    await fs.remove(`${folderName}`);
 
     // Remove files from DB
     const removeCollectionPromises = [];
@@ -84,7 +85,7 @@ describe(`File Logic`, () => {
       for (let i: number = 0; i < testFiles.length; i++) {
         await fileController.update(testFiles[i]._id, { _id: testFiles[i]._id, fileName: newName });
       }
-      const files: IFile[] = await fileController.getFiles(newName);
+      const files: IFile[] = await fileController.getFiles({ fileName: newName });
       expect(files.length).to.be.equal(testFiles.length);
       for (let i: number = 0; i < files.length; i++) {
         expect(files[i].fileName).to.be.equal(newName);
@@ -97,7 +98,7 @@ describe(`File Logic`, () => {
       const file: IFile[] = [new fileModel({
         fileName: 'newFile.txt',
         fileSize: 1,
-        path: `${config.storage}` + '/' + 'newFile.txt',
+        path: 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
         Owner: 'Owner',
@@ -109,17 +110,18 @@ describe(`File Logic`, () => {
     });
   });
 
-  describe.skip('#deleteById', () => {
+  describe('#deleteById', () => {
     it('Should delete a single file', async () => {
+      const total: IFile[] = await fileController.getFiles();
       await fileController.delete(testFiles[0]._id);
       await expect(fileController.findById(testFiles[0]._id)).to.be.eventually.not.exist;
       const filesReturned: IFile[] = await fileController.getFiles();
-      expect(filesReturned).to.have.lengthOf(TOTAL_FILES - 1);
+      expect(filesReturned).to.have.lengthOf(total.length - 1);
     });
   });
 
   after((done: any) => {
-    fs.remove(`${config.storage}`);
+    fs.remove(`${folderName}`);
     done();
   });
 });
