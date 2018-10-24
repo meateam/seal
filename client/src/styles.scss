@@ -1,0 +1,159 @@
+/* You can add global styles to this file, and also import other style files */
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://www.google.com/design/spec/style/color.html
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent:  mat-palette($mat-indigo, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$candy-app-warn:    mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent, $candy-app-warn);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($candy-app-theme);
+
+body {
+    margin: 0;
+    left: 0;
+    top: 0;
+    background: #fafafa;
+}
+
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(./assets/mdIcons.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+.file-pond {
+    width: 25%;
+    margin: 1rem auto;
+}
+
+/*
+ * FilePondPluginImagePreview 2.0.1
+ * Licensed under MIT, https://opensource.org/licenses/MIT
+ * Please visit https://pqina.nl/filepond for details.
+ */
+ .filepond--image-preview-wrapper {
+    z-index: 2;
+  }
+  
+  .filepond--image-preview-overlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 5rem;
+    max-height: 7rem;
+    margin: 0;
+    opacity: 0;
+    z-index: 1;
+    pointer-events: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .filepond--image-preview-overlay svg {
+    width: 100%;
+    height: auto;
+    color: inherit;
+    max-height: inherit;
+  }
+  
+  .filepond--image-preview-overlay-idle {
+    mix-blend-mode: multiply;
+    color: rgba(40, 40, 40, 0.85);
+  }
+  
+  .filepond--image-preview-overlay-success {
+    mix-blend-mode: normal;
+    color: #369763;
+  }
+  
+  .filepond--image-preview-overlay-failure {
+    mix-blend-mode: normal;
+    color: #c44e47;
+  }
+  
+  @supports (-webkit-marquee-repetition: infinite) and (object-fit: fill) {
+    .filepond--image-preview-overlay-idle {
+      mix-blend-mode: normal;
+    }
+  }
+  
+  .filepond--image-preview-wrapper {
+    pointer-events: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    margin: 0;
+    border-radius: 0.45em;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.01);
+  }
+  
+  .filepond--image-preview {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: auto;
+    pointer-events: none;
+    -webkit-transform-origin: center center;
+    transform-origin: center center;
+    background: #222;
+    will-change: transform, opacity;
+  }
+  .filepond--image-preview div {
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+  .filepond--image-preview img,
+  .filepond--image-preview canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+  }
+  .filepond--image-preview[data-transparency-indicator='grid'] img,
+  .filepond--image-preview[data-transparency-indicator='grid'] canvas {
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg' fill='%23eee'%3E%3Cpath d='M0 0 H50 V50 H0'/%3E%3Cpath d='M50 50 H100 V100 H50'/%3E%3C/svg%3E");
+    background-size: 1.25em 1.25em;
+  }
+  
