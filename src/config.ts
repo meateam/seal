@@ -4,7 +4,6 @@
 
 type Config = {
   conf_type: string;
-  server: string;
   port: number;
   db: {
     host: string,
@@ -16,39 +15,36 @@ type Config = {
 
 const testing: Config = {
   conf_type: 'testing',
-  server: 'http://localhost',
   port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
     name: 'testingDB',
   },
-  storage : 'testbucket',
+  storage : './uploadsTEST',
 };
 
 const dev: Config = {
   conf_type: 'dev',
-  server: 'http://40.115.124.214',
   port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
     name: 'devDB',
   },
-  storage : 'devbucket',
+  storage : './uploads',
 };
 
 // Change to Production Environment
 const prod: Config = {
   conf_type: 'prod',
-  server: 'https://seal.blue.com',
   port: 9000,
   db: {
     host: 'localhost',
     port: '27017',
     name: 'prodDB',
   },
-  storage : 'sealbucket',
+  storage : './uploads-prod',
 };
 
 function getConfig(confType: string) : Config {

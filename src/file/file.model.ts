@@ -2,9 +2,7 @@ import * as mongoose from 'mongoose';
 import { ServerError } from '../errors/application';
 import { IFile } from './file.interface';
 
-export interface IFileModel extends mongoose.Document, IFile {}
-
-export const fileSchema: mongoose.Schema = new mongoose.Schema(
+const fileSchema: mongoose.Schema = new mongoose.Schema(
   {
     fileName: {
       type: String,
@@ -40,4 +38,4 @@ fileSchema.post('save', (error, doc, next) => {
   next(new ServerError(error.message));
 });
 
-export const fileModel: mongoose.Model<IFile> = mongoose.model<IFileModel>('File', fileSchema);
+export let fileModel = mongoose.model<IFile>('File', fileSchema);

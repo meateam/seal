@@ -1,12 +1,10 @@
 import * as express from 'express';
 import { IFile } from './file.interface';
-import { fileModel, IFileModel } from './file.model';
-import FileRepository from './file.repository';
+import { fileModel } from './file.model';
 import { fileService } from './file.service';
 import { storageService } from './storage/storage.service';
 
 export class fileController {
-  static _repository: FileRepository = new FileRepository();
 
   public static async create(files: IFile[]): Promise<IFile[]> {
     const services: Promise<IFile>[] = files.map((val) => {
@@ -15,21 +13,12 @@ export class fileController {
     return await Promise.all(services);
   }
 
-  // public static getFiles(fieldType?: string, fieldName?: string): Promise<IFile[]> {
-  //   return fileService.findFiles(fieldType, fieldName);
-  // }
-
-  public static async getFiles(cond?: Object): Promise<IFile[]> {
-    const files = await fileController._repository.find(cond);
-    return <IFileModel[]> files;
+  public static getFiles(fieldType?: string, fieldName?: string): Promise<IFile[]> {
+    return fileService.findFiles(fieldType, fieldName);
   }
 
   public static findById(fileId: string): Promise<IFile> {
     return fileService.findById(fileId);
-  }
-
-  public static download(filePath: string) {
-    return storageService.download(filePath);
   }
 
   public static findByDate(from?: string, to?: string): Promise<IFile[]> {
@@ -53,10 +42,9 @@ export class fileController {
   }
 
   public static async update(fileId: string, file: Partial<IFile>): Promise<IFile> {
-    const oldFile: IFile = await fileController.findById(fileId);
     const currFile = await fileService.update(fileId, file);
     if (currFile) {
-      storageService.update(currFile.path, oldFile.path);
+      storageService.update(currFile.path);
     }
     // TODO: Add if not updated in storage
     return currFile;

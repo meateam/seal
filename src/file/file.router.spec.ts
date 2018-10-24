@@ -17,7 +17,6 @@ const server = new Server(true).app;
 
 const NUM_FILES = 3;
 const newName = 'changed.txt';
-const folderName = './uploadsTEST';
 let fileID;
 let testFiles: IFile[];
 
@@ -44,9 +43,9 @@ describe(`File Router`, () => {
       chai.request(server)
         .post('/api/file/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('file', `${folderName}/test-0.txt`)
-        .attach('file', `${folderName}/test-1.txt`)
-        .attach('file', `${folderName}/test-2.txt`)
+        .attach('file', `${config.storage}/test-0.txt`)
+        .attach('file', `${config.storage}/test-1.txt`)
+        .attach('file', `${config.storage}/test-2.txt`)
         .end((err, res: express.Response) => {
           expect(res.status).to.equal(200); // 'success' status
           done();
@@ -68,29 +67,25 @@ describe(`File Router`, () => {
   describe('GET Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
       chai.request(server)
-        .get('/api/file/metadata?fileName=test-2.txt')
+        .get('/api/file/test-2.txt?fieldType=fileName')
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
-          console.log('-------------');
-          console.log(fileID);
           done();
         });
     });
     it(`Should return file with specific ID (test2.txt)`, (done) => {
-      console.log('-------------');
-      console.log(fileID);
       chai.request(server)
-        .get(`/api/file/metadata?_id=${fileID}`)
+        .get(`/api/file/${fileID}`)
         .end((err, res) => {
-          expect(res.body.return[0].fileName).equal('test-2.txt');
+          expect(res.body.return.fileName).equal('test-2.txt');
           done();
         });
     });
     it(`Should return all files created before NOW`, (done) => {
       const toDate = new Date(Date.now());
       chai.request(server)
-        .get(`/api/file/metadata?toDate=` + toDate.toISOString())
+        .get(`/api/file/Date?toDate=` + toDate.toISOString())
         .end((err, res) => {
           expect(res.body.return).to.have.length(NUM_FILES);
           done();
@@ -106,9 +101,9 @@ describe(`File Router`, () => {
         .send({ id: fileID, fileName: newName })
         .end((err, res) => {
           chai.request(server)
-            .get(`/api/file/metadata?_id=${fileID}`)
+            .get(`/api/file/${fileID}`)
             .end((err2, res2) => {
-              expect(res2.body.return[0].fileName).equal(newName);
+              expect(res2.body.return.fileName).equal(newName);
               done();
             });
         });
@@ -134,7 +129,7 @@ describe(`File Router`, () => {
   });
 
   after((done: any) => {
-    fs.remove(`${folderName}`);
+    fs.remove(`${config.storage}`);
     done();
   });
 });

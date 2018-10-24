@@ -44,7 +44,7 @@ export function createUsers(numUsers: number): IUser[] {
 }
 
 export function createFiles(numFiles: number) {
-  const folderName = './uploadsTEST';
+  const folderName = `${config.storage}`;
   fs.ensureDir(folderName, (err) => {
     if (err) throw err;
   });
@@ -71,9 +71,9 @@ function createFile(fileName: string) {
   const fileContent = 'Hello World!';
 
   // The absolute path of the new file with its name
-  const filePath = './uploadsTEST/' + fileName;
+  const filepath = `${config.storage}/` + fileName;
 
-  fs.writeFile(filePath, fileContent, (err) => {
+  fs.writeFile(filepath, fileContent, (err) => {
     if (err) throw err;
   });
 }
