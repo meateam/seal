@@ -50,7 +50,7 @@ const devSh: Config = {
     port: '27017',
     name: 'devDB',
   },
-  storage : 'devbucket',
+  storage : 'devbucket-sh',
 };
 
 const devTal: Config = {
@@ -62,7 +62,7 @@ const devTal: Config = {
     port: '27017',
     name: 'devDB',
   },
-  storage : 'devbucket',
+  storage : 'devbucket-tal',
 };
 // Change to Production Environment
 const prod: Config = {

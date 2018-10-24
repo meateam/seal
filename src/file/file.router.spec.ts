@@ -72,14 +72,10 @@ describe(`File Router`, () => {
         .end((err, res) => {
           expect(res.body.return).to.have.length(1);
           fileID = res.body.return[0]._id;
-          console.log('-------------');
-          console.log(fileID);
           done();
         });
     });
     it(`Should return file with specific ID (test2.txt)`, (done) => {
-      console.log('-------------');
-      console.log(fileID);
       chai.request(server)
         .get(`/api/file/metadata?_id=${fileID}`)
         .end((err, res) => {
