@@ -96,7 +96,3 @@ function getConfig(confType: string) : Config {
 }
 
 export const config : Config = getConfig(process.env.NODE_ENV || dev.conf_type);
-console.log('**********************************');
-console.log(process.env.PROD_SERVER + ' ' + process.env.DEV_SERVER + ' ' + process.env.TESTING_SERVER + ' ' + process.env.NODE_ENV);
-console.log(config);
-console.log('**********************************');

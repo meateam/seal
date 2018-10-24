@@ -15,10 +15,6 @@ export class fileController {
     return await Promise.all(services);
   }
 
-  // public static getFiles(fieldType?: string, fieldName?: string): Promise<IFile[]> {
-  //   return fileService.findFiles(fieldType, fieldName);
-  // }
-
   public static async getFiles(cond?: Object): Promise<IFile[]> {
     const files = await fileController._repository.find(cond);
     return <IFileModel[]> files;
