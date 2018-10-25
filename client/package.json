@@ -24,6 +24,7 @@
     "@angular/router": "^6.1.0",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.5.4",
+    "dotenv": "^6.1.0",
     "filepond-plugin-image-preview": "^2.0.1",
     "ngx-filepond": "^3.0.0",
     "rxjs": "^6.0.0",

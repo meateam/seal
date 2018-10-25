@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  server: 'http://40.115.124.214:9000/',
-  api: 'http://40.115.124.214:9000/api'
+  server: 'http://65.52.76.35:9000/',
+  api: 'http://65.52.76.35:9000/api'
 };

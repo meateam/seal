@@ -6,7 +6,6 @@ dotenv.config();
 
 type Config = {
   conf_type: string;
-  server: string;
   port: number;
   db: {
     host: string,
@@ -18,7 +17,6 @@ type Config = {
 
 const testing: Config = {
   conf_type: 'testing',
-  server: process.env.TESTING_SERVER,
   port: Number(process.env.PORT),
   db: {
     host: 'localhost',
@@ -30,7 +28,6 @@ const testing: Config = {
 
 const dev: Config = {
   conf_type: 'dev',
-  server: process.env.DEV_SERVER,
   port: Number(process.env.PORT),
   db: {
     host: 'localhost',
@@ -43,7 +40,6 @@ const dev: Config = {
 // TODO: change storage!
 const devSh: Config = {
   conf_type: 'dev-sh',
-  server: process.env.DEV_SERVER,
   port: Number(process.env.PORT),
   db: {
     host: 'localhost',
@@ -55,7 +51,6 @@ const devSh: Config = {
 
 const devTal: Config = {
   conf_type: 'dev-tal',
-  server: process.env.DEV_SERVER,
   port: Number(process.env.PORT),
   db: {
     host: 'localhost',
@@ -67,7 +62,6 @@ const devTal: Config = {
 // Change to Production Environment
 const prod: Config = {
   conf_type: 'prod',
-  server: process.env.PROD_SERVER,
   port: Number(process.env.PORT),
   db: {
     host: 'localhost',
