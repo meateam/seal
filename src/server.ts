@@ -57,7 +57,6 @@ export class Server {
       res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
       next();
     });
-    this.app.use(express.static(path.join(__dirname, '../public')));
   }
 
   private log() {

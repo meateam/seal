@@ -12,6 +12,7 @@ export function initRouter(app) {
     res.sendFile(path.join(__dirname, '../metadata.xml'));
   });
 
+  this.app.use(express.static(path.join(__dirname, '../public')));
   app.use('/', (req, res, next) => {
     if (config.conf_type === 'testing') {
       return next();
