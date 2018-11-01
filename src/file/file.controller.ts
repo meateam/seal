@@ -2,6 +2,7 @@ import * as express from 'express';
 import { IFile } from './file.interface';
 import { fileModel, IFileModel } from './file.model';
 import FileRepository from './file.repository';
+import * as FileErrors from '../errors/file';
 import { fileService } from './file.service';
 import { storageService } from './storage/storage.service';
 
@@ -42,23 +43,31 @@ export class fileController {
     return fileService.findByCreationDate(fromDate, toDate);
   }
 
-  public static async delete(fileId: string): Promise<IFile> {
+  public static async delete(fileId: string): Promise<any> {
     const currFile: IFile = await fileController.findById(fileId);
     const ret = await fileService.delete(fileId);
     if (ret) {
-      storageService.delete(currFile.path);
+      const res = await storageService.delete(currFile.path);
+      if (res.Errors) {
+        // TODO: Create file in DB if delete from storage fail?
+        throw new FileErrors.DeleteFileError(res.Errors);
+      }
+      return ret;
     }
-    // TODO: Add if not deleted from storage
-    return ret;
+    throw new FileErrors.FileNotFoundError();
   }
 
   public static async update(fileId: string, file: Partial<IFile>): Promise<IFile> {
     const oldFile: IFile = await fileController.findById(fileId);
     const currFile = await fileService.update(fileId, file);
     if (currFile) {
-      storageService.update(currFile.path, oldFile.path);
+      const res: any = await storageService.update(currFile.path, oldFile.path);
+      if (res.error) {
+        // TODO: Change DB update if Storage fails
+        throw new FileErrors.UpdateFileError(res.error);
+      }
+      return currFile;
     }
-    // TODO: Add if not updated in storage
-    return currFile;
+    throw new FileErrors.FileNotFoundError();
   }
 }
