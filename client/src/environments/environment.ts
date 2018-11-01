@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 export const environment = {
   production: false,
-  server: 'https://40.115.124.214:9000/',
-  api: 'https://40.115.124.214:9000/api'
+  server: 'https://seal.blue.com:9000/',
+  api: 'https://seal.blue.com:9000/api'
 };
 
 /*
