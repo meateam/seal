@@ -62,16 +62,5 @@ export class storageService {
       Expires: 60
     });
     return url;
-    // const writePath = './tempStorage/' + filePath;
-    // const params = { Bucket: bucketName, Key: filePath };
-    // const file = FS.createWriteStream(writePath);
-    // s3.getObject(params).
-    //   on('httpData', (chunk) => {
-    //     file.write(chunk);
-    //   }).
-    //   on('httpDone', () => {
-    //     file.end();
-    //   }).
-    //   send();
   }
 }

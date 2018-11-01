@@ -68,14 +68,5 @@ export class FileResponder {
   static async update(req: express.Request, res: express.Response) {
     const file: Partial<IFile> = req.body;
     return res.json(await fileController.update(req.params.id, file));
-
-    // if (ret.error) {
-    //   // throw new FileErrors.DeleteFileError(ret.error);
-    //   throw new FileErrors.DeleteFileError(ret.error);
-    // }
-    // if (ret) {
-    //   return res.json({ success: true, return: ret });
-    // }
-    // throw new FileErrors.FileNotFoundError();
   }
 }
