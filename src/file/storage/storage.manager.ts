@@ -1,14 +1,25 @@
 import * as multer from 'multer';
-import { config } from '../../config';
+import * as AWS from 'aws-sdk';
+import * as multerS3 from 'multer-s3';
+import * as FS from 'fs';
+import { NextFunction } from '../../../node_modules/@types/express';
+import { accessKey, secretKey, bucketName, storageURL } from './storage.config';
+import { fileController } from '../file.controller';
 
-const configStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, config.storage);
-  },
-  filename: (req, file, cb) => {
-    // Choose how to save filename in Storage
-    cb(null, file.originalname + '-' + Date.now());
-  },
+export const s3 = new AWS.S3({
+  accessKeyId: accessKey,
+  secretAccessKey: secretKey,
+  endpoint: storageURL,
+  s3ForcePathStyle: true, // needed with minio?
+  signatureVersion: 'v4',
 });
 
-export let upload = multer({ storage: configStorage }).any();
+const storageS3 = multerS3({
+  s3,
+  bucket: bucketName,
+  key: (req, file: Express.Multer.File, cb) => {
+    cb(null, file.originalname);
+  }
+});
+
+export const upload = multer({ storage: storageS3 }).any();
