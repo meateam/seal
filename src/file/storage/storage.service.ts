@@ -8,7 +8,7 @@ import * as FS from 'fs';
 
 export class storageService {
 
-  public static delete(filePath: string) {
+  public static async delete(filePath: string): Promise<any> {
     const params = {
       Bucket: bucketName,
       Delete: {
@@ -19,17 +19,14 @@ export class storageService {
         ],
       },
     };
-
-    s3.deleteObjects(params, (err, data) => {
-      if (err) console.log(err, err.stack); // an error occurred
-      else     console.log(data);           // successful response
-    });
+    const ret = await s3.deleteObjects(params, (err, data) => {}).promise();
+    return ret;
   }
 
-  public static update(newPath: string, oldPath: string) {
+  public static async update(newPath: string, oldPath: string) {
     const copyParams = {
       Bucket: bucketName,
-      CopySource: `${bucketName}${oldPath}`,
+      CopySource: `${bucketName}/${oldPath}`,
       Key: newPath };
     const deleteParams = {
       Bucket: bucketName,
@@ -42,27 +39,28 @@ export class storageService {
       },
     };
     // Copy the object to a new location
-    s3.copyObject(copyParams)
+    // copyObject has uncatchable error - NoSuchKey
+    const ret = await s3.copyObject(copyParams, (err, data) => {
+      if (err) return({ error: err });
+    })
       .promise()
-      .then(() =>
+      .then(async () => {
         // Delete the old object
-        s3.deleteObjects(deleteParams, (err, data) => {
-          if (err) console.log(err, err.stack); // an error occurred
-          else     console.log(data);           // successful response
-        }));
+        const ret1 = await s3.deleteObjects(deleteParams, (err, data) => {
+          if (err || data.Errors) return({ error: err });
+        }).promise();
+        return ret1;
+      });
+    return ret;
   }
 
   public static download(filePath: string) {
-    const writePath = './tempStorage/' + filePath;
-    const params = { Bucket: bucketName, Key: filePath };
-    const file = FS.createWriteStream(writePath);
-    s3.getObject(params).
-      on('httpData', (chunk) => {
-        file.write(chunk);
-      }).
-      on('httpDone', () => {
-        file.end();
-      }).
-      send();
+
+    const url = s3.getSignedUrl('getObject', {
+      Bucket: bucketName,
+      Key: filePath,
+      Expires: 60
+    });
+    return url;
   }
 }

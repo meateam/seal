@@ -4,6 +4,8 @@ import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import * as FileErrors from '../errors/file';
 import * as path from 'path';
+import * as fs from 'fs';
+import * as http from 'http';
 
 export class FileResponder {
 
@@ -38,17 +40,14 @@ export class FileResponder {
   }
 
   static async delete(req: express.Request, res: express.Response) {
-    const ret = await fileController.delete(req.params.id);
-    if (ret) {
-      return res.json({ success: true, return: ret });
-    }
-    throw new FileErrors.FileNotFoundError();
+    return res.json(await fileController.delete(req.params.id));
   }
 
   static async download(req: express.Request, res: express.Response) {
     const ret = await fileController.findById(req.params.id);
     if (ret) {
-      return fileController.download(ret.path);
+      const url = fileController.download(ret.path);
+      return res.send({ s3url: url, fileName: ret.fileName });
     }
     throw new FileErrors.FileNotFoundError();
   }
@@ -68,10 +67,6 @@ export class FileResponder {
 
   static async update(req: express.Request, res: express.Response) {
     const file: Partial<IFile> = req.body;
-    const ret = await fileController.update(req.params.id, file);
-    if (ret) {
-      return res.json({ success: true, return: ret });
-    }
-    throw new FileErrors.FileNotFoundError();
+    return res.json(await fileController.update(req.params.id, file));
   }
 }

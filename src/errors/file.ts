@@ -32,3 +32,15 @@ export class BadIdError extends FileError {
     super(message || 'Bad id provided', 422);
   }
 }
+
+export class DeleteFileError extends FileError {
+  constructor(message?: string) {
+    super(message || 'File doesnt exist', 404);
+  }
+}
+
+export class UpdateFileError extends FileError {
+  constructor(message?: string) {
+    super(message || 'File was not updated', 422);
+  }
+}
