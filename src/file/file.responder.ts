@@ -10,6 +10,7 @@ import * as http from 'http';
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
+    console.log(req.files);
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {

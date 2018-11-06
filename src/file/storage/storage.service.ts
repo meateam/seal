@@ -9,6 +9,7 @@ import * as FS from 'fs';
 export class storageService {
 
   public static async delete(filePath: string): Promise<any> {
+    console.log('bucketName: ' + bucketName);
     const params = {
       Bucket: bucketName,
       Delete: {
