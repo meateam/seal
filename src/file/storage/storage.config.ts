@@ -1,6 +1,6 @@
 import { config } from '../../config';
 
-export const storageURL : string = 'http://40.113.65.101:9000/';
+export const storageURL : string = 'https://23.102.42.153:9000/';
 export const storageIP  : string = '40.113.65.101';
 export const bucketName : string = `${config.storage}`;
 export const accessKey  : string = 'sealminio';
