@@ -18,7 +18,7 @@ export const s3 = new AWS.S3({
   accessKeyId: accessKey,
   secretAccessKey: secretKey,
   endpoint: storageURL,
-  sslEnabled: true,
+//  sslEnabled: true,
   s3ForcePathStyle: true, // needed with minio?
   signatureVersion: 'v4',
 });
