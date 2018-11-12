@@ -10,6 +10,8 @@ import * as http from 'http';
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
+    console.log(req);
+    console.log((<any>req).user);
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {
@@ -17,11 +19,11 @@ export class FileResponder {
         const file: IFile = new fileModel({
           fileName: val.originalname,
           fileSize: val.size,
-          path: val.originalname,
+          path: (<any>req).user.uniqueID + '/' + val.originalname,
           fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),
           modifyDate: null,
-          Owner: 'User',
+          Owner: (<any>req).user.uniqueID,
           Parent: 'rootFolder',
         });
         return file;
@@ -50,6 +52,14 @@ export class FileResponder {
       return res.send({ s3url: url, fileName: ret.fileName });
     }
     throw new FileErrors.FileNotFoundError();
+  }
+
+  static async getbyOwner(req: express.Request, res: express.Response) {
+    const ret = await fileController.getFiles({ Owner : (<any>req).user.uniqueID });
+    if (ret.length > 0) {
+      return res.json({ success: true, return: ret });
+    }
+    return res.send({ message: 'No Files Found with specific conditions' });
   }
 
   static async get(req: express.Request, res: express.Response) {
