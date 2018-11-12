@@ -580,8 +580,8 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\shahar\Desktop\GIT\NEW\seal\client\src\styles.scss */"./src/styles.scss");
-module.exports = __webpack_require__(/*! C:\Users\shahar\Desktop\GIT\NEW\seal\client\node_modules\filepond\dist\filepond.min.css */"./node_modules/filepond/dist/filepond.min.css");
+__webpack_require__(/*! C:\Users\Tal\Katsefet\seal\client\src\styles.scss */"./src/styles.scss");
+module.exports = __webpack_require__(/*! C:\Users\Tal\Katsefet\seal\client\node_modules\filepond\dist\filepond.min.css */"./node_modules/filepond/dist/filepond.min.css");
 
 
 /***/ })
