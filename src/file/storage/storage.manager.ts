@@ -12,28 +12,18 @@ const agent_sh = new https.Agent({
 });
 
 export const s3 = new AWS.S3({
-  // httpOptions: {
-  //   agent: agent_sh
-  // },
   accessKeyId: accessKey,
   secretAccessKey: secretKey,
   endpoint: storageURL,
-//  sslEnabled: true,
   s3ForcePathStyle: true, // needed with minio?
   signatureVersion: 'v4',
 });
-
-// s3.config.update({
-//   httpOptions: {
-//     agent: agent_sh
-//   }
-// });
 
 const storageS3 = multerS3({
   s3,
   bucket: bucketName,
   key: (req, file: Express.Multer.File, cb) => {
-    cb(null, file.originalname);
+    cb(null, (<any>req).user.id + '/' + file.originalname);
   }
 });
 
