@@ -17,6 +17,7 @@ export function initRouter(app) {
       return next();
     }
     if (req.user) {
+      // TODO : If user doesnt exist create
       console.log('user ' + req.user.firstname + ' ' + req.user.lastname + ' verified');
       return next();
     }

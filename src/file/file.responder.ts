@@ -10,7 +10,6 @@ import * as http from 'http';
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
-    console.log(req);
     console.log((<any>req).user);
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
@@ -19,11 +18,11 @@ export class FileResponder {
         const file: IFile = new fileModel({
           fileName: val.originalname,
           fileSize: val.size,
-          path: (<any>req).user.uniqueID + '/' + val.originalname,
+          path: (<any>req).user.id + '/' + val.originalname,
           fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),
           modifyDate: null,
-          Owner: (<any>req).user.uniqueID,
+          Owner: (<any>req).user.id,
           Parent: 'rootFolder',
         });
         return file;
@@ -55,7 +54,7 @@ export class FileResponder {
   }
 
   static async getbyOwner(req: express.Request, res: express.Response) {
-    const ret = await fileController.getFiles({ Owner : (<any>req).user.uniqueID });
+    const ret = await fileController.getFiles({ Owner : (<any>req).user.id });
     if (ret.length > 0) {
       return res.json({ success: true, return: ret });
     }
