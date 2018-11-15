@@ -5,3 +5,5 @@
 /.vscode
 /uploads
 /tempStorage
+/wildcard.key
+/wildcard.pem
