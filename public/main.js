@@ -481,8 +481,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "environment", function() { return environment; });
 var environment = {
     production: true,
-    server: 'http://40.115.124.214:9000/',
-    api: 'http://40.115.124.214:9000/api'
+    server: 'https://seal.blue.com:9000/',
+    api: 'https://seal.blue.com:9000/api'
 };
 
 
@@ -503,8 +503,8 @@ __webpack_require__.r(__webpack_exports__);
 // The list of file replacements can be found in `angular.json`.
 var environment = {
     production: false,
-    server: 'http://40.115.124.214:9000/',
-    api: 'http://40.115.124.214:9000/api'
+    server: 'https://seal.blue.com:9000/',
+    api: 'https://seal.blue.com:9000/api'
 };
 /*
  * In development mode, for easier debugging, you can ignore zone related error

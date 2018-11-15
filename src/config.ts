@@ -11,7 +11,10 @@ type Config = {
     port: string,
     name: string,
   },
-  storage : string,
+  storage : {
+    bucketName: string,
+    url: string,
+  },
 };
 
 const testing: Config = {
@@ -23,7 +26,10 @@ const testing: Config = {
     port: '27017',
     name: 'testingDB',
   },
-  storage : 'testbucket',
+  storage : {
+    bucketName: 'testbucket',
+    url: 'http://23.102.42.153:9000/',
+  },
 };
 
 const dev: Config = {
@@ -35,7 +41,10 @@ const dev: Config = {
     port: '27017',
     name: 'devDB',
   },
-  storage : 'devbucket',
+  storage : {
+    bucketName: 'devbucket',
+    url: 'http://minio.blue.com:9000/',
+  },
 };
 
 // Change to Production Environment
@@ -48,7 +57,10 @@ const prod: Config = {
     port: '27017',
     name: 'prodDB',
   },
-  storage : 'sealbucket',
+  storage : {
+    bucketName: 'sealbucket',
+    url: 'http://minio.blue.com:9000/',
+  },
 };
 
 function getConfig(confType: string) : Config {
