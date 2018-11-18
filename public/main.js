@@ -78,7 +78,13 @@ var AppComponent = /** @class */ (function () {
         this.fileUpload.upload.subscribe(function () {
             _this.filesList.getFiles();
         });
-        this.currUser = this.filesList.getUser();
+        // this.currUser = this.filesList.getUser();
+        var sub = this.filesList.getUser().subscribe(function (user) {
+            _this.currUser = user.return;
+        }, function (err) {
+        }, function () {
+            sub.unsubscribe();
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('fileUpload'),
