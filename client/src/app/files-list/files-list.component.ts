@@ -42,4 +42,15 @@ export class FilesListComponent implements OnInit {
   public downloadFile(id: string) {
     this.fileService.downloadFile(id);
   }
+
+  public getUser() {
+    return this.fileService.getUser();
+  //   const sub = this.fileService.getUser().subscribe((user) => {
+  //     this.getUser();
+  //   },
+  //   (err) => {
+  //   }, () => {
+  //     sub.unsubscribe();
+  //   });
+  }
 }

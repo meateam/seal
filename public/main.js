@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-upload #fileUpload></app-upload>\r\n\r\n<mat-divider></mat-divider>\r\n<div class=\"files-list\">\r\n  <app-files-list #filesList></app-files-list>\r\n</div>"
+module.exports = "<h1>Hello</h1><h1>{{currUser}}</h1>\r\n<app-upload #fileUpload></app-upload>\r\n\r\n<mat-divider></mat-divider>\r\n<div class=\"files-list\">\r\n  <app-files-list #filesList></app-files-list>\r\n</div>"
 
 /***/ }),
 
@@ -78,6 +78,7 @@ var AppComponent = /** @class */ (function () {
         this.fileUpload.upload.subscribe(function () {
             _this.filesList.getFiles();
         });
+        this.currUser = this.filesList.getUser();
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('fileUpload'),
@@ -231,6 +232,9 @@ var FileService = /** @class */ (function () {
     FileService.prototype.deleteFile = function (id) {
         return this.httpClient.delete(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_2__["environment"].api + "/file/" + id);
     };
+    FileService.prototype.getUser = function () {
+        return this.httpClient.get(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_2__["environment"].api + "/user");
+    };
     FileService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
             providedIn: 'root'
@@ -323,6 +327,16 @@ var FilesListComponent = /** @class */ (function () {
     };
     FilesListComponent.prototype.downloadFile = function (id) {
         this.fileService.downloadFile(id);
+    };
+    FilesListComponent.prototype.getUser = function () {
+        return this.fileService.getUser();
+        //   const sub = this.fileService.getUser().subscribe((user) => {
+        //     this.getUser();
+        //   },
+        //   (err) => {
+        //   }, () => {
+        //     sub.unsubscribe();
+        //   });
     };
     FilesListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({

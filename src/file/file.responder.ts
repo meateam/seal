@@ -78,4 +78,12 @@ export class FileResponder {
     const file: Partial<IFile> = req.body;
     return res.json(await fileController.update(req.params.id, file));
   }
+
+  static async getUser(req: express.Request, res: express.Response) {
+    if (req.user) {
+      // return res.json({ success: true, return: req.user.firstname });
+      return req.user.firstname;
+    }
+    return res.send({ message: 'No User Found' });
+  }
 }

@@ -28,4 +28,8 @@ export class FileService {
   public deleteFile(id: string) {
     return this.httpClient.delete<{success: boolean, return: IFile}>(`${environment.api}/file/${id}`);
   }
+
+  public getUser() {
+    return this.httpClient.get<string>(`${environment.api}/user`);
+  }
 }
