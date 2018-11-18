@@ -58,6 +58,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _upload_upload_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./upload/upload.component */ "./src/app/upload/upload.component.ts");
 /* harmony import */ var _files_list_files_list_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./files-list/files-list.component */ "./src/app/files-list/files-list.component.ts");
+/* harmony import */ var _fileService_file_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./fileService/file.service */ "./src/app/fileService/file.service.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -70,8 +71,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AppComponent = /** @class */ (function () {
-    function AppComponent() {
+    function AppComponent(fileService) {
+        this.fileService = fileService;
     }
     AppComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -79,7 +82,7 @@ var AppComponent = /** @class */ (function () {
             _this.filesList.getFiles();
         });
         // this.currUser = this.filesList.getUser();
-        var sub = this.filesList.getUser().subscribe(function (user) {
+        var sub = this.fileService.getUser().subscribe(function (user) {
             _this.currUser = user.return;
         }, function (err) {
         }, function () {
@@ -99,7 +102,8 @@ var AppComponent = /** @class */ (function () {
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
             styles: [__webpack_require__(/*! ./app.component.scss */ "./src/app/app.component.scss")]
-        })
+        }),
+        __metadata("design:paramtypes", [_fileService_file_service__WEBPACK_IMPORTED_MODULE_3__["FileService"]])
     ], AppComponent);
     return AppComponent;
 }());
@@ -333,16 +337,6 @@ var FilesListComponent = /** @class */ (function () {
     };
     FilesListComponent.prototype.downloadFile = function (id) {
         this.fileService.downloadFile(id);
-    };
-    FilesListComponent.prototype.getUser = function () {
-        return this.fileService.getUser();
-        //   const sub = this.fileService.getUser().subscribe((user) => {
-        //     this.getUser();
-        //   },
-        //   (err) => {
-        //   }, () => {
-        //     sub.unsubscribe();
-        //   });
     };
     FilesListComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
