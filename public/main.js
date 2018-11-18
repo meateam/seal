@@ -243,7 +243,7 @@ var FileService = /** @class */ (function () {
         return this.httpClient.delete(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_2__["environment"].api + "/file/" + id);
     };
     FileService.prototype.getUser = function () {
-        return this.httpClient.get(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_2__["environment"].api + "/user");
+        return this.httpClient.get(_environments_environment_prod__WEBPACK_IMPORTED_MODULE_2__["environment"].api + "/file/user");
     };
     FileService = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({

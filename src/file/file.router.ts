@@ -12,5 +12,5 @@ fileRouter.delete('/:id', warpAsync(FileResponder.delete));
 fileRouter.get('/metadata', warpAsync(FileResponder.get));
 fileRouter.get('/:id', warpAsync(FileResponder.download));
 fileRouter.put('/:id', warpAsync(FileResponder.update));
-fileRouter.get('/:id', warpAsync(FileResponder.download));
+// fileRouter.get('/:id', warpAsync(FileResponder.download));
 fileRouter.get('/user', warpAsync(FileResponder.getUser));
