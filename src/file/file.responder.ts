@@ -81,8 +81,10 @@ export class FileResponder {
 
   static async getUser(req: express.Request, res: express.Response) {
     if (req.user) {
-      // return res.json({ success: true, return: req.user.firstname });
-      return req.user.firstname;
+      console.log('return value ' + req.user.firstname);
+      // return req.user.firstname;
+      return res.json({ success: true, return: req.user.firstname });
+
     }
     return res.send({ message: 'No User Found' });
   }

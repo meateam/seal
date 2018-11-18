@@ -10,7 +10,7 @@ import { FilesListComponent } from './files-list/files-list.component';
 export class AppComponent implements OnInit {
   @ViewChild('fileUpload') fileUpload: UploadComponent;
   @ViewChild('filesList') filesList: FilesListComponent;
-  currUser: Observable<string>;
+  currUser: Observable<any>;
 
   ngOnInit() {
     this.fileUpload.upload.subscribe(() => {

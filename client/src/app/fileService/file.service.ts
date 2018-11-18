@@ -30,6 +30,6 @@ export class FileService {
   }
 
   public getUser() {
-    return this.httpClient.get<string>(`${environment.api}/user`);
+    return this.httpClient.get<{success: boolean, return: string}>(`${environment.api}/user`);
   }
 }
