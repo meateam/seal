@@ -73,7 +73,7 @@ describe(`File Logic`, () => {
 
   describe.skip('#update', () => {
     it('Should update a specific files name', async () => {
-      await fileController.update(testFiles[0]._id, { _id: testFiles[0]._id, fileName: newName, path: newName });
+      await fileController.update(testFiles[0]._id, { _id: testFiles[0]._id, fileName: newName, path: './uploadsTEST//' + newName });
       const updatedFile: IFile = await fileController.findById(testFiles[0]._id);
       expect(updatedFile.fileName).to.be.equal(newName);
     });

@@ -101,7 +101,7 @@ describe(`File Router`, () => {
       chai.request(server)
         .put(`/api/file/${fileID}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ id: fileID, fileName: newName, path: newName })
+        .send({ id: fileID, fileName: newName, path: './uploadsTEST//' + newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/file/metadata?_id=${fileID}`)
@@ -131,8 +131,8 @@ describe(`File Router`, () => {
     });
   });
 
-  // after((done: any) => {
-  //   fs.remove(`${folderName}`);
-  //   done();
-  // });
+  after((done: any) => {
+    fs.remove(`${folderName}`);
+    done();
+  });
 });
