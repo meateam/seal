@@ -101,7 +101,7 @@ describe(`File Router`, () => {
       chai.request(server)
         .put(`/api/file/${fileID}`)
         .set('content-type', 'application/x-www-form-urlencoded')
-        .send({ id: fileID, fileName: newName, path: './uploadsTEST//' + newName })
+        .send({ id: fileID, fileName: newName, path: 'test@test/' + newName })
         .end((err, res) => {
           chai.request(server)
             .get(`/api/file/metadata?_id=${fileID}`)

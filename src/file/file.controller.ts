@@ -48,7 +48,7 @@ export class fileController {
     const ret = await fileService.delete(fileId);
     if (ret) {
       const res = await storageService.delete(currFile.path);
-      if (res.Errors) {
+      if (res.Errors && res.Errors.length > 0) {
         // TODO: Create file in DB if delete from storage fail?
         throw new FileErrors.DeleteFileError(res.Errors);
       }

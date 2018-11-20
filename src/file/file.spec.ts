@@ -71,15 +71,15 @@ describe(`File Logic`, () => {
     });
   });
 
-  describe.skip('#update', () => {
+  describe('#update', () => {
     it('Should update a specific files name', async () => {
-      await fileController.update(testFiles[0]._id, { _id: testFiles[0]._id, fileName: newName, path: './uploadsTEST//' + newName });
+      await fileController.update(testFiles[0]._id, { _id: testFiles[0]._id, fileName: newName, path: 'test@test/' + newName });
       const updatedFile: IFile = await fileController.findById(testFiles[0]._id);
       expect(updatedFile.fileName).to.be.equal(newName);
     });
   });
 
-  describe.skip('#getByName', () => {
+  describe('#getByName', () => {
     it('Should get all files with the same name', async () => {
       const files: IFile[] = await fileController.getFiles({ fileName: newName });
       expect(files.length).to.be.equal(1);
@@ -104,7 +104,7 @@ describe(`File Logic`, () => {
     });
   });
 
-  describe.skip('#deleteById', () => {
+  describe('#deleteById', () => {
     it('Should delete a single file', async () => {
       const total: IFile[] = await fileController.getFiles();
       await fileController.delete(testFiles[0]._id);
