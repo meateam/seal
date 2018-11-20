@@ -30,7 +30,7 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h1>Hello</h1><h1>{{currUser}}</h1>\r\n<app-upload #fileUpload></app-upload>\r\n\r\n<mat-divider></mat-divider>\r\n<div class=\"files-list\">\r\n  <app-files-list #filesList></app-files-list>\r\n</div>"
+module.exports = "<h1>Hello {{currUser}}</h1>\r\n<app-upload #fileUpload></app-upload>\r\n\r\n<mat-divider></mat-divider>\r\n<div class=\"files-list\">\r\n  <app-files-list #filesList></app-files-list>\r\n</div>"
 
 /***/ }),
 
@@ -81,7 +81,6 @@ var AppComponent = /** @class */ (function () {
         this.fileUpload.upload.subscribe(function () {
             _this.filesList.getFiles();
         });
-        // this.currUser = this.filesList.getUser();
         var sub = this.fileService.getUser().subscribe(function (user) {
             _this.currUser = user.return;
         }, function (err) {

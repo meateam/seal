@@ -44,7 +44,6 @@ describe(`File Router`, () => {
       chai.request(server)
         .post('/api/file/upload')
         .set('content-type', 'application/x-www-form-urlencoded')
-        // .set('user', { uniqueID: 't60353361' })
         .attach('file', `${folderName}/test-0.txt`)
         .attach('file', `${folderName}/test-1.txt`)
         .attach('file', `${folderName}/test-2.txt`)
@@ -58,7 +57,7 @@ describe(`File Router`, () => {
   describe('GET all Files', () => {
     it(`Should return all files`, (done) => {
       chai.request(server)
-        .get('/api/file')
+        .get('/api/file/all')
         .end((err, res) => {
           expect(res.body.return).to.have.length(NUM_FILES);
           done();
@@ -66,7 +65,7 @@ describe(`File Router`, () => {
     });
   });
 
-  describe.skip('GET Specific Files', () => {
+  describe('GET Specific Files', () => {
     it(`Should return file which name is test2`, (done) => {
       chai.request(server)
         .get('/api/file/metadata?fileName=test-2.txt')
@@ -95,7 +94,7 @@ describe(`File Router`, () => {
     });
   });
 
-  describe.skip('PUT file', () => {
+  describe('PUT file', () => {
     it('should change a single file name', (done) => {
       chai.request(server)
         .put(`/api/file/${fileID}`)

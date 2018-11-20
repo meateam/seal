@@ -6,6 +6,7 @@ import { NextFunction } from '../../../node_modules/@types/express';
 import { accessKey, secretKey, bucketName, storageURL } from './storage.config';
 import { fileController } from '../file.controller';
 import * as https from 'https';
+import { config } from '../../config';
 
 const agent_sh = new https.Agent({
   maxSockets: 25,
@@ -23,7 +24,11 @@ const storageS3 = multerS3({
   s3,
   bucket: bucketName,
   key: (req, file: Express.Multer.File, cb) => {
-    cb(null, (<any>req).user.id + '/' + file.originalname);
+    if (config.conf_type === 'testing') {
+      cb(null, 'test@test' + '/' + file.originalname);
+    } else {
+      cb(null, (<any>req).user.id + '/' + file.originalname);
+    }
   }
 });
 

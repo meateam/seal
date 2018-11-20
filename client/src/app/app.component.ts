@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
     this.fileUpload.upload.subscribe(() => {
       this.filesList.getFiles();
     });
-    // this.currUser = this.filesList.getUser();
     const sub = this.fileService.getUser().subscribe((user) => {
       this.currUser = user.return;
     }, (err) => {

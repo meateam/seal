@@ -4,13 +4,19 @@ import { fileController } from './file.controller';
 import { fileModel } from './file.model';
 import * as FileErrors from '../errors/file';
 import * as path from 'path';
+import { config } from '../config';
 import * as fs from 'fs';
 import * as http from 'http';
 
 export class FileResponder {
 
   static async create(req: express.Request, res: express.Response) {
-    console.log((<any>req).user);
+    let currUser;
+    if (config.conf_type === 'testing') {
+      currUser = 'test@test';
+    } else {
+      currUser = (<any>req).user.id;
+    }
     if (!req.files) {
       throw new FileErrors.FilesEmpty();
     } else {
@@ -18,11 +24,11 @@ export class FileResponder {
         const file: IFile = new fileModel({
           fileName: val.originalname,
           fileSize: val.size,
-          path: (<any>req).user.id + '/' + val.originalname,
+          path: currUser + '/' + val.originalname,
           fileType: path.parse(val.originalname).ext,
           creationDate: Date.now(),
           modifyDate: null,
-          Owner: (<any>req).user.id,
+          Owner: currUser,
           Parent: 'rootFolder',
         });
         return file;
@@ -82,9 +88,7 @@ export class FileResponder {
   static async getUser(req: express.Request, res: express.Response) {
     if (req.user) {
       console.log('return value ' + req.user.firstname);
-      // return req.user.firstname;
       return res.json({ success: true, return: req.user.firstname });
-
     }
     return res.send({ message: 'No User Found' });
   }
