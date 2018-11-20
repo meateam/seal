@@ -28,16 +28,18 @@ describe(`File Router`, () => {
     testFiles = createFiles(NUM_FILES);
 
     // Remove files from DB
-    const removeCollectionPromises = [];
-    for (const i in mongoose.connection.collections) {
-      removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    }
-    await Promise.all(removeCollectionPromises);
+    await fileModel.remove({}, (err) => { });
+
+    // const removeCollectionPromises = [];
+    // for (const i in mongoose.connection.collections) {
+    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    // }
+    // await Promise.all(removeCollectionPromises);
   });
 
-  beforeEach(async () => {
-    // Remove files from DB
-  });
+  // beforeEach(async () => {
+  //   // Remove files from DB
+  // });
 
   describe(`POST new file`, () => {
     it(`Should add 3 new files`, (done) => {
@@ -111,13 +113,13 @@ describe(`File Router`, () => {
     });
   });
 
-  describe.skip('Delete one', () => {
+  describe('Delete one', () => {
     it('should delete a single file', (done) => {
       chai.request(server)
         .delete(`/api/file/${fileID}`)
         .end((err, res) => {
           chai.request(server)
-            .get('/api/file')
+            .get('/api/file/all')
             .end((err2, res2) => {
               expect(res2.body.return).to.have.length(NUM_FILES - 1);
               for (let i: number = 0; i < NUM_FILES - 1; i++) {
@@ -129,8 +131,8 @@ describe(`File Router`, () => {
     });
   });
 
-  after((done: any) => {
-    fs.remove(`${folderName}`);
-    done();
-  });
+  // after((done: any) => {
+  //   fs.remove(`${folderName}`);
+  //   done();
+  // });
 });

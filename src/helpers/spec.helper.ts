@@ -1,6 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as dotenv from 'dotenv';
 import * as chai from 'chai';
+import { config } from '../config';
 
 const expect: Chai.ExpectStatic = chai.expect;
 dotenv.config({ path: '.env' });
@@ -39,7 +40,8 @@ export const expectError = async (func: Function, params: any[]) => {
 };
 
 before(async () => {
-  await mongoose.connect(process.env.MONGODB_TEST_URI);
+  // await mongoose.connect(process.env.MONGODB_TEST_URI);
+  await mongoose.connect(`mongodb://${config.db.host}:${config.db.port}/${config.db.name}`);
 });
 
 after((done) => {

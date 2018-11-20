@@ -23,11 +23,13 @@ describe(`File Logic`, () => {
     await fs.remove(`${folderName}`);
 
     // Remove files from DB
-    const removeCollectionPromises = [];
-    for (const i in mongoose.connection.collections) {
-      removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
-    }
-    await Promise.all(removeCollectionPromises);
+    await fileModel.remove({}, (err) => { });
+
+    // const removeCollectionPromises = [];
+    // for (const i in mongoose.connection.collections) {
+    //   removeCollectionPromises.push(mongoose.connection.collections[i].remove({}));
+    // }
+    // await Promise.all(removeCollectionPromises);
 
     // Create files in Folder and DB
     testFiles = createFiles(TOTAL_FILES);
@@ -93,7 +95,7 @@ describe(`File Logic`, () => {
         path: 'newFile.txt',
         fileType: 'txt',
         createdAt: Date.now(),
-        Owner: 'Owner',
+        Owner: 'test@test',
         Parent: 'Parent',
       })];
       await fileController.create(file);

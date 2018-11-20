@@ -57,7 +57,7 @@ export function createFiles(numFiles: number) {
       path: folderName + '//' + currName,
       fileType: 'txt',
       createdAt: Date.now(),
-      Owner: 'Owner',
+      Owner: 'test@test',
       Parent: 'Parent',
     });
     testFiles.push(file);
