@@ -17,21 +17,23 @@ export class FileResponder {
     } else {
       currUser = (<any>req).user.id;
     }
-
-    const files = (<Express.Multer.File[]>req.files).map((val) => {
-      const file: IFile = new fileModel({
-        fileName: val.originalname,
-        fileSize: val.size,
-        path: currUser + '/' + val.originalname,
-        fileType: path.parse(val.originalname).ext,
-        creationDate: Date.now(),
-        modifyDate: null,
-        Owner: currUser,
-        Parent: 'rootFolder',
+    if (req.files) {
+      const files = (<Express.Multer.File[]>req.files).map((val) => {
+        const file: IFile = new fileModel({
+          fileName: val.originalname,
+          fileSize: val.size,
+          path: currUser + '/' + val.originalname,
+          fileType: path.parse(val.originalname).ext,
+          creationDate: Date.now(),
+          modifyDate: null,
+          Owner: currUser,
+          Parent: 'rootFolder',
+        });
+        return file;
       });
-      return file;
-    });
-    return res.json(await fileController.create(files));
+      return res.json(await fileController.create(files));
+    }
+    throw new FileErrors.FilesEmpty();
   }
 
   static async getAll(req: express.Request, res: express.Response) {

@@ -10,22 +10,20 @@ export class fileController {
   static _repository: FileRepository = new FileRepository();
 
   public static async create(files: IFile[]): Promise<IFile[]> {
-    // TODO: Delete TRY/Catch after issue #83 is resolved
     try {
-      if (!files) {
-        throw new FileErrors.FilesEmpty();
-      }
       const services = files.map((val) => {
         const newFile: IFile = new fileModel(val);
-        return fileController._repository.create(newFile);
+        // return fileController._repository.create(newFile);
+        return fileService.create(newFile);
       });
       const ret = <IFileModel[]>await Promise.all(services);
       // if (ret) {
       return ret;
       // }
     } catch (error) {
-      // Delete file from S3 if DB fails
+      console.log(error);
       // TODO : filepath unknown - find which file to delete
+      // Delete file from S3 if DB fails
       // const res = await storageService.delete(filepath);
       // if (res.Errors && res.Errors.length > 0) {
       //   throw new FileErrors.DeleteFileError(res.Errors);

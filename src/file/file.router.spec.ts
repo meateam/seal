@@ -24,11 +24,11 @@ let testFiles: IFile[];
 describe(`File Router`, () => {
 
   before(async () => {
-    // Create files in Folder
-    testFiles = createFiles(NUM_FILES);
-
     // Remove files from DB
     await fileModel.remove({}, (err) => { });
+
+    // Create files in Folder
+    testFiles = createFiles(NUM_FILES);
 
     // const removeCollectionPromises = [];
     // for (const i in mongoose.connection.collections) {
@@ -55,19 +55,19 @@ describe(`File Router`, () => {
     });
   });
 
-  describe(`POST new file`, () => {
-    it(`Should add 1 new files`, (done) => {
-      chai.request(server)
-        .post('/api/file/upload')
-        .set('content-type', 'application/x-www-form-urlencoded')
-        .attach('file', `${folderName}/test-1.txt`)
-        .attach('file', `${folderName}/test-0.txt`)
-        .end((err, res: express.Response) => {
-          expect(res.status).to.equal(200); // 'success' status
-          done();
-        });
-    });
-  });
+  // describe(`POST new file`, () => {
+  //   it(`Should add 3 new files`, (done) => {
+  //     chai.request(server)
+  //       .post('/api/file/upload')
+  //       .set('content-type', 'application/x-www-form-urlencoded')
+  //       .attach('file', `${folderName}/test-0.txt`)
+  //       .attach('file', `${folderName}/test-2.txt`)
+  //       .end((err, res: express.Response) => {
+  //         expect(res.status).to.equal(200); // 'success' status
+  //         done();
+  //       });
+  //   });
+  // });
 
   // describe('GET all Files', () => {
   //   it(`Should return all files`, (done) => {

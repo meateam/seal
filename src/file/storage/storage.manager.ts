@@ -7,6 +7,7 @@ import { accessKey, secretKey, bucketName, storageURL } from './storage.config';
 import { fileController } from '../file.controller';
 import * as https from 'https';
 import { config } from '../../config';
+import * as FileErrors from '../../errors/file';
 
 const agent_sh = new https.Agent({
   maxSockets: 25,
@@ -24,10 +25,29 @@ const storageS3 = multerS3({
   s3,
   bucket: bucketName,
   key: (req, file: Express.Multer.File, cb) => {
+    // For testing
     if (config.conf_type === 'testing') {
-      cb(null, 'test@test' + '/' + file.originalname);
+      s3.headObject({ Bucket: bucketName, Key: 'test@test' + '/' + file.originalname }, (err, metadata) => {
+        if (metadata) {
+          // Handle Object already exists
+          console.log('File Exists');
+          cb(new FileErrors.FileExistsError());
+        } else {
+          cb(null, 'test@test' + '/' + file.originalname);
+        }
+      });
     } else {
-      cb(null, (<any>req).user.id + '/' + file.originalname);
+      // For Prod/Dev
+      // Check if file exists
+      s3.headObject({ Bucket: bucketName, Key: (<any>req).user.id + '/' + file.originalname }, (err, metadata) => {
+        if (metadata) {
+          // Handle Object already exists
+          console.log('File Exists');
+          cb(new FileErrors.FileExistsError());
+        } else {
+          cb(null, (<any>req).user.id + '/' + file.originalname);
+        }
+      });
     }
   }
 });

@@ -413,7 +413,7 @@ var UploadComponent = /** @class */ (function () {
         this.pondOptions = {
             class: 'file-pond',
             maxFiles: 25,
-            multiple: true,
+            multiple: false,
             labelIdle: 'Drag & Drop your files or <span class="filepond--label-action"> Browse </span>',
             server: {
                 process: _environments_environment__WEBPACK_IMPORTED_MODULE_1__["environment"].api + "/file/upload",

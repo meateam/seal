@@ -27,7 +27,7 @@ export class UploadComponent implements OnInit, OnDestroy {
   pondOptions = {
     class: 'file-pond',
     maxFiles: 25,
-    multiple: true,
+    multiple: false,
     labelIdle: 'Drag & Drop your files or <span class="filepond--label-action"> Browse </span>',
     server: {
       process: `${environment.api}/file/upload`,

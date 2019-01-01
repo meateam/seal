@@ -28,7 +28,7 @@ const testing: Config = {
   },
   storage : {
     bucketName: 'testbucket',
-    url: 'http://23.102.42.153:9000/',
+    url: 'http://13.69.138.221:9000/',
   },
 };
 
