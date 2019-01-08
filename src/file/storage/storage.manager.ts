@@ -27,15 +27,15 @@ const storageS3 = multerS3({
   key: (req, file: Express.Multer.File, cb) => {
     // For testing
     if (config.conf_type === 'testing') {
-      s3.headObject({ Bucket: bucketName, Key: 'test@test' + '/' + file.originalname }, (err, metadata) => {
-        if (metadata) {
-          // Handle Object already exists
-          console.log('File Exists');
-          cb(new FileErrors.FileExistsError());
-        } else {
-          cb(null, 'test@test' + '/' + file.originalname);
-        }
-      });
+      // s3.headObject({ Bucket: bucketName, Key: 'test@test' + '/' + file.originalname }, (err, metadata) => {
+      //   if (metadata) {
+      //     // Handle Object already exists
+      //     console.log('File Exists');
+      //     cb(new FileErrors.FileExistsError());
+      //   } else {
+      cb(null, 'test@test' + '/' + file.originalname);
+      //   }
+      // });
     } else {
       // For Prod/Dev
       // Check if file exists
