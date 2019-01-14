@@ -10,9 +10,10 @@ export class fileController {
   static _repository: FileRepository = new FileRepository();
 
   public static async create(files: IFile[]): Promise<IFile[]> {
+    let newFile: IFile;
     try {
       const services = files.map((val) => {
-        const newFile: IFile = new fileModel(val);
+        newFile = new fileModel(val);
         // return fileController._repository.create(newFile);
         return fileService.create(newFile);
       });
@@ -21,13 +22,12 @@ export class fileController {
       return ret;
       // }
     } catch (error) {
-      console.log(error);
-      // TODO : filepath unknown - find which file to delete
+      // TODO : When Multi-File is enabled filepath isnt necessarily the problematic file
       // Delete file from S3 if DB fails
-      // const res = await storageService.delete(filepath);
-      // if (res.Errors && res.Errors.length > 0) {
-      //   throw new FileErrors.DeleteFileError(res.Errors);
-      // }
+      const res = await storageService.delete(newFile.path);
+      if (res.Errors && res.Errors.length > 0) {
+        throw new FileErrors.DeleteFileError(res.Errors);
+      }
       throw new FileErrors.FileError(error);
     }
   }
