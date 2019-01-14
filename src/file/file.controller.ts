@@ -65,7 +65,8 @@ export class fileController {
     if (ret) {
       const res = await storageService.delete(currFile.path);
       if (res.Errors && res.Errors.length > 0) {
-        // TODO: Create file in DB if delete from storage fail?
+        // Create file in DB if delete from storage fail
+        await fileService.create(currFile);
         throw new FileErrors.DeleteFileError(res.Errors);
       }
       return ret;
@@ -79,7 +80,8 @@ export class fileController {
     if (currFile) {
       const res: any = await storageService.update(currFile.path, oldFile.path);
       if (res.error) {
-        // TODO: Change DB update if Storage fails
+        // Change DB update if Storage fails
+        await fileService.update(fileId, oldFile);
         throw new FileErrors.UpdateFileError(res.error);
       }
       return currFile;
